@@ -1,11 +1,11 @@
 
-import pandas as pd
+
 import streamlit as st
 
 st.set_page_confit(
 	page_tile = "Multipage App", 
-	page_icon ='$',
+	page_icon ="$",
 	)
 
 st.title("Main Page")
-st.sidebar.sucess("Select a page abobe.")
+st.sidebar.sucess("Select a page above.")
