@@ -87,6 +87,8 @@ def htext(df, timescale):
 			# operatorold = of.values[yi][xi]
 			# bandwidth = bandf.values[yi][xi]
 			if timescale == "Quarter":
+				st.write(xx)
+				xx = xx.datetime.strptime(date_string, "%Y-%m-%d")
 				xx = xx.date()
 			else:
 				pass
