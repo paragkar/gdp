@@ -102,6 +102,7 @@ def process_df_choosen_timescale(df,timescale):
 	return pivot_df
 
 
+#configuring the data for heatmap
 def create_heatmap_data(df, hovertext, texttemplate):
 
 	data = [go.Heatmap(
@@ -211,8 +212,12 @@ filter_desc = dimension.split(" ")[0]
 df = df[df["Type"] == dimension]
 df = df[(df["Description"] != filter_desc)]
 
+df["ValueUSD"] = df["Value"]/df["USD"]*1000
+
+st.write(df)
+
 #dropping unnecessary columns
-df = df.drop(columns = ["Type","USD"])
+df = df.drop(columns = ["Type","USD","ValueUSD"])
 
 #choose a time scale
 timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
