@@ -212,12 +212,10 @@ filter_desc = dimension.split(" ")[0]
 df = df[df["Type"] == dimension]
 df = df[(df["Description"] != filter_desc)]
 
-df["ValueUSD"] = df["Value"]/df["USD"]*1000
-
-st.write(df)
+dfcopy = df.copy()
 
 #dropping unnecessary columns
-df = df.drop(columns = ["Type","USD","ValueUSD"])
+df = df.drop(columns = ["Type","USD"])
 
 #choose a time scale
 timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
