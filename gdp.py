@@ -217,7 +217,7 @@ for trace in fig2.data:
 # Update layout for the subplot
 combined_fig.update_layout(
     title_text = dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)",
-    title_x = 0.09,
+    title_x = 0.085,
     title_y = 0.9,
     width=1200,  # Adjust width as needed
     height=640,  # Adjust height as needed to accommodate stacked layout
