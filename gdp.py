@@ -210,6 +210,8 @@ bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
 min_value = coltotaldf[dimension].min()  # Find the minimum value in the column totals
 start_y = min_value * 0.9  # Calculate 90% of the minimum value
 
+st.write(start_y)
+
 fig2 = go.Figure(data=bar_data)
 # fig2 = create_bar_chart_data(coltotaldf, timescale, dimension)
 
