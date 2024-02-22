@@ -132,17 +132,17 @@ def configuring_heatmap(fig):
     return fig
 
 #function for preparing the column total chart 
-def coltotalchart(coltotaldf, xcolumn, ycolumn):
-    bar = alt.Chart(coltotaldf).mark_bar().encode(
-    y = alt.Y(ycolumn+':Q', axis=alt.Axis(labels=False)),
-    x = alt.X(xcolumn+':O', axis=alt.Axis(labels=False)),
-    color = alt.Color(xcolumn+':N', legend=None))
+# def coltotalchart(coltotaldf, xcolumn, ycolumn):
+#     bar = alt.Chart(coltotaldf).mark_bar().encode(
+#     y = alt.Y(ycolumn+':Q', axis=alt.Axis(labels=False)),
+#     x = alt.X(xcolumn+':O', axis=alt.Axis(labels=False)),
+#     color = alt.Color(xcolumn+':N', legend=None))
 
-    text = bar.mark_text(size = 10, dx=0, dy=-7, color = 'white').encode(text=ycolumn+':Q')
+#     text = bar.mark_text(size = 10, dx=0, dy=-7, color = 'white').encode(text=ycolumn+':Q')
     
-    coltotalchart = (bar + text).properties(width=1120, height =150)
-    coltotalchart = coltotalchart.configure_title(fontSize = 20, font ='Arial', anchor = 'middle', color ='black')
-    return coltotalchart
+#     coltotalchart = (bar + text).properties(width=1120, height =150)
+#     coltotalchart = coltotalchart.configure_title(fontSize = 20, font ='Arial', anchor = 'middle', color ='black')
+#     return coltotalchart
 
 
 def create_bar_chart_data(coltotaldf, timescale, dimension):
@@ -226,7 +226,7 @@ combined_fig = make_subplots(
     rows=2, cols=1,
     vertical_spacing=0,  # Adjust spacing as needed
     shared_xaxes=False,  # Set to True if the x-axes should be aligned
-    row_heights=[0.75, 0.25]  # First row is 75% of the height, second row is 25%
+    row_heights=[0.8, 0.2]  # First row is 80% of the height, second row is 20%
 )
 
 # Add each trace from your first figure to the first row of the subplot
@@ -251,7 +251,7 @@ combined_fig.update_layout(
         dict(
             type="rect",
             xref="paper", yref="paper",
-            x0=0, y0=0.25,  # Adjust these values based on the subplot's position
+            x0=0, y0=0.2,  # Adjust these values based on the subplot's position
             x1=1, y1=1,
             line=dict(color="Black", width=2),
         ),
@@ -260,7 +260,7 @@ combined_fig.update_layout(
             type="rect",
             xref="paper", yref="paper",
             x0=0, y0=0,  # Adjust these values based on the subplot's position
-            x1=1, y1=0.25,
+            x1=1, y1=0.2,
             line=dict(color="Black", width=2),
         )
     ]
