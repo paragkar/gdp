@@ -218,7 +218,7 @@ for trace in fig2.data:
 combined_fig.update_layout(
     width=1200,  # Adjust width as needed
     height=640,  # Adjust height as needed to accommodate stacked layout
-    title_text= dimension+" " +timescale+" Trends"+" (Rs Lakh Cr)"
+    dict(title_text= dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)", x=0.5, y=0.95)
 )
 
 
@@ -253,6 +253,7 @@ min_value = coltotaldf[dimension].min()  # Find the minimum value in the column 
 start_y = min_value * 0.9  # Calculate 90% of the minimum value
 end_y = coltotaldf[dimension].max()*1.2 #set the maximum value of y-axis as 120% of the max bar
 combined_fig.update_yaxes(range=[start_y, end_y], row=2, col=1)
+
 
 # Update x-axis and y-axis titles if needed
 # combined_fig.update_xaxes(title_text="X-axis Title Here", row=1, col=1)
