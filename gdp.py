@@ -60,7 +60,7 @@ def process_df_choosen_timescale(df,timescale, feature):
 
     if timescale == "Quarter":
         if feature == "Absolute":
-            pivot_df = dftemp.pivot_table(index='Description', columns='Date', values='Value')
+            pivot_df = df.pivot_table(index='Description', columns='Date', values='Value')
         if feature == "Percent":
             dftemp = df.groupby(["FYear", "Month"]).agg({"Value": "sum"}).reset_index()
             dftemp = df.merge(dftemp, on =["FYear","Month"], how = 'left')
