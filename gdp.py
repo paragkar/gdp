@@ -131,18 +131,6 @@ def configuring_heatmap(fig):
 
     return fig
 
-#function for preparing the column total chart 
-# def coltotalchart(coltotaldf, xcolumn, ycolumn):
-#     bar = alt.Chart(coltotaldf).mark_bar().encode(
-#     y = alt.Y(ycolumn+':Q', axis=alt.Axis(labels=False)),
-#     x = alt.X(xcolumn+':O', axis=alt.Axis(labels=False)),
-#     color = alt.Color(xcolumn+':N', legend=None))
-
-#     text = bar.mark_text(size = 10, dx=0, dy=-7, color = 'white').encode(text=ycolumn+':Q')
-    
-#     coltotalchart = (bar + text).properties(width=1120, height =150)
-#     coltotalchart = coltotalchart.configure_title(fontSize = 20, font ='Arial', anchor = 'middle', color ='black')
-#     return coltotalchart
 
 
 def create_bar_chart_data(coltotaldf, timescale, dimension):
@@ -150,7 +138,7 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
         x=coltotaldf[timescale], 
         y=coltotaldf[dimension],
         text=coltotaldf[dimension],
-        textposition='auto',
+        textposition='outside',
         orientation='v',  # Horizontal bar chart
         marker=dict(
         line=dict(color='Black', width=2)
@@ -209,7 +197,7 @@ bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
 
 min_value = coltotaldf[dimension].min()  # Find the minimum value in the column totals
 start_y = min_value * 0.9  # Calculate 90% of the minimum value
-end_y = coltotaldf[dimension].max()*1.1 #set the maximum value of y-axis as 110% of the max bar
+end_y = coltotaldf[dimension].max()*1.15 #set the maximum value of y-axis as 115% of the max bar
 
 
 
