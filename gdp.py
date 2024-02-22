@@ -73,7 +73,7 @@ def process_df_choosen_timescale(df,timescale, feature):
             pivot_df = df.pivot(index='Description', columns='FYear', values='Value')
         if feature == "Percent":
             dftemp1 = df.groupby(["FYear"]).agg({"Value": "sum"}).reset_index()
-            dftemp2 = df.groupby(["FYear", "Month"]).agg({"Value": "sum"}).reset_index()
+            dftemp2 = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
             dftemp = dftemp2.merge(dftemp1, on =["FYear"], how ='left')
             st.write(dftemp)
             dftemp = df.merge(dftemp, on =["FYear"], how = 'left')
