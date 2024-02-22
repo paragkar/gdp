@@ -207,6 +207,8 @@ def chart_heading(dimension,curreny,timescale,feature):
             title_text =  dimension+" - " +timescale+" Trends"+" ($ Billion)"
     if feature == "Percent":
             title_text =  dimension+" - " +timescale+" Trends"+" (Percent of Total)"
+    if feature == "Growth":
+            title_text =  dimension+" - " +timescale+" Trends"+" (Percentage Growth)"
 
     return title_text
 
