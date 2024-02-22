@@ -195,21 +195,17 @@ if df.shape[0] != 0:
     #processing dataframe based on choosen timescale
     pivot_df = process_df_choosen_timescale(df,timescale)
 
-
     #processing hovertext of heatmap
     hovertext = process_hovertext(pivot_df, timescale)
 
     #processing texttemplete of heatmap
     texttemplate = process_texttemplete(timescale)
 
-
     #creating heatmap
     heatmap_data = create_heatmap_data(pivot_df,hovertext, texttemplate)
     fig1 = go.Figure(data = heatmap_data)
     #configuring heatmap
     fig1 = configuring_heatmap(fig1)
-
-
 
     #processing chart for total of all columns 
     coltotaldf = pivot_df.sum(axis=0).round(1).reset_index()
@@ -234,9 +230,16 @@ if df.shape[0] != 0:
     for trace in fig2.data:
         combined_fig.add_trace(trace, row=2, col=1)
 
+    #Processing chart heading based on user choice of menues
+    if curreny == "Rupees":
+        title_text =  dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)"
+    if curreny == "USDollars":
+        title_text =  dimension+" - " +timescale+" Trends"+" ($ Billion)"
+        
+
     # Update layout for the subplot
     combined_fig.update_layout(
-        title_text = dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)",
+        title_text = title_text,
         title_x = 0.07,
         title_y = 0.9,
         width=1200,  # Adjust width as needed
@@ -270,13 +273,11 @@ if df.shape[0] != 0:
     combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
     combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
 
-
     #Making the y-axis of the chart start from the point more than Zero
     min_value = coltotaldf[dimension].min()  # Find the minimum value in the column totals
     start_y = min_value * 0.9  # Calculate 90% of the minimum value
     end_y = coltotaldf[dimension].max()*1.2 #set the maximum value of y-axis as 120% of the max bar
     combined_fig.update_yaxes(range=[start_y, end_y], row=2, col=1)
-
 
     # Update x-axis and y-axis titles if needed
     # combined_fig.update_xaxes(title_text="X-axis Title Here", row=1, col=1)
