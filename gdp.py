@@ -35,7 +35,7 @@ def process_hovertext(df, timescale):
         hovertext.append([])
         for xi, xx in enumerate(df.columns):
             value = df.values[yi][xi]
-            hovertext[-1].append(f'<br>Category: {yy} {timescale} End: {xx.date() if timescale=="Quarter" else xx}<br>Cell Value: {value:.2f}')
+            hovertext[-1].append(f'Category: {yy} <br> {timescale} End: {xx.date() if timescale=="Quarter" else xx}<br>Cell Value: {value:.2f}')
     return hovertext
 
 
