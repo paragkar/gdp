@@ -66,17 +66,16 @@ def process_df_choosen_timescale(df,timescale, feature):
              dftemp = df.merge(dftemp, on =["FYear","Month"], how = 'left')
              dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
              pivot_df = dftemp.pivot_table(index='Description', columns='Date', values='Value')
-             st.write(pivot_df)
            
-  
-        # pivot_df = df.pivot(index='Description', columns='Date', values='Value')
     if timescale == "FYear":
-        # df["Date"] = pd.to_datetime(df["Date"])
-        # df["Year"] = df["Date"].apply(lambda x: x.year)
-        # df["Month"] = df["Date"].apply(lambda x: x.month)
-        # df["FYear"] = [int(x)+1 if int(y) >=4 else int(x) for x,y in zip(df["Year"], df["Month"])]
-        df = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
-        pivot_df = df.pivot(index='Description', columns='FYear', values='Value')
+        if feature == "Absolute":
+            df = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
+            pivot_df = df.pivot(index='Description', columns='FYear', values='Value')
+        if feature == "Percent":
+            dftemp = df.groupby(["FYear"]).agg({"Value": "sum"}).reset_index()
+            dftemp = df.merge(dftemp, on =["FYear"], how = 'left')
+            dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
+            pivot_df = dftemp.pivot_table(index='Description', columns='FYear', values='Value')
         
     #sorting the dataframe 
     pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
