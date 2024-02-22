@@ -75,6 +75,7 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp1 = df.groupby(["FYear"]).agg({"Value": "sum"}).reset_index()
             dftemp2 = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
             dftemp = dftemp2.merge(dftemp1, on =["FYear"], how ='left')
+            dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
             st.write(dftemp)
             dftemp = df.merge(dftemp, on =["FYear"], how = 'left')
             st.write(dftemp)
