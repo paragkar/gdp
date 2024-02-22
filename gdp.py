@@ -218,7 +218,7 @@ for trace in fig2.data:
 combined_fig.update_layout(
     width=1200,  # Adjust width as needed
     height=640,  # Adjust height as needed to accommodate stacked layout
-    title=dict(text = dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)", x=0, y=0.9)
+    title=dict(text = dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)", x=0.1, y=0.9)
 )
 
 
