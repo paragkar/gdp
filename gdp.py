@@ -56,7 +56,6 @@ def process_df_choosen_timescale(df,timescale, feature):
     df["Date"] = pd.to_datetime(df["Date"])
     df["Year"] = df["Date"].apply(lambda x: x.year)
     df["Month"] = df["Date"].apply(lambda x: x.month)
-    df["Quarter"] = df["Date"].apply(lambda x: x.quarter)
     df["FYear"] = [int(x)+1 if int(y) >=4 else int(x) for x,y in zip(df["Year"], df["Month"])]
 
     if timescale == "Quarter":
@@ -64,7 +63,7 @@ def process_df_choosen_timescale(df,timescale, feature):
         if feature == "Absolute":
             pass
         if feature == "Percent":
-             dfqtr = df.groupby(["FYear", "Quarter", "Description"]).agg({"Value": "sum"}).reset_index()
+             dfqtr = df.groupby(["FYear", "Description"]).agg({"Value": "sum"})
              st.write(dfqtr)
            
   
