@@ -78,8 +78,8 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp = df.merge(dftemp, on =["FYear"], how = 'left')
             dftemp["Value"] = (dftemp["Value"]/dftemp["Value_y"])*100
             dftemp = dftemp.rename(columns = {"Description_x":"Description"})
-            st.write(dftemp)
             pivot_df = dftemp.pivot_table(index='Description', columns='FYear', values='Value')
+            st.write(pivot_df)
         
     #sorting the dataframe 
     pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
