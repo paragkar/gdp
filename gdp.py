@@ -198,7 +198,7 @@ bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
 
 min_value = coltotaldf[dimension].min()  # Find the minimum value in the column totals
 start_y = min_value * 0.9  # Calculate 90% of the minimum value
-end_y = coltotaldf[dimension].max()*1.15 #set the maximum value of y-axis as 115% of the max bar
+end_y = coltotaldf[dimension].max()*1.2 #set the maximum value of y-axis as 120% of the max bar
 
 
 
