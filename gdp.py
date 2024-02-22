@@ -193,6 +193,19 @@ def processing_currency(dimension, curreny, timescale, feature, df):
 
     return df
 
+#Processing chart heading based on user choice of menues
+def chart_heading(dimension,curreny,timescale,feature):
+
+    if feature == "Absolute":
+        if curreny == "Rupees":
+            title_text =  dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)"
+        if curreny == "USDollars":
+            title_text =  dimension+" - " +timescale+" Trends"+" ($ Billion)"
+    if feature == "Percent":
+            title_text =  dimension+" - " +timescale+" Trends"+" Percent of Total"
+
+    return title_text
+
 
 #main program starts
 
@@ -209,7 +222,7 @@ dimension = st.sidebar.selectbox('Select a Dimension', Type)
 curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 
 #choose a time scale
-timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
+timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
 
 #choose a feature
 feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent"])
@@ -254,13 +267,8 @@ if pivot_df.shape[0] != 0:
     for trace in fig2.data:
         combined_fig.add_trace(trace, row=2, col=1)
 
-    #Processing chart heading based on user choice of menues
-    if curreny == "Rupees":
-        title_text =  dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)"
-    if curreny == "USDollars":
-        title_text =  dimension+" - " +timescale+" Trends"+" ($ Billion)"
+   title_text = chart_heading(dimension,curreny,timescale,feature)
         
-
     # Update layout for the subplot
     combined_fig.update_layout(
         title_text = title_text,
