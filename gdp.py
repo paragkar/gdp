@@ -13,7 +13,7 @@ def load_gdp_gva():
     return df
 
 # Function to process the hover text for the heatmap
-@st.cache
+@st.cache_data
 def process_hovertext(df, timescale):  
     hovertext = []
     for yi, yy in enumerate(df.index):
