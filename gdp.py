@@ -139,6 +139,7 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
         y=coltotaldf[dimension],
         text=coltotaldf[dimension],
         textposition='outside',
+        texttemplate='%{y:.1f}',  # Format text to one decimal place
         orientation='v',  # Horizontal bar chart
         marker=dict(
         line=dict(color='Black', width=2)
