@@ -218,7 +218,7 @@ for trace in fig2.data:
 combined_fig.update_layout(
     width=1200,  # Adjust width as needed
     height=640,  # Adjust height as needed to accommodate stacked layout
-    title_text='Combined Figures'
+    title_text= dimension+" " +timescale+" Trends"+" (Rs Lakh Cr)"
 )
 
 
@@ -263,10 +263,7 @@ combined_fig.update_yaxes(range=[start_y, end_y], row=2, col=1)
 # Display the combined figure in Streamlit
 st.plotly_chart(combined_fig, use_container_width=True)
 
-#Create a container
-# with st.container():
-#   st.plotly_chart(fig, use_container_width=True)
-#   st.altair_chart(coltotalchart, use_container_width=True)
+
 
 
 
