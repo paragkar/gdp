@@ -51,15 +51,29 @@ def process_texttemplete(timescale):
 
 
 #processing dataframe based on choosen timescale
-def process_df_choosen_timescale(df,timescale):
+def process_df_choosen_timescale(df,timescale, feature):
+
+    df["Date"] = pd.to_datetime(df["Date"])
+    df["Year"] = df["Date"].apply(lambda x: x.year)
+    df["Month"] = df["Date"].apply(lambda x: x.month)
+    df["Quarter"] = df["Date"].apply(lambda x: x.quarter)
+    df["FYear"] = [int(x)+1 if int(y) >=4 else int(x) for x,y in zip(df["Year"], df["Month"])]
+
     if timescale == "Quarter":
         df["Date"] = pd.to_datetime(df["Date"])
+        if feature == "Absolute":
+            pass
+        if feature == "Percent":
+             dfqtr = df.groupby(["FYear", "Quarter", "Description"]).agg({"Value": "sum"}).reset_index()
+             st.write(dfqtr)
+           
+  
         pivot_df = df.pivot(index='Description', columns='Date', values='Value')
     if timescale == "FYear":
-        df["Date"] = pd.to_datetime(df["Date"])
-        df["Year"] = df["Date"].apply(lambda x: x.year)
-        df["Month"] = df["Date"].apply(lambda x: x.month)
-        df["FYear"] = [int(x)+1 if int(y) >=4 else int(x) for x,y in zip(df["Year"], df["Month"])]
+        # df["Date"] = pd.to_datetime(df["Date"])
+        # df["Year"] = df["Date"].apply(lambda x: x.year)
+        # df["Month"] = df["Date"].apply(lambda x: x.month)
+        # df["FYear"] = [int(x)+1 if int(y) >=4 else int(x) for x,y in zip(df["Year"], df["Month"])]
         df = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
         pivot_df = df.pivot(index='Description', columns='FYear', values='Value')
         
@@ -149,7 +163,7 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
     return bar
 
 
-def processing_currency(dimension, curreny, df):
+def processing_currency(dimension, curreny, timescale, feature, df):
 
     #filtering aggregrated GDP & GVA values from the heatmap
     filter_desc = dimension.split(" ")[0]
@@ -170,6 +184,9 @@ def processing_currency(dimension, curreny, df):
             st.write("Please Choose Nominal Dimension for Displaying USD Values")
             df = pd.DataFrame()
 
+    #processing dataframe based on choosen timescale and feature
+    df = process_df_choosen_timescale(df,timescale,feature)
+
     return df
 
 
@@ -184,16 +201,19 @@ Type = list(set(df["Type"]))
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', Type)
 
+#choose a currency
 curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 
-df = processing_currency(dimension, curreny, df)
+#choose a time scale
+timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
 
-if df.shape[0] != 0:
+#choose a feature
+feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent"])
 
-    #choose a time scale
-    timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
-    #processing dataframe based on choosen timescale
-    pivot_df = process_df_choosen_timescale(df,timescale)
+#processing dataframe with seleted menues 
+pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
+
+if pivot_df.shape[0] != 0:
 
     #processing hovertext of heatmap
     hovertext = process_hovertext(pivot_df, timescale)
