@@ -215,7 +215,7 @@ combined_fig = make_subplots(
     rows=2, cols=1,
     vertical_spacing=0,  # Adjust spacing as needed
     shared_xaxes=False,  # Set to True if the x-axes should be aligned
-    row_heights=[0.8, 0.2]  # First row is 60% of the height, second row is 40%
+    row_heights=[0.7, 0.3]  # First row is 70% of the height, second row is 30%
 )
 
 # Add each trace from your first figure to the first row of the subplot
