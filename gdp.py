@@ -215,7 +215,7 @@ combined_fig = make_subplots(
     rows=2, cols=1,
     vertical_spacing=0,  # Adjust spacing as needed
     shared_xaxes=False,  # Set to True if the x-axes should be aligned
-    row_heights=[0.7, 0.3]  # First row is 70% of the height, second row is 30%
+    row_heights=[0.75, 0.25]  # First row is 75% of the height, second row is 25%
 )
 
 # Add each trace from your first figure to the first row of the subplot
@@ -240,7 +240,7 @@ combined_fig.update_layout(
         dict(
             type="rect",
             xref="paper", yref="paper",
-            x0=0, y0=0.3,  # Adjust these values based on the subplot's position
+            x0=0, y0=0.25,  # Adjust these values based on the subplot's position
             x1=1, y1=1,
             line=dict(color="Black", width=2),
         ),
@@ -249,7 +249,7 @@ combined_fig.update_layout(
             type="rect",
             xref="paper", yref="paper",
             x0=0, y0=0,  # Adjust these values based on the subplot's position
-            x1=1, y1=0.3,
+            x1=1, y1=0.25,
             line=dict(color="Black", width=2),
         )
     ]
