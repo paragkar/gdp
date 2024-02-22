@@ -94,8 +94,14 @@ def process_df_choosen_timescale(df,timescale, feature):
 #configuring the data for heatmap
 def create_heatmap_data(df, hovertext, texttemplate):
 
-    z_values = df.values.flatten()  # Flatten the DataFrame values to a 1D array
-    median_value = np.median(np.abs(z_values))  # Calculate the median of the absolute values
+    # Flatten the DataFrame values to a 1D array for calculation
+    z_values = df.values.flatten()
+    Q1 = np.percentile(z_values, 25)
+    Q3 = np.percentile(z_values, 75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
 
     data = [go.Heatmap(
                   z = df.values,
@@ -110,8 +116,8 @@ def create_heatmap_data(df, hovertext, texttemplate):
                   texttemplate=texttemplate,
                   reversescale=True,
                   showscale=False,
-                  zmin=-median_value,  # Set zmin to negative median
-                  zmax=median_value,   # Set zmax to positive median
+                  zmin=lower_bound,  # Set zmin to lowerbound
+                  zmax=upper_bound,   # Set zmax to upperbound
                   colorbar=dict(
                   tickcolor ="black",
                   tickwidth =2,
