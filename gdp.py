@@ -73,9 +73,9 @@ def process_df_choosen_timescale(df,timescale, feature):
             pivot_df = df.pivot(index='Description', columns='FYear', values='Value')
         if feature == "Percent":
             dftemp = df.groupby(["FYear"]).agg({"Value": "sum"}).reset_index()
+            str.write(dftemp)
             dftemp = df.merge(dftemp, on =["FYear"], how = 'left')
             dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
-            st.write(dftemp)
             pivot_df = dftemp.pivot_table(index='Description', columns='FYear', values='Value')
         
     #sorting the dataframe 
