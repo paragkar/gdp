@@ -167,7 +167,7 @@ df = df[(df["Description"] != filter_desc)]
 
 if dimension in ["GDP Current","GVA Current"]:
     dfusd = df.copy()
-    dfusd["ValueUSD"] = (dfusd["Value"]/dfusd["USD"])*1000
+    dfusd["ValueUSD"] = Round((dfusd["Value"]/dfusd["USD"])*1000,2)
     st.write(dfusd)
 
 
