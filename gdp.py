@@ -166,7 +166,9 @@ df = df[df["Type"] == dimension]
 df = df[(df["Description"] != filter_desc)]
 
 if dimension in ["GDP Current","GVA Current"]:
-    st.write(df)
+    dfusd = df.copy()
+    dfusd["ValueUSD"] = (dfusd["Value"]/dfusd["USD"])*1000
+    st.write(dfusd)
 
 
 #dropping unnecessary columns
