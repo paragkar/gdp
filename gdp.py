@@ -63,8 +63,9 @@ def process_df_choosen_timescale(df,timescale, feature):
         if feature == "Absolute":
             pass
         if feature == "Percent":
-             dfqtr = df.groupby(["FYear", "Description"]).agg({"Value": "sum"})
-             st.write(dfqtr)
+             dftemp = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
+             dftemp = df.merge(dftemp, on =["FYear","Description"], how = 'left')
+             st.write(dftemp)
            
   
         pivot_df = df.pivot(index='Description', columns='Date', values='Value')
