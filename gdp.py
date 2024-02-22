@@ -206,8 +206,16 @@ fig1 = configuring_heatmap(fig1)
 coltotaldf = pivot_df.sum(axis=0).round(1).reset_index()
 coltotaldf.columns =[timescale, dimension]
 bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
+
+min_value = coltotaldf[dimension].min()  # Find the minimum value in the column totals
+start_y = min_value * 0.9  # Calculate 90% of the minimum value
+
 fig2 = go.Figure(data=bar_data)
 # fig2 = create_bar_chart_data(coltotaldf, timescale, dimension)
+
+# Adjust the y-axis to start from the calculated start_y value
+fig2.update_yaxes(range=[start_y, coltotaldf[dimension].max()])
+
 
 
 # Create a subplot layout with two rows and one column
