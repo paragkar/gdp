@@ -81,6 +81,10 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp = dftemp2.merge(dftemp1, on =["FYear"], how ='left')
             dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
             pivot_df = dftemp.pivot_table(index='Description', columns='FYear', values='Value')
+        if feature == "Growth":
+            pivot_df = df.pivot_table(index='Description', columns='FYear', values='Value')
+            pivot_df = ((pivot_df - pivot_df.shift(5, axis =1))/pivot_df.shift(5, axis =1))*100
+            st.write(pivot_df)
             
         
     #sorting the dataframe 
