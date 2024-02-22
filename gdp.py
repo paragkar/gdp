@@ -148,11 +148,31 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
     return bar
 
 
+def processing_currency(dimension, curreny, df):
+
+    #filtering aggregrated GDP & GVA values from the heatmap
+    filter_desc = dimension.split(" ")[0]
+    df = df[df["Type"] == dimension]
+    df = df[(df["Description"] != filter_desc)]
+
+    #Processing values for Indian Rupees 
+    if curreny == "Rupees":
+        #dropping unnecessary columns
+        df = df.drop(columns = ["Type","USD"])
+
+    #Processing for values for us dollars 
+    if dimension in ["GDP Current","GVA Current"] & (curreny == "USDollars"):
+        df["ValueUSD"] = round((df["Value"]/df["USD"])*1000,2)
+        df = df.drop(columns = ["Type", "USD", "Value"])
+
+    return df
+
 
 #main program starts
 
 #load data
 df = loadgdpgva()
+dfusd = df.copy()
 
 #extract dimensions
 Type = list(set(df["Type"]))
@@ -160,25 +180,15 @@ Type = list(set(df["Type"]))
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', Type)
 
-#filtering aggregrated GDP & GVA values from the heatmap
-filter_desc = dimension.split(" ")[0]
-df = df[df["Type"] == dimension]
-df = df[(df["Description"] != filter_desc)]
+curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 
-if dimension in ["GDP Current","GVA Current"]:
-    dfusd = df.copy()
-    dfusd["ValueUSD"] = round((dfusd["Value"]/dfusd["USD"])*1000,2)
-    st.write(dfusd)
-
-
-#dropping unnecessary columns
-df = df.drop(columns = ["Type","USD"])
+df = processing_currency(dimension, curreny, df)
 
 #choose a time scale
 timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
-
 #processing dataframe based on choosen timescale
 pivot_df = process_df_choosen_timescale(df,timescale)
+
 
 #processing hovertext of heatmap
 hovertext = process_hovertext(pivot_df, timescale)
