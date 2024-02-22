@@ -53,6 +53,7 @@ def process_texttemplete(timescale):
 #processing dataframe based on choosen timescale
 def process_df_choosen_timescale(df,timescale):
     if timescale == "Quarter":
+        df["Date"] = pd.to_datetime(df["Date"])
         pivot_df = df.pivot(index='Description', columns='Date', values='Value')
     if timescale == "FYear":
         df["Date"] = pd.to_datetime(df["Date"])
