@@ -76,14 +76,15 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp2 = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
             dftemp = dftemp2.merge(dftemp1, on =["FYear"], how ='left')
             dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
-            st.write(dftemp)
-            dftemp = df.merge(dftemp, on =["FYear"], how = 'left')
-            st.write(dftemp)
-            dftemp["Value"] = (dftemp["Value"]/dftemp["Value_y"])*100
-            dftemp = dftemp.rename(columns = {"Description_x":"Description"})
-            st.write(dftemp)
             pivot_df = dftemp.pivot_table(index='Description', columns='FYear', values='Value')
-            st.write(pivot_df)
+            st.write(dftemp)
+            # dftemp = df.merge(dftemp, on =["FYear"], how = 'left')
+            # st.write(dftemp)
+            # dftemp["Value"] = (dftemp["Value"]/dftemp["Value_y"])*100
+            # dftemp = dftemp.rename(columns = {"Description_x":"Description"})
+            # st.write(dftemp)
+            # pivot_df = dftemp.pivot_table(index='Description', columns='FYear', values='Value')
+            # st.write(pivot_df)
         
     #sorting the dataframe 
     pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
