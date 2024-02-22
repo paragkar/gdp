@@ -177,7 +177,6 @@ def processing_currency(dimension, curreny, df):
 
 #load data
 df = loadgdpgva()
-dfusd = df.copy()
 
 #extract dimensions
 Type = list(set(df["Type"]))
@@ -189,102 +188,104 @@ curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 
 df = processing_currency(dimension, curreny, df)
 
-#choose a time scale
-timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
-#processing dataframe based on choosen timescale
-pivot_df = process_df_choosen_timescale(df,timescale)
+if df.shape[0] != 0:
+
+    #choose a time scale
+    timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
+    #processing dataframe based on choosen timescale
+    pivot_df = process_df_choosen_timescale(df,timescale)
 
 
-#processing hovertext of heatmap
-hovertext = process_hovertext(pivot_df, timescale)
+    #processing hovertext of heatmap
+    hovertext = process_hovertext(pivot_df, timescale)
 
-#processing texttemplete of heatmap
-texttemplate = process_texttemplete(timescale)
-
-
-#creating heatmap
-heatmap_data = create_heatmap_data(pivot_df,hovertext, texttemplate)
-fig1 = go.Figure(data = heatmap_data)
-#configuring heatmap
-fig1 = configuring_heatmap(fig1)
+    #processing texttemplete of heatmap
+    texttemplate = process_texttemplete(timescale)
 
 
-
-#processing chart for total of all columns 
-coltotaldf = pivot_df.sum(axis=0).round(1).reset_index()
-coltotaldf.columns =[timescale, dimension]
-bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
-fig2 = go.Figure(data=bar_data)
-
-
-# Create a subplot layout with two rows and one column
-combined_fig = make_subplots(
-    rows=2, cols=1,
-    vertical_spacing=0,  # Adjust spacing as needed
-    shared_xaxes=False,  # Set to True if the x-axes should be aligned
-    row_heights=[0.8, 0.2]  # First row is 80% of the height, second row is 20%
-)
-
-# Add each trace from your first figure to the first row of the subplot
-for trace in fig1.data:
-    combined_fig.add_trace(trace, row=1, col=1)
-
-# Add each trace from your second figure to the second row of the subplot
-for trace in fig2.data:
-    combined_fig.add_trace(trace, row=2, col=1)
-
-# Update layout for the subplot
-combined_fig.update_layout(
-    title_text = dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)",
-    title_x = 0.07,
-    title_y = 0.9,
-    width=1200,  # Adjust width as needed
-    height=640,  # Adjust height as needed to accommodate stacked layout
-    title_font=dict(size=24, family="Arial, sans-serif", color="RebeccaPurple"),
-)
+    #creating heatmap
+    heatmap_data = create_heatmap_data(pivot_df,hovertext, texttemplate)
+    fig1 = go.Figure(data = heatmap_data)
+    #configuring heatmap
+    fig1 = configuring_heatmap(fig1)
 
 
-combined_fig.update_layout(
-    shapes=[
-        # Rectangle border for the first subplot
-        dict(
-            type="rect",
-            xref="paper", yref="paper",
-            x0=0, y0=0.2,  # Adjust these values based on the subplot's position
-            x1=1, y1=1,
-            line=dict(color="Black", width=2),
-        ),
-        # Rectangle border for the second subplot
-        dict(
-            type="rect",
-            xref="paper", yref="paper",
-            x0=0, y0=0,  # Adjust these values based on the subplot's position
-            x1=1, y1=0.2,
-            line=dict(color="Black", width=2),
-        )
-    ]
-)
 
-combined_fig.update_xaxes(showticklabels=False, row=1, col=1)
-combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
-combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
+    #processing chart for total of all columns 
+    coltotaldf = pivot_df.sum(axis=0).round(1).reset_index()
+    coltotaldf.columns =[timescale, dimension]
+    bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
+    fig2 = go.Figure(data=bar_data)
 
 
-#Making the y-axis of the chart start from the point more than Zero
-min_value = coltotaldf[dimension].min()  # Find the minimum value in the column totals
-start_y = min_value * 0.9  # Calculate 90% of the minimum value
-end_y = coltotaldf[dimension].max()*1.2 #set the maximum value of y-axis as 120% of the max bar
-combined_fig.update_yaxes(range=[start_y, end_y], row=2, col=1)
+    # Create a subplot layout with two rows and one column
+    combined_fig = make_subplots(
+        rows=2, cols=1,
+        vertical_spacing=0,  # Adjust spacing as needed
+        shared_xaxes=False,  # Set to True if the x-axes should be aligned
+        row_heights=[0.8, 0.2]  # First row is 80% of the height, second row is 20%
+    )
+
+    # Add each trace from your first figure to the first row of the subplot
+    for trace in fig1.data:
+        combined_fig.add_trace(trace, row=1, col=1)
+
+    # Add each trace from your second figure to the second row of the subplot
+    for trace in fig2.data:
+        combined_fig.add_trace(trace, row=2, col=1)
+
+    # Update layout for the subplot
+    combined_fig.update_layout(
+        title_text = dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)",
+        title_x = 0.07,
+        title_y = 0.9,
+        width=1200,  # Adjust width as needed
+        height=640,  # Adjust height as needed to accommodate stacked layout
+        title_font=dict(size=24, family="Arial, sans-serif", color="RebeccaPurple"),
+    )
 
 
-# Update x-axis and y-axis titles if needed
-# combined_fig.update_xaxes(title_text="X-axis Title Here", row=1, col=1)
-# combined_fig.update_yaxes(title_text="Y-axis Title for Fig1", row=1, col=1)
-# combined_fig.update_xaxes(title_text="X-axis Title Here", row=2, col=1)
-# combined_fig.update_yaxes(title_text="Y-axis Title for Fig2", row=2, col=1)
+    combined_fig.update_layout(
+        shapes=[
+            # Rectangle border for the first subplot
+            dict(
+                type="rect",
+                xref="paper", yref="paper",
+                x0=0, y0=0.2,  # Adjust these values based on the subplot's position
+                x1=1, y1=1,
+                line=dict(color="Black", width=2),
+            ),
+            # Rectangle border for the second subplot
+            dict(
+                type="rect",
+                xref="paper", yref="paper",
+                x0=0, y0=0,  # Adjust these values based on the subplot's position
+                x1=1, y1=0.2,
+                line=dict(color="Black", width=2),
+            )
+        ]
+    )
 
-# Display the combined figure in Streamlit
-st.plotly_chart(combined_fig, use_container_width=True)
+    combined_fig.update_xaxes(showticklabels=False, row=1, col=1)
+    combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
+    combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
+
+
+    #Making the y-axis of the chart start from the point more than Zero
+    min_value = coltotaldf[dimension].min()  # Find the minimum value in the column totals
+    start_y = min_value * 0.9  # Calculate 90% of the minimum value
+    end_y = coltotaldf[dimension].max()*1.2 #set the maximum value of y-axis as 120% of the max bar
+    combined_fig.update_yaxes(range=[start_y, end_y], row=2, col=1)
+
+
+    # Update x-axis and y-axis titles if needed
+    # combined_fig.update_xaxes(title_text="X-axis Title Here", row=1, col=1)
+    # combined_fig.update_yaxes(title_text="Y-axis Title for Fig1", row=1, col=1)
+    # combined_fig.update_xaxes(title_text="X-axis Title Here", row=2, col=1)
+    # combined_fig.update_yaxes(title_text="Y-axis Title for Fig2", row=2, col=1)
+
+    # Display the combined figure in Streamlit
+    st.plotly_chart(combined_fig, use_container_width=True)
 
 
 
