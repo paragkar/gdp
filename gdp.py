@@ -162,9 +162,13 @@ def processing_currency(dimension, curreny, df):
         df = df.drop(columns = ["Type","USD"])
 
     #Processing for values for us dollars 
-    if (dimension in ["GDP Current","GVA Current"]) and (curreny == "USDollars"):
-        df["Value"] = round((df["Value"]/df["USD"])*1000,2)
-        df = df.drop(columns = ["Type", "USD"])
+    if (curreny == "USDollars"):
+        if dimension in ["GDP Current","GVA Current"]:
+            df["Value"] = round((df["Value"]/df["USD"])*1000,2)
+            df = df.drop(columns = ["Type", "USD"])
+        else:
+            st.write("Please Choose Nominal Dimension for Displaying USD Values")
+            df = pd.DataFrame()
 
     return df
 
