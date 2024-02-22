@@ -221,7 +221,7 @@ combined_fig.update_layout(
     title_y = 0.9,
     width=1200,  # Adjust width as needed
     height=640,  # Adjust height as needed to accommodate stacked layout
-    # title=dict(text = dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)", x=0.065, y=0.9)
+    title_font=dict(size=24, family="Arial, sans-serif", color="RebeccaPurple"),
 )
 
 
