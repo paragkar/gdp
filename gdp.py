@@ -35,7 +35,7 @@ def process_hovertext(df, timescale):
         hovertext.append([])
         for xi, xx in enumerate(df.columns):
             value = df.values[yi][xi]
-            hovertext[-1].append(f'{timescale} End: {xx}<br>Value: Rs {value:.2f} Lakh Cr')
+            hovertext[-1].append(f'{timescale} End: {xx}<br>Value: {value:.2f}')
     return hovertext
 
 
