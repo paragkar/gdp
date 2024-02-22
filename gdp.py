@@ -177,18 +177,19 @@ def processing_currency(dimension, curreny, timescale, feature, df):
     if curreny == "Rupees":
         #dropping unnecessary columns
         df = df.drop(columns = ["Type","USD"])
+        #processing dataframe based on choosen timescale and feature
+        df = process_df_choosen_timescale(df,timescale,feature)
 
     #Processing for values for us dollars 
     if (curreny == "USDollars"):
         if dimension in ["GDP Current","GVA Current"]:
             df["Value"] = round((df["Value"]/df["USD"])*1000,2)
             df = df.drop(columns = ["Type", "USD"])
+            #processing dataframe based on choosen timescale and feature
+            df = process_df_choosen_timescale(df,timescale,feature)
         else:
             st.write("Please Choose Nominal Dimension for Displaying USD Values")
             df = pd.DataFrame()
-
-    #processing dataframe based on choosen timescale and feature
-    df = process_df_choosen_timescale(df,timescale,feature)
 
     return df
 
