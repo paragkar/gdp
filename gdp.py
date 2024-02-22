@@ -29,7 +29,8 @@ def loadgdpgva():
 
 # Function to process the hover text for the heatmap
 @st.cache_data
-def process_hovertext(df, timescale):  
+def process_hovertext(df, timescale):
+    df["Date"] = pd.to_datetime(df["Date"])
     hovertext = []
     for yi, yy in enumerate(df.index):
         hovertext.append([])
