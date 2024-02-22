@@ -209,14 +209,15 @@ bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
 
 min_value = coltotaldf[dimension].min()  # Find the minimum value in the column totals
 start_y = min_value * 0.9  # Calculate 90% of the minimum value
+end_y = coltotaldf[dimension].max()*1.1 #set the maximum value of y-axis as 110% of the max bar
 
-st.write(start_y)
+
 
 fig2 = go.Figure(data=bar_data)
 # fig2 = create_bar_chart_data(coltotaldf, timescale, dimension)
 
 # Adjust the y-axis to start from the calculated start_y value
-fig2.update_yaxes(range=[start_y, coltotaldf[dimension].max()])
+# fig2.update_yaxes(range=[start_y, coltotaldf[dimension].max()])
 
 
 
@@ -268,6 +269,7 @@ combined_fig.update_layout(
 combined_fig.update_xaxes(showticklabels=False, row=1, col=1)
 combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
 combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
+combined_fig.update_yaxes(range=[start_y, end_y], row=2, col=1)
 
 # Update x-axis and y-axis titles if needed
 # combined_fig.update_xaxes(title_text="X-axis Title Here", row=1, col=1)
