@@ -240,7 +240,7 @@ combined_fig.update_layout(
         dict(
             type="rect",
             xref="paper", yref="paper",
-            x0=0, y0=0.2,  # Adjust these values based on the subplot's position
+            x0=0, y0=0.3,  # Adjust these values based on the subplot's position
             x1=1, y1=1,
             line=dict(color="Black", width=2),
         ),
@@ -249,7 +249,7 @@ combined_fig.update_layout(
             type="rect",
             xref="paper", yref="paper",
             x0=0, y0=0,  # Adjust these values based on the subplot's position
-            x1=1, y1=0.2,
+            x1=1, y1=0.3,
             line=dict(color="Black", width=2),
         )
     ]
