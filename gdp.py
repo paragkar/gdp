@@ -66,6 +66,9 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp = df.merge(dftemp, on =["FYear","Month"], how = 'left')
             dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
             pivot_df = dftemp.pivot_table(index='Description', columns='Date', values='Value')
+        if feature == "Growth":
+            pivot_df = df.pivot_table(index='Description', columns='Date', values='Value')
+            st.write(pivot_df)
            
     if timescale == "FYear":
         if feature == "Absolute":
@@ -225,7 +228,7 @@ curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
 
 #choose a feature
-feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent"])
+feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth"])
 
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
