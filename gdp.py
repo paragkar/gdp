@@ -267,7 +267,7 @@ if pivot_df.shape[0] != 0:
     for trace in fig2.data:
         combined_fig.add_trace(trace, row=2, col=1)
 
-   title_text = chart_heading(dimension,curreny,timescale,feature)
+    title_text = chart_heading(dimension,curreny,timescale,feature)
         
     # Update layout for the subplot
     combined_fig.update_layout(
