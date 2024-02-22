@@ -165,7 +165,9 @@ filter_desc = dimension.split(" ")[0]
 df = df[df["Type"] == dimension]
 df = df[(df["Description"] != filter_desc)]
 
-dfcopy = df.copy()
+if dimension in ["GDP Current","GVA Current"]:
+    st.write(df)
+
 
 #dropping unnecessary columns
 df = df.drop(columns = ["Type","USD"])
