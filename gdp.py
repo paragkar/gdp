@@ -63,7 +63,7 @@ def process_df_choosen_timescale(df,timescale, feature):
         if feature == "Absolute":
             pass
         if feature == "Percent":
-             dftemp = df.groupby(["FYear", "Description", "Month"]).agg({"Value": "sum"}).reset_index()
+             dftemp = df.groupby(["FYear", "Month"]).agg({"Value": "sum"}).reset_index()
              # dftemp = df.merge(dftemp, on =["FYear","Description"], how = 'left')
              st.write(dftemp)
              # dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
