@@ -69,7 +69,7 @@ def process_df_choosen_timescale(df,timescale, feature):
         if feature == "Growth":
             pivot_df = df.pivot_table(index='Description', columns='Date', values='Value')
             st.write(pivot_df)
-            st.write(pivot_df.shift(4, axis =1))
+            st.write(pivot_df.shift(5, axis =1))
            
     if timescale == "FYear":
         if feature == "Absolute":
