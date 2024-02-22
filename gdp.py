@@ -82,7 +82,7 @@ def process_df_choosen_timescale(df,timescale, feature):
             pivot_df = dftemp.pivot_table(index='Description', columns='FYear', values='Value')
         if feature == "Growth":
             pivot_df = df.pivot_table(index='Description', columns='FYear', values='Value')
-            pivot_df = ((pivot_df - pivot_df.shift(5, axis =1))/pivot_df.shift(1, axis =1))*100
+            pivot_df = ((pivot_df - pivot_df.shift(1, axis =1))/pivot_df.shift(1, axis =1))*100
             
         
     #sorting the dataframe 
