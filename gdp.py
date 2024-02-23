@@ -22,7 +22,7 @@ st.markdown(hide_st_style, unsafe_allow_html =True)
 #function to loaddata
 @st.cache_resource
 def loadgdpgva():
-
+    df = pd.DataFrame()
     df = pd.read_csv("2022_12_22_Indian_GDP_GVA_Comb.csv")
 
     return df
