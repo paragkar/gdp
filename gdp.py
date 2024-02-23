@@ -250,6 +250,8 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 
+st.write(pivot_df)
+
 if pivot_df.shape[0] != 0:
 
     #processing hovertext of heatmap
