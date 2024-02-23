@@ -267,6 +267,10 @@ if pivot_df.shape[0] != 0:
     #processing chart for total of all columns 
     coltotaldf = pivot_df.sum(axis=0).round(1).reset_index()
     coltotaldf.columns =[timescale, dimension]
+    if feature =="Growth":
+        if timescale == "FYear":
+            st.write(coltotaldf)
+
     bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
     fig2 = go.Figure(data=bar_data)
 
