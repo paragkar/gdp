@@ -99,8 +99,8 @@ def create_heatmap_data(df, hovertext, texttemplate):
     Q1 = np.percentile(z_values, 25)
     Q3 = np.percentile(z_values, 75)
     IQR = Q3 - Q1
-    lower_bound = Q1 - 1 * IQR
-    upper_bound = Q3 + 1 * IQR
+    lower_bound = Q1 - 2 * IQR
+    upper_bound = Q3 + 2 * IQR
 
 
     data = [go.Heatmap(
