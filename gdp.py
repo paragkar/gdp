@@ -74,12 +74,8 @@ def process_df_choosen_timescale(df,timescale, feature):
     if timescale == "FYear":
         if feature == "Absolute":
 
-            st.write(df)
-            
             df = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
             pivot_df = df.pivot(index='Description', columns='FYear', values='Value')
-
-            st.write(pivot_df)
 
         if feature == "Percent":
             dftemp1 = df.groupby(["FYear"]).agg({"Value": "sum"}).reset_index()
@@ -196,6 +192,8 @@ def processing_currency(dimension, curreny, timescale, feature, df):
     filter_desc = dimension.split(" ")[0]
     df = df[df["Type"] == dimension]
     df = df[(df["Description"] != filter_desc)]
+
+    st.write(df)
 
 
     #Processing values for Indian Rupees 
