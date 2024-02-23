@@ -25,6 +25,8 @@ def loadgdpgva():
 
     df = pd.read_csv("2022_12_22_Indian_GDP_GVA_Comb.csv")
 
+    st.write(df)
+
     return df
 
 
@@ -235,8 +237,6 @@ def chart_heading(dimension,curreny,timescale,feature):
 
 #load data
 df = loadgdpgva()
-
-st.write(df)
 
 #extract dimensions
 Type = list(set(df["Type"]))
