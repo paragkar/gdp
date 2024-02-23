@@ -191,6 +191,8 @@ def processing_currency(dimension, curreny, timescale, feature, df):
     df = df[df["Type"] == dimension]
     df = df[(df["Description"] != filter_desc)]
 
+    st.write(df)
+
     #Processing values for Indian Rupees 
     if curreny == "Rupees":
         #dropping unnecessary columns
