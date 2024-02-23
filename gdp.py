@@ -237,8 +237,6 @@ def chart_heading(dimension,curreny,timescale,feature):
 #load data
 df = loadgdpgva()
 
-st.write(df)
-
 #extract dimensions
 Type = list(set(df["Type"]))
 
