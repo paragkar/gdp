@@ -200,6 +200,8 @@ def processing_currency(dimension, curreny, timescale, feature, df):
         #processing dataframe based on choosen timescale and feature
         df = process_df_choosen_timescale(df,timescale,feature)
 
+        st.write(df)
+
     #Processing for values for us dollars 
     if (curreny == "USDollars"):
         if dimension in ["GDP Current","GVA Current"]:
