@@ -22,6 +22,7 @@ st.markdown(hide_st_style, unsafe_allow_html =True)
 #function to loaddata
 @st.cache_resource
 def loadgdpgva():
+    #reset loading dataframe for correct upload
     df = pd.DataFrame()
     df = pd.read_csv("2022_12_22_Indian_GDP_GVA_Comb.csv")
 
@@ -233,8 +234,6 @@ def chart_heading(dimension,curreny,timescale,feature):
 
 #main program starts
 
-#reset loading dataframe 
-df = pd.DataFrame()
 #load data
 df = loadgdpgva()
 
