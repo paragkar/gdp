@@ -73,11 +73,14 @@ def process_df_choosen_timescale(df,timescale, feature):
            
     if timescale == "FYear":
         if feature == "Absolute":
+
+            st.write(df)
+            
             df = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
             pivot_df = df.pivot(index='Description', columns='FYear', values='Value')
 
             st.write(pivot_df)
-            
+
         if feature == "Percent":
             dftemp1 = df.groupby(["FYear"]).agg({"Value": "sum"}).reset_index()
             dftemp2 = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
@@ -254,8 +257,6 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
-
-st.write(pivot_df)
 
 if pivot_df.shape[0] != 0:
 
