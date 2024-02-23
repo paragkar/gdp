@@ -2,7 +2,6 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
-import numpy as np
 
 
 #Set page layout here
@@ -30,13 +29,13 @@ def loadgdpgva():
 
 # Function to process the hover text for the heatmap
 @st.cache_data
-def process_hovertext(df, timescale):
+def process_hovertext(df, timescale):  
     hovertext = []
     for yi, yy in enumerate(df.index):
         hovertext.append([])
         for xi, xx in enumerate(df.columns):
             value = df.values[yi][xi]
-            hovertext[-1].append(f'Category: {yy} <br>{timescale}: {xx.date() if timescale=="Quarter" else xx}<br>Cell Value: {value:.2f}')
+            hovertext[-1].append(f'{timescale} End: {xx}<br>Value: Rs {value:.2f} Lakh Cr')
     return hovertext
 
 
@@ -67,9 +66,6 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp = df.merge(dftemp, on =["FYear","Month"], how = 'left')
             dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
             pivot_df = dftemp.pivot_table(index='Description', columns='Date', values='Value')
-        if feature == "Growth":
-            pivot_df = df.pivot_table(index='Description', columns='Date', values='Value')
-            pivot_df = ((pivot_df - pivot_df.shift(5, axis =1))/pivot_df.shift(5, axis =1))*100
            
     if timescale == "FYear":
         if feature == "Absolute":
@@ -81,9 +77,6 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp = dftemp2.merge(dftemp1, on =["FYear"], how ='left')
             dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100
             pivot_df = dftemp.pivot_table(index='Description', columns='FYear', values='Value')
-        if feature == "Growth":
-            pivot_df = df.pivot_table(index='Description', columns='FYear', values='Value')
-            pivot_df = ((pivot_df - pivot_df.shift(1, axis =1))/pivot_df.shift(1, axis =1))*100
             
         
     #sorting the dataframe 
@@ -93,15 +86,6 @@ def process_df_choosen_timescale(df,timescale, feature):
 
 #configuring the data for heatmap
 def create_heatmap_data(df, hovertext, texttemplate):
-
-    # Flatten the DataFrame values to a 1D array for calculation
-    z_values = df.values.flatten()
-    Q1 = np.percentile(z_values, 25)
-    Q3 = np.percentile(z_values, 75)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-
 
     data = [go.Heatmap(
                   z = df.values,
@@ -116,8 +100,6 @@ def create_heatmap_data(df, hovertext, texttemplate):
                   texttemplate=texttemplate,
                   reversescale=True,
                   showscale=False,
-                  zmin=lower_bound,  # Set zmin to lowerbound
-                  zmax=upper_bound,   # Set zmax to upperbound
                   colorbar=dict(
                   tickcolor ="black",
                   tickwidth =2,
@@ -195,36 +177,20 @@ def processing_currency(dimension, curreny, timescale, feature, df):
     if curreny == "Rupees":
         #dropping unnecessary columns
         df = df.drop(columns = ["Type","USD"])
-        #processing dataframe based on choosen timescale and feature
-        df = process_df_choosen_timescale(df,timescale,feature)
 
     #Processing for values for us dollars 
     if (curreny == "USDollars"):
         if dimension in ["GDP Current","GVA Current"]:
             df["Value"] = round((df["Value"]/df["USD"])*1000,2)
             df = df.drop(columns = ["Type", "USD"])
-            #processing dataframe based on choosen timescale and feature
-            df = process_df_choosen_timescale(df,timescale,feature)
         else:
             st.write("Please Choose Nominal Dimension for Displaying USD Values")
             df = pd.DataFrame()
 
+    #processing dataframe based on choosen timescale and feature
+    df = process_df_choosen_timescale(df,timescale,feature)
+
     return df
-
-#Processing chart heading based on user choice of menues
-def chart_heading(dimension,curreny,timescale,feature):
-
-    if feature == "Absolute":
-        if curreny == "Rupees":
-            title_text =  dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)"
-        if curreny == "USDollars":
-            title_text =  dimension+" - " +timescale+" Trends"+" ($ Billion)"
-    if feature == "Percent":
-            title_text =  dimension+" - " +timescale+" Trends"+" (Percent of Total)"
-    if feature == "Growth":
-            title_text =  dimension+" - " +timescale+" Trends"+" (Percentage Growth)"
-
-    return title_text
 
 
 #main program starts
@@ -242,10 +208,10 @@ dimension = st.sidebar.selectbox('Select a Dimension', Type)
 curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 
 #choose a time scale
-timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
+timescale = st.sidebar.selectbox('Select a timescale', ["Quarter", "FYear"])
 
 #choose a feature
-feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth"])
+feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent"])
 
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
@@ -287,8 +253,13 @@ if pivot_df.shape[0] != 0:
     for trace in fig2.data:
         combined_fig.add_trace(trace, row=2, col=1)
 
-    title_text = chart_heading(dimension,curreny,timescale,feature)
+    #Processing chart heading based on user choice of menues
+    if curreny == "Rupees":
+        title_text =  dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)"
+    if curreny == "USDollars":
+        title_text =  dimension+" - " +timescale+" Trends"+" ($ Billion)"
         
+
     # Update layout for the subplot
     combined_fig.update_layout(
         title_text = title_text,
