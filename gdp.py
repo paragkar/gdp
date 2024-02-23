@@ -99,8 +99,8 @@ def create_heatmap_data(df, hovertext, texttemplate):
     Q1 = np.percentile(z_values, 25)
     Q3 = np.percentile(z_values, 75)
     IQR = Q3 - Q1
-    lower_bound = Q1 - 2 * IQR
-    upper_bound = Q3 + 2 * IQR
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
 
 
     data = [go.Heatmap(
@@ -186,12 +186,10 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
 
 def processing_currency(dimension, curreny, timescale, feature, df):
 
-    # filtering aggregrated GDP & GVA values from the heatmap
+    #filtering aggregrated GDP & GVA values from the heatmap
     filter_desc = dimension.split(" ")[0]
     df = df[df["Type"] == dimension]
     df = df[(df["Description"] != filter_desc)]
-
-    st.write(df)
 
     #Processing values for Indian Rupees 
     if curreny == "Rupees":
@@ -235,10 +233,10 @@ def chart_heading(dimension,curreny,timescale,feature):
 df = loadgdpgva()
 
 #extract dimensions
-Dimension = ["GDP Current", "GDP Constant", "GVA Current", "GVA Constant"]
+Type = list(set(df["Type"]))
 
 #choose a dimension
-dimension = st.sidebar.selectbox('Select a Dimension', Dimension)
+dimension = st.sidebar.selectbox('Select a Dimension', Type)
 
 #choose a currency
 curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
@@ -269,10 +267,6 @@ if pivot_df.shape[0] != 0:
     #processing chart for total of all columns 
     coltotaldf = pivot_df.sum(axis=0).round(1).reset_index()
     coltotaldf.columns =[timescale, dimension]
-    if feature =="Growth":
-        if timescale == "FYear":
-            st.write(coltotaldf)
-
     bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
     fig2 = go.Figure(data=bar_data)
 
