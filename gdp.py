@@ -262,6 +262,9 @@ filter_desc = dimension.split(" ")[0]
 total_df = pivot_df[~(pivot_df.index != filter_desc)]
 pivot_df = pivot_df[(pivot_df.index != filter_desc)]
 
+pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
+total_df = total_df.replace(0, np.nan).dropna(axis=1)
+
 
 if pivot_df.shape[0] != 0:
 
