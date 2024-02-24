@@ -273,11 +273,28 @@ total_df = total_df.replace(0, np.nan).dropna(axis=1)
 
 if timescale == "Quarter":
 
-    slider_min = pivot_df.columns[0].date()
-    slider_max = pivot_df.columns[-1].date()
-    slider_point = slider_max + relativedelta(months=+3 * 8)
-    qtrnos = st.slider("Select Auction Round Numbers using the Silder below", slider_min,slider_max, (slider_point,slider_max))
-    st.write(qtrnos)
+    slider_min = pivot_df.columns[0]
+    slider_max = pivot_df.columns[-1]
+    # Generate a range of dates at quarterly intervals
+    date_range = pd.date_range(start=slider_min, end=slider_max, freq='Q').date
+
+    # Slider max should be inclusive last quarter, so adjust it if necessary
+    if slider_max not in date_range:
+        date_range = pd.date_range(start=slider_min, end=slider_max + relativedelta(months=3), freq='Q').date
+
+    # Set a default point for the slider as an example (8 quarters ahead of min)
+    default_value_index = 8  # Adjust based on your requirements
+    if default_value_index < len(date_range):
+        slider_point = date_range[default_value_index]
+    else:
+        slider_point = date_range[-1]  # Fallback to the last date if index is out of range
+
+    # Use the date range for the slider
+    qtrnos = st.slider("Select Auction Round Numbers using the Slider below", 
+                       options=date_range, 
+                       value=(slider_point, date_range[-1]))
+
+    st.write("Selected quarters:", qtrnos)
 
 
 if pivot_df.shape[0] != 0:
