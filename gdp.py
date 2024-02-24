@@ -242,6 +242,7 @@ def chart_heading(dimension,curreny,timescale,feature):
 
 #Create a slider for choosen timescale quarter
 def createslider(pivot_df):
+    st.write(pivot_df) #debug
     slider_min_date = pivot_df.columns.min().to_pydatetime()
     slider_max_date = pivot_df.columns.max().to_pydatetime()
 
