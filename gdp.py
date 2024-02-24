@@ -47,7 +47,7 @@ def process_hovertext(df, timescale):
 def process_texttemplete(timescale, selected_cols):
 
     if timescale == "Quarter":
-        if len(selected_cols) > 20:
+        if len(selected_cols) > 25: #No of columns to be selected beyond which text will not display
             texttemplate = ""
         else:
             texttemplate = "%{text:.1f}"
@@ -297,15 +297,6 @@ total_df = total_df.replace(0, np.nan).dropna(axis=1)
 #filtering aggregrated GDP & GVA values from the heatmap
 pivot_df = pivot_df[(pivot_df.index != filter_desc)]
 pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
-
-#Processing Slider in case timescale chosen is Quarter
-# if timescale == "Quarter":
-#     selected_min, selected_max = createslider(pivot_df)
-#     selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
-#     pivot_df = pivot_df[selected_cols]
-#     total_df = total_df[selected_cols]
-# else:
-#     selected_cols = pivot_df.columns
 
 
 if pivot_df.shape[0] != 0:
