@@ -1975,155 +1975,155 @@ Date,Type,Description,Value,USD
 2024-03-31,GVA Current,Defense Etc,9.912,83.2
 2024-03-31,GVA Current,GVA,69.42,83.2
 2024-03-31,GVA Current,Net Taxes,7.705,83.2
-2024-06-30,GDP Constant,PFCE,23.762,83.2
-2024-06-30,GDP Constant,GFCE,4.257,83.2
-2024-06-30,GDP Constant,GFCF,14.096,83.2
-2024-06-30,GDP Constant,CIS,0.381,83.2
-2024-06-30,GDP Constant,Valuables,0.024,83.2
-2024-06-30,GDP Constant,Exports,10.049,83.2
-2024-06-30,GDP Constant,Imports,-11.446,83.2
-2024-06-30,GDP Constant,Discrepancies,0.285,83.2
-2024-06-30,GDP Constant,GDP,41.409,83.2
-2024-06-30,GDP Current,PFCE,46.075,83.2
-2024-06-30,GDP Current,GFCE,7.911,83.2
-2024-06-30,GDP Current,GFCF,21.335,83.2
-2024-06-30,GDP Current,CIS,0.391,83.2
-2024-06-30,GDP Current,Valuables,0.796,83.2
-2024-06-30,GDP Current,Exports,16.926,83.2
-2024-06-30,GDP Current,Imports,-18.171,83.2
-2024-06-30,GDP Current,Discrepancies ,-0.386,83.2
-2024-06-30,GDP Current,GDP,74.876,83.2
-2024-06-30,GVA Constant,Agriculture,5.381,83.2
-2024-06-30,GVA Constant,Mining,0.898,83.2
-2024-06-30,GVA Constant,Manufacturing,6.882,83.2
-2024-06-30,GVA Constant,Electricity & Utilities,0.976,83.2
-2024-06-30,GVA Constant,Construction,3.208,83.2
-2024-06-30,GVA Constant,"Trade Hotal, Comm",6.664,83.2
-2024-06-30,GVA Constant,Financial Services,10.311,83.2
-2024-06-30,GVA Constant,Defense Etc,4.732,83.2
-2024-06-30,GVA Constant,GVA,39.052,83.2
-2024-06-30,GVA Constant,Net Taxes,3.6,83.2
-2024-06-30,GVA Current,Agriculture,11.398,83.2
-2024-06-30,GVA Current,Mining,1.543,83.2
-2024-06-30,GVA Current,Manufacturing,9.175,83.2
-2024-06-30,GVA Current,Electricity & Utilities,1.928,83.2
-2024-06-30,GVA Current,Construction,5.148,83.2
-2024-06-30,GVA Current,"Trade Hotal, Comm",10.748,83.2
-2024-06-30,GVA Current,Financial Services,16.7,83.2
-2024-06-30,GVA Current,Defense Etc,9.532,83.2
-2024-06-30,GVA Current,GVA,66.172,83.2
-2024-06-30,GVA Current,Net Taxes,7.93,83.2
-2024-09-30,GDP Constant,PFCE,24.403,83.2
-2024-09-30,GDP Constant,GFCE,3.884,83.2
-2024-09-30,GDP Constant,GFCF,14.23,83.2
-2024-09-30,GDP Constant,CIS,0.412,83.2
-2024-09-30,GDP Constant,Valuables,0.329,83.2
-2024-09-30,GDP Constant,Exports,10.126,83.2
-2024-09-30,GDP Constant,Imports,-11.529,83.2
-2024-09-30,GDP Constant,Discrepancies,0.284,83.2
-2024-09-30,GDP Constant,GDP,42.139,83.2
-2024-09-30,GDP Current,PFCE,47.716,83.2
-2024-09-30,GDP Current,GFCE,7.434,83.2
-2024-09-30,GDP Current,GFCF,22.098,83.2
-2024-09-30,GDP Current,CIS,0.468,83.2
-2024-09-30,GDP Current,Valuables,0.802,83.2
-2024-09-30,GDP Current,Exports,17.128,83.2
-2024-09-30,GDP Current,Imports,-18.383,83.2
-2024-09-30,GDP Current,Discrepancies ,-0.392,83.2
-2024-09-30,GDP Current,GDP,76.871,83.2
-2024-09-30,GVA Constant,Agriculture,4.7,83.2
-2024-09-30,GVA Constant,Mining,0.725,83.2
-2024-09-30,GVA Constant,Manufacturing,7.397,83.2
-2024-09-30,GVA Constant,Electricity & Utilities,0.971,83.2
-2024-09-30,GVA Constant,Construction,3.219,83.2
-2024-09-30,GVA Constant,"Trade Hotal, Comm",7.257,83.2
-2024-09-30,GVA Constant,Financial Services,10.327,83.2
-2024-09-30,GVA Constant,Defense Etc,5.148,83.2
-2024-09-30,GVA Constant,GVA,39.744,83.2
-2024-09-30,GVA Constant,Net Taxes,3.646,83.2
-2024-09-30,GVA Current,Agriculture,10.208,83.2
-2024-09-30,GVA Current,Mining,1.308,83.2
-2024-09-30,GVA Current,Manufacturing,9.764,83.2
-2024-09-30,GVA Current,Electricity & Utilities,1.957,83.2
-2024-09-30,GVA Current,Construction,5.054,83.2
-2024-09-30,GVA Current,"Trade Hotal, Comm",11.782,83.2
-2024-09-30,GVA Current,Financial Services,16.938,83.2
-2024-09-30,GVA Current,Defense Etc,9.675,83.2
-2024-09-30,GVA Current,GVA,66.686,83.2
-2024-09-30,GVA Current,Net Taxes,8.2,83.2
-2024-12-31,GDP Constant,PFCE,26.541,83.2
-2024-12-31,GDP Constant,GFCE,4.378,83.2
-2024-12-31,GDP Constant,GFCF,14.365,83.2
-2024-12-31,GDP Constant,CIS,0.48,83.2
-2024-12-31,GDP Constant,Valuables,0.021,83.2
-2024-12-31,GDP Constant,Exports,10.204,83.2
-2024-12-31,GDP Constant,Imports,-11.612,83.2
-2024-12-31,GDP Constant,Discrepancies,0.283,83.2
-2024-12-31,GDP Constant,GDP,44.659,83.2
-2024-12-31,GDP Current,PFCE,51.706,83.2
-2024-12-31,GDP Current,GFCE,8.345,83.2
-2024-12-31,GDP Current,GFCF,22.586,83.2
-2024-12-31,GDP Current,CIS,0.112,83.2
-2024-12-31,GDP Current,Valuables,0.808,83.2
-2024-12-31,GDP Current,Exports,17.333,83.2
-2024-12-31,GDP Current,Imports,-18.598,83.2
-2024-12-31,GDP Current,Discrepancies ,-0.398,83.2
-2024-12-31,GDP Current,GDP,81.894,83.2
-2024-12-31,GVA Constant,Agriculture,7.192,83.2
-2024-12-31,GVA Constant,Mining,0.911,83.2
-2024-12-31,GVA Constant,Manufacturing,7.018,83.2
-2024-12-31,GVA Constant,Electricity & Utilities,0.928,83.2
-2024-12-31,GVA Constant,Construction,3.882,83.2
-2024-12-31,GVA Constant,"Trade Hotal, Comm",8.047,83.2
-2024-12-31,GVA Constant,Financial Services,8.583,83.2
-2024-12-31,GVA Constant,Defense Etc,5.295,83.2
-2024-12-31,GVA Constant,GVA,41.856,83.2
-2024-12-31,GVA Constant,Net Taxes,3.691,83.2
-2024-12-31,GVA Current,Agriculture,15.114,83.2
-2024-12-31,GVA Current,Mining,1.542,83.2
-2024-12-31,GVA Current,Manufacturing,9.417,83.2
-2024-12-31,GVA Current,Electricity & Utilities,1.987,83.2
-2024-12-31,GVA Current,Construction,5.944,83.2
-2024-12-31,GVA Current,"Trade Hotal, Comm",12.83,83.2
-2024-12-31,GVA Current,Financial Services,14.278,83.2
-2024-12-31,GVA Current,Defense Etc,9.82,83.2
-2024-12-31,GVA Current,GVA,70.933,83.2
-2024-12-31,GVA Current,Net Taxes,8.485,83.2
-2025-03-31,GDP Constant,PFCE,26.462,83.2
-2025-03-31,GDP Constant,GFCE,4.458,83.2
-2025-03-31,GDP Constant,GFCF,14.498,83.2
-2025-03-31,GDP Constant,CIS,0.439,83.2
-2025-03-31,GDP Constant,Valuables,0.333,83.2
-2025-03-31,GDP Constant,Exports,10.28,83.2
-2025-03-31,GDP Constant,Imports,-11.695,83.2
-2025-03-31,GDP Constant,Discrepancies,0.281,83.2
-2025-03-31,GDP Constant,GDP,45.058,83.2
-2025-03-31,GDP Current,PFCE,51.295,83.2
-2025-03-31,GDP Current,GFCE,8.476,83.2
-2025-03-31,GDP Current,GFCF,24.205,83.2
-2025-03-31,GDP Current,CIS,0.115,83.2
-2025-03-31,GDP Current,Valuables,0.813,83.2
-2025-03-31,GDP Current,Exports,17.536,83.2
-2025-03-31,GDP Current,Imports,-18.81,83.2
-2025-03-31,GDP Current,Discrepancies ,-0.404,83.2
-2025-03-31,GDP Current,GDP,83.227,83.2
-2025-03-31,GVA Constant,Agriculture,6.801,83.2
-2025-03-31,GVA Constant,Mining,0.976,83.2
-2025-03-31,GVA Constant,Manufacturing,7.542,83.2
-2025-03-31,GVA Constant,Electricity & Utilities,0.934,83.2
-2025-03-31,GVA Constant,Construction,3.978,83.2
-2025-03-31,GVA Constant,"Trade Hotal, Comm",8.403,83.2
-2025-03-31,GVA Constant,Financial Services,8.593,83.2
-2025-03-31,GVA Constant,Defense Etc,5.343,83.2
-2025-03-31,GVA Constant,GVA,42.569,83.2
-2025-03-31,GVA Constant,Net Taxes,3.736,83.2
-2025-03-31,GVA Current,Agriculture,14.802,83.2
-2025-03-31,GVA Current,Mining,1.716,83.2
-2025-03-31,GVA Current,Manufacturing,10.016,83.2
-2025-03-31,GVA Current,Electricity & Utilities,2.017,83.2
-2025-03-31,GVA Current,Construction,6.432,83.2
-2025-03-31,GVA Current,"Trade Hotal, Comm",13.373,83.2
-2025-03-31,GVA Current,Financial Services,14.406,83.2
-2025-03-31,GVA Current,Defense Etc,9.963,83.2
-2025-03-31,GVA Current,GVA,72.726,83.2
-2025-03-31,GVA Current,Net Taxes,8.124,83.2
+2024-06-30,GDP Constant,PFCE,24.814,83.2
+2024-06-30,GDP Constant,GFCE,4.381,83.2
+2024-06-30,GDP Constant,GFCF,15.031,83.2
+2024-06-30,GDP Constant,CIS,0.346,83.2
+2024-06-30,GDP Constant,Valuables,0.297,83.2
+2024-06-30,GDP Constant,Exports,9.059,83.2
+2024-06-30,GDP Constant,Imports,-11.832,83.2
+2024-06-30,GDP Constant,Discrepancies,1.223,83.2
+2024-06-30,GDP Constant,GDP,43.319,83.2
+2024-06-30,GDP Current,PFCE,45.795,83.2
+2024-06-30,GDP Current,GFCE,8.036,83.2
+2024-06-30,GDP Current,GFCF,22.441,83.2
+2024-06-30,GDP Current,CIS,0.505,83.2
+2024-06-30,GDP Current,Valuables,0.478,83.2
+2024-06-30,GDP Current,Exports,16.415,83.2
+2024-06-30,GDP Current,Imports,-18.211,83.2
+2024-06-30,GDP Current,Discrepancies ,1.212,83.2
+2024-06-30,GDP Current,GDP,76.672,83.2
+2024-06-30,GVA Constant,Agriculture,5.515,83.2
+2024-06-30,GVA Constant,Mining,0.94,83.2
+2024-06-30,GVA Constant,Manufacturing,7.165,83.2
+2024-06-30,GVA Constant,Electricity & Utilities,0.995,83.2
+2024-06-30,GVA Constant,Construction,3.202,83.2
+2024-06-30,GVA Constant,"Trade Hotal, Comm",6.97,83.2
+2024-06-30,GVA Constant,Financial Services,10.615,83.2
+2024-06-30,GVA Constant,Defense Etc,5.093,83.2
+2024-06-30,GVA Constant,GVA,40.494,83.2
+2024-06-30,GVA Constant,Net Taxes,2.824,83.2
+2024-06-30,GVA Current,Agriculture,11.494,83.2
+2024-06-30,GVA Current,Mining,1.681,83.2
+2024-06-30,GVA Current,Manufacturing,9.935,83.2
+2024-06-30,GVA Current,Electricity & Utilities,2.116,83.2
+2024-06-30,GVA Current,Construction,5.376,83.2
+2024-06-30,GVA Current,"Trade Hotal, Comm",11.156,83.2
+2024-06-30,GVA Current,Financial Services,17.087,83.2
+2024-06-30,GVA Current,Defense Etc,10.407,83.2
+2024-06-30,GVA Current,GVA,69.252,83.2
+2024-06-30,GVA Current,Net Taxes,7.42,83.2
+2024-09-30,GDP Constant,PFCE,25.431,83.2
+2024-09-30,GDP Constant,GFCE,4.008,83.2
+2024-09-30,GDP Constant,GFCF,15.794,83.2
+2024-09-30,GDP Constant,CIS,0.366,83.2
+2024-09-30,GDP Constant,Valuables,1.115,83.2
+2024-09-30,GDP Constant,Exports,10.387,83.2
+2024-09-30,GDP Constant,Imports,-13.454,83.2
+2024-09-30,GDP Constant,Discrepancies,1.143,83.2
+2024-09-30,GDP Constant,GDP,44.79,83.2
+2024-09-30,GDP Current,PFCE,47.439,83.2
+2024-09-30,GDP Current,GFCE,7.583,83.2
+2024-09-30,GDP Current,GFCF,23.288,83.2
+2024-09-30,GDP Current,CIS,0.531,83.2
+2024-09-30,GDP Current,Valuables,1.747,83.2
+2024-09-30,GDP Current,Exports,17.045,83.2
+2024-09-30,GDP Current,Imports,-18.94,83.2
+2024-09-30,GDP Current,Discrepancies ,-0.941,83.2
+2024-09-30,GDP Current,GDP,77.753,83.2
+2024-09-30,GVA Constant,Agriculture,4.672,83.2
+2024-09-30,GVA Constant,Mining,0.764,83.2
+2024-09-30,GVA Constant,Manufacturing,7.677,83.2
+2024-09-30,GVA Constant,Electricity & Utilities,1.033,83.2
+2024-09-30,GVA Constant,Construction,3.272,83.2
+2024-09-30,GVA Constant,"Trade Hotal, Comm",7.596,83.2
+2024-09-30,GVA Constant,Financial Services,10.612,83.2
+2024-09-30,GVA Constant,Defense Etc,5.457,83.2
+2024-09-30,GVA Constant,GVA,41.082,83.2
+2024-09-30,GVA Constant,Net Taxes,3.708,83.2
+2024-09-30,GVA Current,Agriculture,10.198,83.2
+2024-09-30,GVA Current,Mining,1.425,83.2
+2024-09-30,GVA Current,Manufacturing,10.587,83.2
+2024-09-30,GVA Current,Electricity & Utilities,2.13,83.2
+2024-09-30,GVA Current,Construction,5.374,83.2
+2024-09-30,GVA Current,"Trade Hotal, Comm",12.291,83.2
+2024-09-30,GVA Current,Financial Services,17.27,83.2
+2024-09-30,GVA Current,Defense Etc,10.658,83.2
+2024-09-30,GVA Current,GVA,69.934,83.2
+2024-09-30,GVA Current,Net Taxes,7.819,83.2
+2024-12-31,GDP Constant,PFCE,27.316,83.2
+2024-12-31,GDP Constant,GFCE,4.611,83.2
+2024-12-31,GDP Constant,GFCF,16.749,83.2
+2024-12-31,GDP Constant,CIS,0.359,83.2
+2024-12-31,GDP Constant,Valuables,0.356,83.2
+2024-12-31,GDP Constant,Exports,10.702,83.2
+2024-12-31,GDP Constant,Imports,-12.194,83.2
+2024-12-31,GDP Constant,Discrepancies,0.211,83.2
+2024-12-31,GDP Constant,GDP,48.109,83.2
+2024-12-31,GDP Current,PFCE,51.311,83.2
+2024-12-31,GDP Current,GFCE,8.714,83.2
+2024-12-31,GDP Current,GFCF,25.05,83.2
+2024-12-31,GDP Current,CIS,0.518,83.2
+2024-12-31,GDP Current,Valuables,0.595,83.2
+2024-12-31,GDP Current,Exports,18.147,83.2
+2024-12-31,GDP Current,Imports,-19.488,83.2
+2024-12-31,GDP Current,Discrepancies ,-1.166,83.2
+2024-12-31,GDP Current,GDP,83.681,83.2
+2024-12-31,GVA Constant,Agriculture,7.112,83.2
+2024-12-31,GVA Constant,Mining,1.03,83.2
+2024-12-31,GVA Constant,Manufacturing,7.537,83.2
+2024-12-31,GVA Constant,Electricity & Utilities,0.987,83.2
+2024-12-31,GVA Constant,Construction,4.144,83.2
+2024-12-31,GVA Constant,"Trade Hotal, Comm",8.689,83.2
+2024-12-31,GVA Constant,Financial Services,8.784,83.2
+2024-12-31,GVA Constant,Defense Etc,5.6,83.2
+2024-12-31,GVA Constant,GVA,43.883,83.2
+2024-12-31,GVA Constant,Net Taxes,4.226,83.2
+2024-12-31,GVA Current,Agriculture,15.244,83.2
+2024-12-31,GVA Current,Mining,1.796,83.2
+2024-12-31,GVA Current,Manufacturing,10.334,83.2
+2024-12-31,GVA Current,Electricity & Utilities,2.269,83.2
+2024-12-31,GVA Current,Construction,6.676,83.2
+2024-12-31,GVA Current,"Trade Hotal, Comm",13.816,83.2
+2024-12-31,GVA Current,Financial Services,14.432,83.2
+2024-12-31,GVA Current,Defense Etc,10.754,83.2
+2024-12-31,GVA Current,GVA,75.321,83.2
+2024-12-31,GVA Current,Net Taxes,8.36,83.2
+2025-03-31,GDP Constant,PFCE,27.316,83.2
+2025-03-31,GDP Constant,GFCE,4.611,83.2
+2025-03-31,GDP Constant,GFCF,16.749,83.2
+2025-03-31,GDP Constant,CIS,0.359,83.2
+2025-03-31,GDP Constant,Valuables,0.356,83.2
+2025-03-31,GDP Constant,Exports,10.702,83.2
+2025-03-31,GDP Constant,Imports,-12.194,83.2
+2025-03-31,GDP Constant,Discrepancies,0.211,83.2
+2025-03-31,GDP Constant,GDP,48.109,83.2
+2025-03-31,GDP Current,PFCE,51.311,83.2
+2025-03-31,GDP Current,GFCE,8.714,83.2
+2025-03-31,GDP Current,GFCF,25.05,83.2
+2025-03-31,GDP Current,CIS,0.518,83.2
+2025-03-31,GDP Current,Valuables,0.595,83.2
+2025-03-31,GDP Current,Exports,18.147,83.2
+2025-03-31,GDP Current,Imports,-19.488,83.2
+2025-03-31,GDP Current,Discrepancies ,-1.166,83.2
+2025-03-31,GDP Current,GDP,83.681,83.2
+2025-03-31,GVA Constant,Agriculture,7.112,83.2
+2025-03-31,GVA Constant,Mining,1.03,83.2
+2025-03-31,GVA Constant,Manufacturing,7.537,83.2
+2025-03-31,GVA Constant,Electricity & Utilities,0.987,83.2
+2025-03-31,GVA Constant,Construction,4.144,83.2
+2025-03-31,GVA Constant,"Trade Hotal, Comm",8.689,83.2
+2025-03-31,GVA Constant,Financial Services,8.784,83.2
+2025-03-31,GVA Constant,Defense Etc,5.6,83.2
+2025-03-31,GVA Constant,GVA,43.883,83.2
+2025-03-31,GVA Constant,Net Taxes,4.226,83.2
+2025-03-31,GVA Current,Agriculture,15.244,83.2
+2025-03-31,GVA Current,Mining,1.796,83.2
+2025-03-31,GVA Current,Manufacturing,10.334,83.2
+2025-03-31,GVA Current,Electricity & Utilities,2.269,83.2
+2025-03-31,GVA Current,Construction,6.676,83.2
+2025-03-31,GVA Current,"Trade Hotal, Comm",13.816,83.2
+2025-03-31,GVA Current,Financial Services,14.432,83.2
+2025-03-31,GVA Current,Defense Etc,10.754,83.2
+2025-03-31,GVA Current,GVA,75.321,83.2
+2025-03-31,GVA Current,Net Taxes,8.36,83.2
