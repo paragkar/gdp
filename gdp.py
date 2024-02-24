@@ -256,7 +256,7 @@ def createslider(pivot_df):
 
     # Use an integer slider
     selected_indices = st.slider(
-        "Select Quarter",
+        "Select Quarters to View",
         min_value=0,
         max_value=len(date_range) - 1,
         value=(default_index, len(date_range) - 1),
