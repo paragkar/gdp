@@ -254,9 +254,6 @@ timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
 feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth"])
 
 
-if timescale == "Quarter":
-    round_number = st.slider("Select Auction Round Numbers using the Silder below", 1,100, (50,75))
-
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 
@@ -268,6 +265,10 @@ pivot_df = pivot_df[(pivot_df.index != filter_desc)]
 
 pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 total_df = total_df.replace(0, np.nan).dropna(axis=1)
+
+st.write(pivot_df)
+if timescale == "Quarter":
+    round_number = st.slider("Select Auction Round Numbers using the Silder below", 1,100, (50,75))
 
 
 if pivot_df.shape[0] != 0:
