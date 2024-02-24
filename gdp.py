@@ -272,23 +272,31 @@ total_df = total_df.replace(0, np.nan).dropna(axis=1)
 #Processing Slider in case timescale chosen is Quarter
 
 if timescale == "Quarter":
+    slider_min_date = pivot_df.columns.min().to_pydatetime()
+    slider_max_date = pivot_df.columns.max().to_pydatetime()
 
-    slider_min = pivot_df.columns[0].date()
-    slider_max = pivot_df.columns[-1].date()
-    date_range = pd.date_range(start=slider_min, end=slider_max + relativedelta(months=3), freq='Q').date[:-1]
-    first_slider_point = slider_max - relativedelta(months=+3 * 8)
+    # Create a list of quarter-end dates within the range
+    date_range = pd.date_range(start=slider_min_date, end=slider_max_date, freq='Q').to_pydatetime().tolist()
 
-    # Use the date range for the slider
-     # Configure the slider
-    selected_min, selected_max = st.slider(
-        "Datetime slider",
-        options=date_range,
-        value=(first_slider_point, slider_max),
-        format="yyyy-MM-dd",    
+    # Create a mapping of indices to dates
+    index_to_date = {i: date for i, date in enumerate(date_range)}
+
+    # Find index for the default point 8 quarters back
+    default_index = max(0, len(date_range) - 8)
+
+    # Use an integer slider
+    selected_indices = st.slider(
+        "Select Quarter",
+        min_value=0,
+        max_value=len(date_range) - 1,
+        value=(default_index, len(date_range) - 1),
+        format="%d"
     )
 
-    st.write("Selected range:", selected_min, selected_max)
+    # Map indices back to dates
+    selected_min, selected_max = index_to_date[selected_indices[0]], index_to_date[selected_indices[1]]
 
+    st.write("Selected range:", selected_min, selected_max)
 
 if pivot_df.shape[0] != 0:
 
