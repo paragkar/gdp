@@ -340,7 +340,14 @@ if pivot_df.shape[0] != 0:
     combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
     combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
 
-    combined_fig.update_xaxes(tickvals=pivot_df.columns.unique(), ticktext=[str(year) for year in pivot_df.columns.unique()], row=2, col=1)
+    #Setting of dtick of the final bar chart
+    if timescale == 'FYear':
+        combined_fig.update_xaxes(tickvals=pivot_df.columns.unique(), ticktext=[str(year) for year in pivot_df.columns.unique()], row=2, col=1)
+    if timescale == 'Quarter':
+        years = [x for x in pivot_df.columns.year]
+        st.write(years)
+        # combined_fig.update_xaxes(tickvals=pivot_df.columns.unique(), ticktext=[str(year) for year in pivot_df.columns.unique()], row=2, col=1)
+
 
     #Making the y-axis of the chart start from the point more than Zero
     min_value = total_df[dimension].min()  # Find the minimum value in the column totals
