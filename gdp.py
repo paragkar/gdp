@@ -268,13 +268,16 @@ pivot_df = pivot_df[(pivot_df.index != filter_desc)]
 pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 total_df = total_df.replace(0, np.nan).dropna(axis=1)
 
-slider_min = pivot_df.columns[0].date()
-slider_max = pivot_df.columns[-1].date()
 
-slider_point = slider_max + relativedelta(months=+3 * 8)
+#Processing Slider in case timescale chosen is Quarter
 
 if timescale == "Quarter":
-    round_number = st.slider("Select Auction Round Numbers using the Silder below", slider_min,slider_max, (slider_point,slider_max))
+
+    slider_min = pivot_df.columns[0].date()
+    slider_max = pivot_df.columns[-1].date()
+    slider_point = slider_max + relativedelta(months=+3 * 8)
+    qtrnos = st.slider("Select Auction Round Numbers using the Silder below", slider_min,slider_max, (slider_point,slider_max))
+    st.write(qtrnos)
 
 
 if pivot_df.shape[0] != 0:
