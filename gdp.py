@@ -3,6 +3,8 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import streamlit as st
 import numpy as np
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 
 #Set page layout here
@@ -269,10 +271,10 @@ total_df = total_df.replace(0, np.nan).dropna(axis=1)
 slider_min = pivot_df.columns[0].date()
 slider_max = pivot_df.columns[-1].date()
 
-st.write(slider_max)
+slider_point = slider_max + relativedelta(months=+3 * 8)
 
 if timescale == "Quarter":
-    round_number = st.slider("Select Auction Round Numbers using the Silder below", slider_min,slider_max, (slider_min,slider_max))
+    round_number = st.slider("Select Auction Round Numbers using the Silder below", slider_min,slider_max, (slider_point,slider_max))
 
 
 if pivot_df.shape[0] != 0:
