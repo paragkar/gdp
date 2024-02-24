@@ -298,9 +298,6 @@ total_df = total_df.replace(0, np.nan).dropna(axis=1)
 pivot_df = pivot_df[(pivot_df.index != filter_desc)]
 pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 
-tab1, tab2 = st.tabs(["Current", "Forecast"]) #debug
-
-st.write(tab1)
 
 if pivot_df.shape[0] != 0:
 
@@ -422,7 +419,7 @@ if pivot_df.shape[0] != 0:
     # combined_fig.update_yaxes(title_text="Y-axis Title for Fig2", row=2, col=1)
 
     # Display the combined figure in Streamlit
-    tab1.plotly_chart(combined_fig, use_container_width=True)
+    st.plotly_chart(combined_fig, use_container_width=True)
 
 
 
