@@ -242,7 +242,7 @@ def createslider(pivot_df):
     slider_max_date = pivot_df.columns.max().to_pydatetime()
 
     # Create a list of quarter-end dates within the range
-    date_range = pd.date_range(start=slider_min_date, end=slider_max_date, freq='Q').to_pydatetime().tolist()
+    date_range = pd.date_range(start=slider_min_date, end=slider_max_date, freq='QE').to_pydatetime().tolist()
 
     # Create a mapping of indices to dates
     index_to_date = {i: date for i, date in enumerate(date_range)}
