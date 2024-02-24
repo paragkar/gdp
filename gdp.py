@@ -253,7 +253,9 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 
-st.write(pivot_df)
+#filtering aggregrated GDP & GVA values from the heatmap
+filter_desc = dimension.split(" ")[0]
+pivot_df = pivot_df[~(pivot_df["Description"] == filter_desc)]
 
 if pivot_df.shape[0] != 0:
 
