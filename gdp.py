@@ -276,7 +276,7 @@ if timescale == "Quarter":
     slider_min = pivot_df.columns[0].date()
     slider_max = pivot_df.columns[-1].date()
     slider_point = slider_max + relativedelta(months=+3 * 8)
-    qtrnos = st.slider("Select Auction Round Numbers using the Silder below", slider_min,slider_max, (slider_point,slider_max), steps = 3)
+    qtrnos = st.slider("Select Auction Round Numbers using the Silder below", slider_min,slider_max, (slider_point,slider_max))
     st.write(qtrnos)
 
 
