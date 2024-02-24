@@ -269,7 +269,6 @@ def createslider(pivot_df):
 #load data
 df = loadgdpgva()
 
-
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
 
@@ -281,7 +280,6 @@ timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
 
 #choose a feature
 feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth"])
-
 
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
@@ -299,6 +297,10 @@ pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 #Processing Slider in case timescale chosen is Quarter
 if timescale == "Quarter":
     selected_min, selected_max = createslider(pivot_df)
+else:
+    pass
+
+st.write(pivot_df)
 
 
 if pivot_df.shape[0] != 0:
