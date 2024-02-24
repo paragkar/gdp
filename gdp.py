@@ -345,7 +345,7 @@ if pivot_df.shape[0] != 0:
     #Making the y-axis of the chart start from the point more than Zero
     min_value = total_df[dimension].min()  # Find the minimum value in the column totals
     start_y = min_value * 0.85  # Calculate 90% of the minimum value
-    end_y = total_df[dimension].max()*1.25 #set the maximum value of y-axis as 120% of the max bar
+    end_y = total_df[dimension].max()*1.3 #set the maximum value of y-axis as 120% of the max bar
     combined_fig.update_yaxes(range=[start_y, end_y], row=2, col=1)
 
     # Update x-axis and y-axis titles if needed
