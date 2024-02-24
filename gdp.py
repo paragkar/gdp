@@ -367,18 +367,23 @@ if pivot_df.shape[0] != 0:
     line_color = 'lightgrey'  # Light color for the lines
     line_width = 1  # Thin lines
 
-    # Iterate over the x-axis tick values of the bar chart to draw vertical lines
-    for x_value in total_df[timescale]:
+    # Determine the x-axis positions for the vertical lines
+    x_positions = total_df[timescale].unique()
+
+    # Add vertical lines for each x-axis position
+    for x_pos in x_positions:
         combined_fig.add_shape(
-            type='line',
-            xref='x2',  # Referencing the x-axis of the second subplot
-            yref='y2',  # Referencing the y-axis of the second subplot
-            x0=x_value,
-            y0=0,  # Starting at the bottom of the subplot
-            x1=x_value,
-            y1=1,  # Ending at the top of the subplot
-            line=dict(color=line_color, width=line_width),
-            layer='below'  # Ensures the line is drawn below the bars
+            # Line Vertical
+            dict(
+                type="line",
+                x0=x_pos, y0=0, x1=x_pos, y1=1,
+                xref='x2', yref='paper',
+                line=dict(
+                    color="LightGrey",
+                    width=1
+                ),
+            ),
+            row=2, col=1
         )
 
 
