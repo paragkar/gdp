@@ -301,6 +301,7 @@ if pivot_df.shape[0] != 0:
         combined_fig.add_trace(trace, row=1, col=1)
 
     # Add each trace from your second figure to the second row of the subplot
+    # Add only if the the feature is not Pecent as the total_df data is irrelevent for this situation
 
     if feature != "Percent":
         for trace in fig2.data:
