@@ -422,7 +422,7 @@ if pivot_df.shape[0] != 0:
     # combined_fig.update_yaxes(title_text="Y-axis Title for Fig2", row=2, col=1)
 
     # Display the combined figure in Streamlit
-    st.plotly_chart(combined_fig, use_container_width=True)
+    tab1.plotly_chart(combined_fig, use_container_width=True)
 
 
 
