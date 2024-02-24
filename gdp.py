@@ -259,18 +259,18 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 
-#filtering aggregrated GDP & GVA values from the heatmap
 filter_desc = dimension.split(" ")[0]
+
 #Extract the bar chart datframe first from the combined dataframe
 total_df = pivot_df[~(pivot_df.index != filter_desc)]
-pivot_df = pivot_df[(pivot_df.index != filter_desc)]
-
-pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 total_df = total_df.replace(0, np.nan).dropna(axis=1)
+
+#filtering aggregrated GDP & GVA values from the heatmap
+pivot_df = pivot_df[(pivot_df.index != filter_desc)]
+pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 
 
 #Processing Slider in case timescale chosen is Quarter
-
 if timescale == "Quarter":
     slider_min_date = pivot_df.columns.min().to_pydatetime()
     slider_max_date = pivot_df.columns.max().to_pydatetime()
@@ -297,6 +297,8 @@ if timescale == "Quarter":
     selected_min, selected_max = index_to_date[selected_indices[0]], index_to_date[selected_indices[1]]
 
     st.write("Selected range:", selected_min, selected_max)
+
+
 
 if pivot_df.shape[0] != 0:
 
