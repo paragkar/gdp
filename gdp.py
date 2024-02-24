@@ -301,8 +301,10 @@ if pivot_df.shape[0] != 0:
         combined_fig.add_trace(trace, row=1, col=1)
 
     # Add each trace from your second figure to the second row of the subplot
-    for trace in fig2.data:
-        combined_fig.add_trace(trace, row=2, col=1)
+
+    if feature != "Percent":
+        for trace in fig2.data:
+            combined_fig.add_trace(trace, row=2, col=1)
 
     #processing title text
     title_text = chart_heading(dimension,curreny,timescale,feature)
