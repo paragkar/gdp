@@ -314,6 +314,12 @@ if pivot_df.shape[0] != 0:
         width=1200,  # Adjust width as needed
         height=640,  # Adjust height as needed to accommodate stacked layout
         title_font=dict(size=24, family="Arial, sans-serif", color="RebeccaPurple"),
+         # Customizing x-axis properties
+        xaxis=dict(
+        tickmode='linear',  # Set tick mode to linear for consistent spacing
+        dtick="M12",  # Set dtick to 12 months to ensure a tick for every year
+        tickformat="%Y",  # Ensure the tick labels are formatted to show only the year
+    ),
     )
 
 
