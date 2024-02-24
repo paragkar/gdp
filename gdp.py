@@ -250,12 +250,12 @@ curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 #choose a time scale
 timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
 
-if timescale == "Quarter":
-    round_number = st.slider("Select Auction Round Numbers using the Silder below", min_value=1, max_value=100, step=1, value = 100)
-
-
 #choose a feature
 feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth"])
+
+
+if timescale == "Quarter":
+    round_number = st.slider("Select Auction Round Numbers using the Silder below", 1,100, (50,75))
 
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
