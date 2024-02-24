@@ -321,10 +321,13 @@ if pivot_df.shape[0] != 0:
 
 
     #Adding border in both the charts
+    #Do not draw border in the chart in the feature is "Percent"
     if feature == "Percent":
-        border_color ="White"
+        x1 = 0
+        y1 = 0
     else:
-        border_color = "Black"
+        x1 = 1
+        y1 = 0.2
 
     combined_fig.update_layout(
         shapes=[
@@ -341,8 +344,8 @@ if pivot_df.shape[0] != 0:
                 type="rect",
                 xref="paper", yref="paper",
                 x0=0, y0=0,  # Adjust these values based on the subplot's position
-                x1=1, y1=0.2,
-                line=dict(color=border_color, width=2),
+                x1=x1, y1=y1,
+                line=dict(color="Black", width=2),
             )
         ]
     )
