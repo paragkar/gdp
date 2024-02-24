@@ -192,9 +192,11 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
 def processing_currency(dimension, curreny, timescale, feature, df):
 
     #filtering aggregrated GDP & GVA values from the heatmap
-    # filter_desc = dimension.split(" ")[0]
+    filter_desc = dimension.split(" ")[0]
     df = df[df["Type"] == dimension]
     # df = df[(df["Description"] != filter_desc)]
+    if filter_desc == "GVA":
+        df = df[(df["Description"] != "Net Taxes")]
 
 
     #Processing values for Indian Rupees 
@@ -260,7 +262,6 @@ filter_desc = dimension.split(" ")[0]
 #Extract the bar chart datframe first from the combined dataframe
 total_df = pivot_df[~(pivot_df.index != filter_desc)]
 pivot_df = pivot_df[(pivot_df.index != filter_desc)]
-st.write(total_df)
 
 
 if pivot_df.shape[0] != 0:
