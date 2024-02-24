@@ -281,7 +281,7 @@ if timescale == "Quarter":
     # Use the date range for the slider
     qtrnos = st.slider("Select Auction Round Numbers using the Slider below", 
                        slider_min, slider_max, 
-                       (first_slider_point, slider_max), step =1)
+                       (first_slider_point, slider_max))
 
     st.write("Selected quarters:", qtrnos)
 
