@@ -250,6 +250,10 @@ curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 #choose a time scale
 timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
 
+if timescale == "Quarter":
+    round_number = st.slider("Select Auction Round Numbers using the Silder below", min_value=1, max_value=100, step=1, value = 100)
+
+
 #choose a feature
 feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth"])
 
