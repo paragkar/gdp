@@ -238,7 +238,9 @@ def chart_heading(dimension,curreny,timescale,feature):
 df = loadgdpgva()
 
 #extract dimensions
-Type = list(set(df["Type"]))
+# Type = list(set(df["Type"]))
+
+Type = ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"]
 
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', Type)
