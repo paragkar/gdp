@@ -299,7 +299,7 @@ pivot_df = pivot_df[(pivot_df.index != filter_desc)]
 pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 
 
-tab1, tab2 = st.tabs(["📈 Chart", "🗃 Data"]) #debug
+tab1, tab2 = st.tabs(["Current", "Forecast"]) #debug
 
 
 if pivot_df.shape[0] != 0:
