@@ -44,11 +44,15 @@ def process_hovertext(df, timescale):
 
 
 #processing for texttemplete of heatmap
-def process_texttemplete(timescale):
+def process_texttemplete(timescale, selected_cols):
 
     if timescale == "Quarter":
+        if len(selected_cols) > 10
         texttemplate = ""
     else:
+        texttemplate = "%{text:.1f}"
+
+    if timescale == "FYear"
         texttemplate = "%{text:.1f}"
 
     return texttemplate
@@ -301,7 +305,7 @@ if timescale == "Quarter":
     pivot_df = pivot_df[selected_cols]
     total_df = total_df[selected_cols]
 else:
-    pass
+    selected_cols = pivot_df.columns
 
 
 if pivot_df.shape[0] != 0:
@@ -310,7 +314,7 @@ if pivot_df.shape[0] != 0:
     hovertext = process_hovertext(pivot_df, timescale)
 
     #processing texttemplete of heatmap
-    texttemplate = process_texttemplete(timescale)
+    texttemplate = process_texttemplete(timescale, selected_cols)
 
     #creating heatmap
     heatmap_data = create_heatmap_data(pivot_df,hovertext, texttemplate)
