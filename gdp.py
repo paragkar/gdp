@@ -190,11 +190,9 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
 def processing_currency(dimension, curreny, timescale, feature, df):
 
     #filtering aggregrated GDP & GVA values from the heatmap
-    # filter_desc = dimension.split(" ")[0]
-    filter_desc = ["GDP", "GVA"]
+    filter_desc = dimension.split(" ")[0]
     df = df[df["Type"] == dimension]
-    # df = df[(df["Description"] != filter_desc)]
-    df = df[(df["Description"] not in filter_desc)]
+    df = df[(df["Description"] != filter_desc)]
 
 
     #Processing values for Indian Rupees 
