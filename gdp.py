@@ -363,6 +363,24 @@ if pivot_df.shape[0] != 0:
         years = sorted(set([x for x in pivot_df.columns.year]))
         combined_fig.update_xaxes(tickvals=years, ticktext=[str(year) for year in years], row=2, col=1)
 
+    # Define the vertical line properties
+    line_color = 'lightgrey'  # Light color for the lines
+    line_width = 1  # Thin lines
+
+    # Iterate over the x-axis tick values of the bar chart to draw vertical lines
+    for x_value in total_df[timescale]:
+        combined_fig.add_shape(
+            type='line',
+            xref='x2',  # Referencing the x-axis of the second subplot
+            yref='y2',  # Referencing the y-axis of the second subplot
+            x0=x_value,
+            y0=0,  # Starting at the bottom of the subplot
+            x1=x_value,
+            y1=1,  # Ending at the top of the subplot
+            line=dict(color=line_color, width=line_width),
+            layer='below'  # Ensures the line is drawn below the bars
+        )
+
 
     #Making the y-axis of the chart start from the point more than Zero
     min_value = total_df[dimension].min()  # Find the minimum value in the column totals
