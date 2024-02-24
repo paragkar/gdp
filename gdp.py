@@ -302,7 +302,6 @@ if pivot_df.shape[0] != 0:
 
     # Add each trace from your second figure to the second row of the subplot
     # Add only if the the feature is not Pecent as the total_df data is irrelevent for this situation
-
     if feature != "Percent":
         for trace in fig2.data:
             combined_fig.add_trace(trace, row=2, col=1)
@@ -321,6 +320,12 @@ if pivot_df.shape[0] != 0:
     )
 
 
+    #Adding border in both the charts
+    if feature != "Percent":
+        border_color ="White"
+    else:
+        border_color ="Black"
+
     combined_fig.update_layout(
         shapes=[
             # Rectangle border for the first subplot
@@ -337,7 +342,7 @@ if pivot_df.shape[0] != 0:
                 xref="paper", yref="paper",
                 x0=0, y0=0,  # Adjust these values based on the subplot's position
                 x1=1, y1=0.2,
-                line=dict(color="Black", width=2),
+                line=dict(color=border_color, width=2),
             )
         ]
     )
