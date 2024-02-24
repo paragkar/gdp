@@ -190,9 +190,9 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
 def processing_currency(dimension, curreny, timescale, feature, df):
 
     #filtering aggregrated GDP & GVA values from the heatmap
-    # filter_desc = dimension.split(" ")[0]
+    filter_desc = dimension.split(" ")[0]
     df = df[df["Type"] == dimension]
-    # df = df[(df["Description"] != filter_desc)]
+    df = df[(df["Description"] != filter_desc)]
 
 
     #Processing values for Indian Rupees 
@@ -252,15 +252,6 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
-
-#filtering aggregrated GDP & GVA values from the heatmap
-filter_desc = dimension.split(" ")[0]
-
-filter_desc_df = pivot_df[(pivot_df.index == filter_desc)]
-
-st.write(filter_desc_df)
-
-# pivot_df = pivot_df[~(pivot_df.index == filter_desc)]
 
 
 if pivot_df.shape[0] != 0:
