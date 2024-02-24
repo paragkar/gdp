@@ -363,13 +363,9 @@ if pivot_df.shape[0] != 0:
         years = sorted(set([x for x in pivot_df.columns.year]))
         combined_fig.update_xaxes(tickvals=years, ticktext=[str(year) for year in years], row=2, col=1)
 
-    # Define the vertical line properties
-    line_color = 'lightgrey'  # Light color for the lines
-    line_width = 1  # Thin lines
 
     # Determine the x-axis positions for the vertical lines
     x_positions = total_df[timescale].unique()
-
     # Add vertical lines for each x-axis position
     for x_pos in x_positions:
         combined_fig.add_shape(
@@ -379,7 +375,7 @@ if pivot_df.shape[0] != 0:
                 x0=x_pos, y0=0, x1=x_pos, y1=1,
                 xref='x2', yref='paper',
                 line=dict(
-                    color="LightGrey",
+                    color="Black",
                     width=1
                 ),
             ),
