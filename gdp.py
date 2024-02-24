@@ -317,8 +317,9 @@ if pivot_df.shape[0] != 0:
          # Customizing x-axis properties
         xaxis=dict(
         tickmode='linear',  # Set tick mode to linear for consistent spacing
-        dtick="M12",  # Set dtick to 12 months to ensure a tick for every year
-        tickformat="%Y",  # Ensure the tick labels are formatted to show only the year
+        # dtick="M12",  # Set dtick to 12 months to ensure a tick for every year
+        dtick = 1,
+        # tickformat="%Y",  # Ensure the tick labels are formatted to show only the year
     ),
     )
 
