@@ -278,8 +278,6 @@ if timescale == "Quarter":
     # Generate a range of dates at quarterly intervals
     date_range = pd.date_range(start=slider_min, end=slider_max, freq='Q').date
 
-    st.write(date_range)
-
     # Slider max should be inclusive last quarter, so adjust it if necessary
     if slider_max not in date_range:
         date_range = pd.date_range(start=slider_min, end=slider_max + relativedelta(months=3), freq='Q').date
