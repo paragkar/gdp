@@ -299,10 +299,9 @@ if timescale == "Quarter":
     selected_min, selected_max = createslider(pivot_df)
     selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
     pivot_df = pivot_df[selected_cols]
+    total_df = total_df[selected_cols]
 else:
     pass
-
-st.write(pivot_df)
 
 
 if pivot_df.shape[0] != 0:
