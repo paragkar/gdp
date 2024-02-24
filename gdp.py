@@ -297,6 +297,8 @@ pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 #Processing Slider in case timescale chosen is Quarter
 if timescale == "Quarter":
     selected_min, selected_max = createslider(pivot_df)
+    selected_cols = [x for x in pivot_df.columns (if x <= selected_max) & (if x >= selected_min)]
+    pivot_df = pivot_df[selected_cols]
 else:
     pass
 
