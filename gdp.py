@@ -185,13 +185,8 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
         marker=dict(
         line=dict(color='Black', width=2)
         ),  # Sets the border color and width
-        xaxis=dict(
-        tickmode='linear',  # Set tick mode to linear for consistent spacing
-        dtick="M12",  # Set dtick to 12 months to ensure a tick for every year
-        tickformat="%Y",  # Ensure the tick labels are formatted to show only the year
-    )
-
-)
+        dtick =1
+        )
     return bar
 
 
