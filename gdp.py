@@ -107,7 +107,6 @@ def create_heatmap_data(df, hovertext, texttemplate):
     lower_bound = Q1 - 1.5 * IQR
     upper_bound = Q3 + 1.5 * IQR
 
-
     data = [go.Heatmap(
                   z = df.values,
                   x = df.columns,
@@ -278,10 +277,8 @@ if pivot_df.shape[0] != 0:
     #configuring heatmap
     fig1 = configuring_heatmap(fig1)
 
+
     #processing chart for total of all columns 
-    # coltotaldf = pivot_df.sum(axis=0).round(1).reset_index()
-    # coltotaldf.columns =[timescale, dimension]
-    # bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
     total_df = total_df.T.reset_index()
     total_df.columns =[timescale, dimension]
     bar_data = create_bar_chart_data(total_df, timescale, dimension)
@@ -343,6 +340,8 @@ if pivot_df.shape[0] != 0:
     combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
     combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
 
+    if timescale == 'FYear':
+    combined_fig.update_xaxes(tickvals=df['FYear'].unique(), ticktext=[str(year) for year in df['FYear'].unique()], row=2, col=1)
 
     #Making the y-axis of the chart start from the point more than Zero
     min_value = total_df[dimension].min()  # Find the minimum value in the column totals
