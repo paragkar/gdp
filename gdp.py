@@ -364,25 +364,6 @@ if pivot_df.shape[0] != 0:
         combined_fig.update_xaxes(tickvals=years, ticktext=[str(year) for year in years], row=2, col=1)
 
 
-    # # Determine the x-axis positions for the vertical lines
-    # x_positions = total_df[timescale].unique()
-    # # Add vertical lines for each x-axis position
-    # for x_pos in x_positions:
-    #     combined_fig.add_shape(
-    #         # Line Vertical
-    #         dict(
-    #             type="line",
-    #             x0=x_pos, y0=0, x1=x_pos, y1=1,
-    #             xref='x2', yref='paper',
-    #             line=dict(
-    #                 color="Black",
-    #                 width=1
-    #             ),
-    #         ),
-    #         row=2, col=1
-    #     )
-
-
     #Making the y-axis of the chart start from the point more than Zero
     min_value = total_df[dimension].min()  # Find the minimum value in the column totals
     start_y = min_value * 0.85  # Calculate 90% of the minimum value
