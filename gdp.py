@@ -279,19 +279,15 @@ if timescale == "Quarter":
     first_slider_point = slider_max - relativedelta(months=+3 * 8)
 
     # Use the date range for the slider
+     # Configure the slider
     selected_min, selected_max = st.slider(
-    "Datetime slider",
-    value=date_range,
-    step=datetime.datetime.timedelta(quarter=1),
-    min_value=first_slider_point,
-    max_value=slider_max,
-    format="YYYY-MM-DD",    
-)
-    # qtrnos = st.slider("Select Auction Round Numbers using the Slider below", 
-    #                    slider_min, slider_max, 
-    #                    (first_slider_point, slider_max))
+        "Datetime slider",
+        options=date_range,
+        value=(first_slider_point, slider_max),
+        format="yyyy-MM-dd",    
+    )
 
-    # st.write("Selected quarters:", qtrnos)
+    st.write("Selected range:", selected_min, selected_max)
 
 
 if pivot_df.shape[0] != 0:
