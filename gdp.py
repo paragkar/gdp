@@ -282,7 +282,7 @@ if timescale == "Quarter":
     selected_min, selected_max = st.slider(
     "Datetime slider",
     value=date_range,
-    step=datetime.timedelta(quarter=1),
+    step=datetime.datetime.timedelta(quarter=1),
     min_value=first_slider_point,
     max_value=slider_max,
     format="YYYY-MM-DD",    
