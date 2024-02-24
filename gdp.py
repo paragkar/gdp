@@ -242,7 +242,6 @@ def chart_heading(dimension,curreny,timescale,feature):
 
 #Create a slider for choosen timescale quarter
 def createslider(pivot_df):
-    st.write(pivot_df) #debug
     slider_min_date = pivot_df.columns.min().to_pydatetime()
     slider_max_date = pivot_df.columns.max().to_pydatetime()
 
@@ -300,16 +299,25 @@ pivot_df = pivot_df[(pivot_df.index != filter_desc)]
 pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 
 #Processing Slider in case timescale chosen is Quarter
-if timescale == "Quarter":
-    selected_min, selected_max = createslider(pivot_df)
-    selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
-    pivot_df = pivot_df[selected_cols]
-    total_df = total_df[selected_cols]
-else:
-    selected_cols = pivot_df.columns
+# if timescale == "Quarter":
+#     selected_min, selected_max = createslider(pivot_df)
+#     selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
+#     pivot_df = pivot_df[selected_cols]
+#     total_df = total_df[selected_cols]
+# else:
+#     selected_cols = pivot_df.columns
 
 
 if pivot_df.shape[0] != 0:
+
+    #Processing Slider in case timescale chosen is Quarter
+    if timescale == "Quarter":
+        selected_min, selected_max = createslider(pivot_df)
+        selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
+        pivot_df = pivot_df[selected_cols]
+        total_df = total_df[selected_cols]
+    else:
+        selected_cols = pivot_df.columns
 
     #processing hovertext of heatmap
     hovertext = process_hovertext(pivot_df, timescale)
