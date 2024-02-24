@@ -348,6 +348,7 @@ if pivot_df.shape[0] != 0:
     )
 
     combined_fig.update_xaxes(showticklabels=False, row=1, col=1)
+    combined_fig.update_xaxes(showticklabels=True, row=2, col=1)
     combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
     combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
 
