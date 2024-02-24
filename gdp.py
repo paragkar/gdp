@@ -47,7 +47,7 @@ def process_hovertext(df, timescale):
 def process_texttemplete(timescale, selected_cols):
 
     if timescale == "Quarter":
-        if len(selected_cols) > 10:
+        if len(selected_cols) > 20:
             texttemplate = ""
         else:
             texttemplate = "%{text:.1f}"
