@@ -52,7 +52,7 @@ def process_texttemplete(timescale, selected_cols):
         else:
             texttemplate = "%{text:.1f}"
 
-    if timescale == "FYear"
+    if timescale == "FYear":
         texttemplate = "%{text:.1f}"
 
     return texttemplate
