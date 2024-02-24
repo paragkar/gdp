@@ -338,6 +338,11 @@ if pivot_df.shape[0] != 0:
         ]
     )
 
+
+    combined_fig.update_xaxes(showticklabels=False, row=1, col=1)
+    combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
+    combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
+
     combined_fig.update_layout(
     # Customizing x-axis properties
     xaxis=dict(
@@ -346,12 +351,7 @@ if pivot_df.shape[0] != 0:
         tickformat="%Y",  # Ensure the tick labels are formatted to show only the year
     ),
     )
-
-    combined_fig.update_xaxes(showticklabels=False, row=1, col=1)
-    combined_fig.update_xaxes(showticklabels=True, row=2, col=1)
-    combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
-    combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
-
+    
     #Making the y-axis of the chart start from the point more than Zero
     min_value = total_df[dimension].min()  # Find the minimum value in the column totals
     start_y = min_value * 0.85  # Calculate 90% of the minimum value
