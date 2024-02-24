@@ -341,7 +341,7 @@ if pivot_df.shape[0] != 0:
     combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
 
     if timescale == 'FYear':
-    combined_fig.update_xaxes(tickvals=df['FYear'].unique(), ticktext=[str(year) for year in df['FYear'].unique()], row=2, col=1)
+        combined_fig.update_xaxes(tickvals=df['FYear'].unique(), ticktext=[str(year) for year in df['FYear'].unique()], row=2, col=1)
 
     #Making the y-axis of the chart start from the point more than Zero
     min_value = total_df[dimension].min()  # Find the minimum value in the column totals
