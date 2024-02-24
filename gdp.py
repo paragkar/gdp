@@ -184,7 +184,13 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
         orientation='v',  # Horizontal bar chart
         marker=dict(
         line=dict(color='Black', width=2)
-        )  # Sets the border color and width
+        ),  # Sets the border color and width
+        xaxis=dict(
+        tickmode='linear',  # Set tick mode to linear for consistent spacing
+        dtick="M12",  # Set dtick to 12 months to ensure a tick for every year
+        tickformat="%Y",  # Ensure the tick labels are formatted to show only the year
+    )
+
 )
     return bar
 
@@ -343,15 +349,7 @@ if pivot_df.shape[0] != 0:
     combined_fig.update_yaxes(showgrid=False, row=2, col=1)  # Removes horizontal grid lines
     combined_fig.update_yaxes(title_text="", row=2, col=1)   # Removes y-axis label
 
-    combined_fig.update_layout(
-    # Customizing x-axis properties
-    xaxis=dict(
-        tickmode='linear',  # Set tick mode to linear for consistent spacing
-        dtick="M12",  # Set dtick to 12 months to ensure a tick for every year
-        tickformat="%Y",  # Ensure the tick labels are formatted to show only the year
-    ),
-    )
-    
+
     #Making the y-axis of the chart start from the point more than Zero
     min_value = total_df[dimension].min()  # Find the minimum value in the column totals
     start_y = min_value * 0.85  # Calculate 90% of the minimum value
