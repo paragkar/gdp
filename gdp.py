@@ -266,7 +266,7 @@ pivot_df = pivot_df[(pivot_df.index != filter_desc)]
 pivot_df = pivot_df.replace(0,np.nan).dropna(axis=1)
 total_df = total_df.replace(0, np.nan).dropna(axis=1)
 
-st.write(pivot_df.columns)
+st.write(pivot_df.columns[0])
 if timescale == "Quarter":
     round_number = st.slider("Select Auction Round Numbers using the Silder below", 1,100, (50,75))
 
