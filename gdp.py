@@ -256,6 +256,8 @@ pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 #filtering aggregrated GDP & GVA values from the heatmap
 filter_desc = dimension.split(" ")[0]
 pivot_df = pivot_df[(pivot_df.index != filter_desc)]
+total_df = pivot_df[~(pivot_df.index != filter_desc)]
+st.write(total_df)
 
 
 if pivot_df.shape[0] != 0:
