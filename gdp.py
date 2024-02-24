@@ -344,7 +344,7 @@ if pivot_df.shape[0] != 0:
     if timescale == 'FYear':
         combined_fig.update_xaxes(tickvals=pivot_df.columns.unique(), ticktext=[str(year) for year in pivot_df.columns.unique()], row=2, col=1)
     if timescale == 'Quarter':
-        years = [x for x in pivot_df.columns.year]
+        years = sorted(set([x for x in pivot_df.columns.year]))
         st.write(years)
         # combined_fig.update_xaxes(tickvals=pivot_df.columns.unique(), ticktext=[str(year) for year in pivot_df.columns.unique()], row=2, col=1)
 
