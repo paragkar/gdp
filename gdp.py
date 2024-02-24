@@ -275,6 +275,8 @@ if timescale == "Quarter":
 
     slider_min = pivot_df.columns[0].date()
     slider_max = pivot_df.columns[-1].date()
+    date_range = pd.date_range(start=slider_min, end=slider_max + relativedelta(months=3), freq='Q').date()
+    st.write(date_range)
     first_slider_point = slider_max + relativedelta(months=+3 * 8)
 
     # Use the date range for the slider
