@@ -185,7 +185,6 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
         marker=dict(
         line=dict(color='Black', width=2)
         ),  # Sets the border color and width
-        dtick =1
         )
     return bar
 
