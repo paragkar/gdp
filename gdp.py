@@ -280,7 +280,7 @@ if pivot_df.shape[0] != 0:
     # bar_data = create_bar_chart_data(coltotaldf, timescale, dimension)
     total_df = total_df.T.reset_index()
     total_df.columns =[timescale, dimension]
-    bar_data = create_bar_chart_data(totaldf, timescale, dimension)
+    bar_data = create_bar_chart_data(total_df, timescale, dimension)
     fig2 = go.Figure(data=bar_data)
 
 
