@@ -252,7 +252,7 @@ def createslider(pivot_df):
     index_to_date = {i: date for i, date in enumerate(date_range)}
 
     # Find index for the default point 8 quarters back
-    default_index = max(0, len(date_range) - 8)
+    default_index = max(0, len(date_range) - 20)
 
     # Use an integer slider
     selected_indices = st.slider(
