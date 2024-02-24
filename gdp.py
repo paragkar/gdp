@@ -345,8 +345,7 @@ if pivot_df.shape[0] != 0:
         combined_fig.update_xaxes(tickvals=pivot_df.columns.unique(), ticktext=[str(year) for year in pivot_df.columns.unique()], row=2, col=1)
     if timescale == 'Quarter':
         years = sorted(set([x for x in pivot_df.columns.year]))
-        st.write(years)
-        # combined_fig.update_xaxes(tickvals=pivot_df.columns.unique(), ticktext=[str(year) for year in pivot_df.columns.unique()], row=2, col=1)
+        combined_fig.update_xaxes(tickvals=years, ticktext=[str(year) for year in years], row=2, col=1)
 
 
     #Making the y-axis of the chart start from the point more than Zero
