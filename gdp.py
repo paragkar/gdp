@@ -260,7 +260,7 @@ filter_desc_df = pivot_df[(pivot_df.index == filter_desc)]
 
 st.write(filter_desc_df)
 
-pivot_df = pivot_df[~(pivot_df.index == filter_desc)]
+# pivot_df = pivot_df[~(pivot_df.index == filter_desc)]
 
 
 if pivot_df.shape[0] != 0:
