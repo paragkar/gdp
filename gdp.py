@@ -273,7 +273,7 @@ def createslider(pivot_df):
 #load data
 df = loadgdpgva()
 
-st.write(df)
+st.write(df[df["Date"]==max(df["date"])])
 
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
