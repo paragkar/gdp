@@ -6,7 +6,6 @@ import numpy as np
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-
 #Set page layout here
 st.set_page_config(layout="wide")
 
@@ -273,6 +272,8 @@ def createslider(pivot_df):
 
 #load data
 df = loadgdpgva()
+
+st.write(df)
 
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
