@@ -98,7 +98,8 @@ def process_df_choosen_timescale(df,timescale, feature):
             
         
     #sorting the dataframe 
-    pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
+    if feature != "Growth":
+        pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
     return pivot_df
 
 
