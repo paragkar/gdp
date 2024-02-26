@@ -271,8 +271,8 @@ df = loadgdpgva()
 
 #When feature is growth use these list for sorting the dataframe for diosplay
 dftemp1 = df[df["Date"]==max(df["Date"])].reset_index(drop=True)
-lst_for_sorting_pivot_df1 = list(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value", ascending = False)["Description"])[1:]
-lst_for_sorting_pivot_df2 = list(dftemp1[dftemp1["Type"]=="GVA Constant"].sort_values("Value", ascending = False)["Description"])[1:]
+lst_for_sorting_pivot_df1 = list(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value", ascending = False)["Description"])
+lst_for_sorting_pivot_df2 = list(dftemp1[dftemp1["Type"]=="GVA Constant"].sort_values("Value", ascending = False)["Description"])
 
 
 #choose a dimension
@@ -293,14 +293,14 @@ pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 #sorting the dataframe for heatmap display
 if (feature != "Growth"):
     pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
-# if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
-#     pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
-#     # pivot_df = pivot_df.sort_index()
-# if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
-#     pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
-#     # pivot_df = pivot_df.sort_index()
+if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
+    pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
+    # pivot_df = pivot_df.sort_index()
+if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
+    pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
+    # pivot_df = pivot_df.sort_index()
 
-st.write(lst_for_sorting_pivot_df1)
+# st.write(lst_for_sorting_pivot_df1)
 st.write(pivot_df)
 
 
