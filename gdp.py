@@ -295,11 +295,11 @@ if (feature != "Growth"):
     pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
 if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
     pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
-    pivot_df = pivot_df.sort_index()
+    # pivot_df = pivot_df.sort_index()
     pivot_df.index = pivot_df.index.astype('object')
 if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
     pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df2, ordered=True)
-    pivot_df = pivot_df.sort_index()
+    # pivot_df = pivot_df.sort_index()
     pivot_df.index = pivot_df.index.astype('object')
 
 
