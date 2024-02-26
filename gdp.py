@@ -97,6 +97,21 @@ def process_df_choosen_timescale(df,timescale, feature):
             
     return pivot_df
 
+def sorting_dataframe(pivot_df,feature,dimension):
+    #sorting the dataframe for heatmap display
+    if (feature != "Growth"):
+        pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
+    if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
+        pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
+        pivot_df = pivot_df.sort_index(ascending=False)
+        pivot_df.index = pivot_df.index.astype('object')
+    if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
+        pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df2, ordered=True)
+        pivot_df = pivot_df.sort_index(ascending=False)
+        pivot_df.index = pivot_df.index.astype('object')
+
+    return pivot_df
+
 
 #configuring the data for heatmap
 def create_heatmap_data(df, hovertext, texttemplate):
@@ -290,18 +305,8 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 
-#sorting the dataframe for heatmap display
-if (feature != "Growth"):
-    pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
-if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
-    pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
-    pivot_df = pivot_df.sort_index(ascending=False)
-    pivot_df.index = pivot_df.index.astype('object')
-if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
-    pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df2, ordered=True)
-    pivot_df = pivot_df.sort_index(ascending=False)
-    pivot_df.index = pivot_df.index.astype('object')
-
+#sorting dataframe for visulization in heatmap
+pivot_df = sorting_dataframe(pivot_df,feature, dimension)
 
 
 filter_desc = dimension.split(" ")[0]
