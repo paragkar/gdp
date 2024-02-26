@@ -100,7 +100,7 @@ def process_df_choosen_timescale(df,timescale, feature):
 def sorting_dataframe(pivot_df,feature,dimension, curreny):
     #sorting the dataframe for heatmap display
     if (curreny == "USDollars") & dimension in ["GDP Constant","GVA Constant"]:
-        break
+        pass
     else:
         if (feature != "Growth"):
             pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
