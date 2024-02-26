@@ -300,6 +300,8 @@ if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA C
     pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
     pivot_df = pivot_df.sort_index()
 
+st.write(pivot_df)
+
 
 filter_desc = dimension.split(" ")[0]
 #Extract the bar chart datframe first from the combined dataframe
