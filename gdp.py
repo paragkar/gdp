@@ -275,7 +275,7 @@ df = loadgdpgva()
 
 dftemp1 = df[df["Date"]==max(df["Date"])].reset_index(drop=True)
 
-st.write(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value")["Description"])
+st.write(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value", ascending = False)["Description"])
 
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
