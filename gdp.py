@@ -95,10 +95,6 @@ def process_df_choosen_timescale(df,timescale, feature):
             pivot_df = df.pivot_table(index='Description', columns='FYear', values='Value')
             pivot_df = ((pivot_df - pivot_df.shift(1, axis =1))/pivot_df.shift(1, axis =1))*100
             
-        
-    #sorting the dataframe 
-    if feature != "Growth":
-        pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
     return pivot_df
 
 
@@ -279,7 +275,6 @@ lst_for_sorting_pivot_df1 = list(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_v
 lst_for_sorting_pivot_df2 = list(dftemp1[dftemp1["Type"]=="GVA Constant"].sort_values("Value", ascending = False)["Description"])[1:]
 
 
-
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
 
@@ -295,8 +290,18 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 
-filter_desc = dimension.split(" ")[0]
+#sorting the dataframe for heatmap display
+if (feature != "Growth"):
+    pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
+if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
+    pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
+    pivot_df = pivot_df.sort_index()
+if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
+    pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
+    pivot_df = pivot_df.sort_index()
 
+
+filter_desc = dimension.split(" ")[0]
 #Extract the bar chart datframe first from the combined dataframe
 total_df = pivot_df[~(pivot_df.index != filter_desc)]
 total_df = total_df.replace(0, np.nan).dropna(axis=1)
