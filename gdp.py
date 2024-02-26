@@ -273,9 +273,12 @@ def createslider(pivot_df):
 #load data
 df = loadgdpgva()
 
+#When feature is growth use these list for sorting the dataframe for diosplay
 dftemp1 = df[df["Date"]==max(df["Date"])].reset_index(drop=True)
+lst_for_sorting_pivot_df1 = list(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value", ascending = False)["Description"])[1:]
+lst_for_sorting_pivot_df2 = list(dftemp1[dftemp1["Type"]=="GVA Constant"].sort_values("Value", ascending = False)["Description"])[1:]
 
-st.write(list(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value", ascending = False)["Description"])[1:])
+
 
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
