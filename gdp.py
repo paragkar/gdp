@@ -97,7 +97,7 @@ def process_df_choosen_timescale(df,timescale, feature):
             
     return pivot_df
 
-def sorting_dataframe(pivot_df,feature,dimension,curreny):
+def sorting_dataframe(pivot_df,feature,dimension):
     #sorting the dataframe for heatmap display
     try:
         if (feature != "Growth"):
