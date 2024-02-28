@@ -325,6 +325,8 @@ plot_type = st.sidebar.selectbox('Select a Plot Type', ["Heatmap", "Scatter"])
 
 Flag = checkdimcurrcomb(dimension, curreny)
 
+st.write(Flag)
+
 if plot_type == "Heatmap" & Flag:
 
 
