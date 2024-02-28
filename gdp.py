@@ -537,7 +537,6 @@ def createslider(extended_x_data):
 
 
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period):
-
     
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
@@ -547,58 +546,59 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     num_dimensions = len(pivot_df.index)
     cols = 3
     rows = -(-num_dimensions // cols)
-
     fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
 
+    # Logic for quarters
     if timescale == "Quarter":
         original_x_data = pivot_df.columns
         last_date = original_x_data[-1]
+        # Forecast future dates for quarters
         forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
-
         extended_x_data = list(original_x_data) + forecast_dates
-
         selected_min, selected_max = createslider(extended_x_data)
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
-        display_x_data = selected_cols
+    # Logic for fiscal years
+    elif timescale == "FYear":
+        original_x_data = pivot_df.columns
+        last_year = original_x_data[-1].year
+        # Forecast future dates for fiscal years
+        forecast_dates = [pd.Timestamp(year=last_year + k, month=12, day=31) for k in range(1, forecast_period + 1)]
+        extended_x_data = list(original_x_data) + forecast_dates
+        selected_min, selected_max = createslider(extended_x_data)
+        selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
 
-    else:
-        display_x_data = pivot_df.columns
-
+    # Plotting logic
     for i, dimension in enumerate(pivot_df.index, start=1):
         row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
+        # Common plotting logic for both quarters and fiscal years
+        historical_x_data = [x for x in selected_cols if x in original_x_data]
+        timestamps = np.array([pd.Timestamp(x).timestamp() for x in historical_x_data])
+        y_data = pivot_df.loc[dimension, historical_x_data].dropna()
 
-        if timescale == "Quarter":
-            # Use only the original (historical) data for trend calculation
-            historical_x_data = [x for x in display_x_data if x in original_x_data]
-            timestamps = np.array([pd.Timestamp(x).timestamp() for x in historical_x_data])
-            y_data = pivot_df.loc[dimension, historical_x_data].dropna()
+        if len(timestamps) != len(y_data):
+            raise ValueError("The lengths of timestamps and y_data do not match.")
 
-            if len(timestamps) != len(y_data):
-                raise ValueError("The lengths of timestamps and y_data do not match.")
+        trend = np.polyfit(timestamps, y_data, 1)
+        trend_poly = np.poly1d(trend)
 
-            # Calculate trend only with historical data
-            trend = np.polyfit(timestamps, y_data, 1)
-            trend_poly = np.poly1d(trend)
+        # Plot historical data
+        fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
 
-            # Plot historical data
-            fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
+        # Apply the trend to display data for visualization
+        all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in selected_cols])
+        all_y_data = trend_poly(all_timestamps)
 
-            # Apply the trend to both historical and future data for visualization
-            all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in display_x_data])
-            all_y_data = trend_poly(all_timestamps)
+        fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
 
-            fig.add_trace(go.Scatter(x=display_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
-        
-        # Update axis and layout for each subplot
-        fig.update_yaxes(title_text = dimension, title_standoff=7, row=row, col=col, tickformat='.1f')
+        fig.update_yaxes(title_text=dimension, title_standoff=7, row=row, col=col, tickformat='.1f')
 
-    # Add the rectangular box and update layout
+    # Finalizing plot with layout and rectangle box
     fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=0, x1=1, y1=1, line=dict(color="Black", width=2))
     title_text = chart_heading(dimension, currency, timescale, feature)
     fig.update_layout(height=250 * rows, width=900, title_text=title_text, showlegend=False)
 
     return st.plotly_chart(fig, use_container_width=True)
-
+    
 
 #-----------MAIN PROGRAM STARTS-------------------
 
