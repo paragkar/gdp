@@ -226,7 +226,7 @@ def processing_currency(dimension, curreny, timescale, feature, df):
         df = process_df_choosen_timescale(df,timescale,feature)
 
 
-    #Processing for values for us dollars 
+    #Processing for values for US dollars 
     if (curreny == "USDollars"):
         if dimension in ["GDP Current","GVA Current"]:
             df["Value"] = round((df["Value"]/df["USD"])*1000,2)
@@ -282,6 +282,18 @@ def createslider(pivot_df):
     return selected_min, selected_max
 
 
+def checkdimcurrcomb(dimension, curreny):
+
+    if dimension in ["GDP Constant", "GDP Current", "GVA Constant","GVA Current"] & curreny == "Rupees":
+        Flag = True 
+    elif dimension in ["GDP Current", "GVA Current"] & curreny == "USDollars":
+        Flag = True 
+    else:
+        Flag = False
+
+    return Flag
+
+
 #-----------MAIN PROGRAM STARTS-------------------
 
 #load data
@@ -311,7 +323,9 @@ pivot_df = sorting_dataframe(pivot_df,feature, dimension)
 #Choose a plot type
 plot_type = st.sidebar.selectbox('Select a Plot Type', ["Heatmap", "Scatter"])
 
-if plot_type == "Heatmap":
+Flag = checkdimcurrcomb(dimension, curreny)
+
+if plot_type == "Heatmap" & Flag:
 
 
     filter_desc = dimension.split(" ")[0]
@@ -449,8 +463,7 @@ if plot_type == "Heatmap":
 
 
 
-if plot_type == "Scatter":
-
+if plot_type == "Scatter" & Flag:
 
     #Change of the dimension "imports" from negative to positive
     pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
