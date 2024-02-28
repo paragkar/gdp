@@ -536,7 +536,7 @@ def createslider(extended_x_data):
     return selected_range
 
 
-def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=10):
+def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=20):
 
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
