@@ -536,8 +536,7 @@ def createslider(extended_x_data):
     return selected_range
 
 
-def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=30):
-
+def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=20):
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
         pivot_df.iloc[0, :] *= -1
@@ -552,16 +551,13 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     if timescale == "Quarter":
         original_x_data = pivot_df.columns
         last_date = original_x_data[-1]
-        # Adjusted to include forecast period in the slider data
         forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
         extended_x_data = list(original_x_data) + forecast_dates
 
-        selected_min, selected_max = createslider(extended_x_data)  # Ensure this returns the appropriate datetime range
+        selected_min, selected_max = createslider(extended_x_data)
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
         display_x_data = selected_cols
 
-        # Displaying the selected range
-        st.write("Selected Range: ", len(selected_cols), "periods from", selected_cols[0].date(), "to", selected_cols[-1].date())
     else:
         display_x_data = pivot_df.columns
 
@@ -569,24 +565,31 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
 
         if timescale == "Quarter":
-            # Aligning x_data for both historical and forecasted periods
-            timestamps = np.array([pd.Timestamp(x).timestamp() for x in display_x_data if x in original_x_data])
-            y_data = pivot_df.loc[dimension, original_x_data].reindex(display_x_data, fill_value=np.nan)[:len(timestamps)]
+            # Use only the original (historical) data for trend calculation
+            historical_x_data = [x for x in display_x_data if x in original_x_data]
+            timestamps = np.array([pd.Timestamp(x).timestamp() for x in historical_x_data])
+            y_data = pivot_df.loc[dimension, historical_x_data].dropna()
 
-            trend = np.polyfit(timestamps, y_data.dropna(), 1)
+            if len(timestamps) != len(y_data):
+                raise ValueError("The lengths of timestamps and y_data do not match.")
+
+            # Calculate trend only with historical data
+            trend = np.polyfit(timestamps, y_data, 1)
             trend_poly = np.poly1d(trend)
 
-            # Plotting includes forecast range now
-            future_timestamps = np.array([x.timestamp() for x in display_x_data if x not in original_x_data])
-            all_x_data = np.concatenate((timestamps, future_timestamps))
-            all_y_data = np.concatenate((y_data.dropna(), trend_poly(future_timestamps)))
+            # Plot historical data
+            fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
 
-            fig.add_trace(go.Scatter(x=[datetime.fromtimestamp(ts) for ts in all_x_data], 
-                                     y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
+            # Apply the trend to both historical and future data for visualization
+            all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in display_x_data])
+            all_y_data = trend_poly(all_timestamps)
 
+            fig.add_trace(go.Scatter(x=display_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
+        
+        # Update axis and layout for each subplot
         fig.update_yaxes(title_standoff=7, row=row, col=col, tickformat='.1f')
 
-    # Remaining plot updates and rendering
+    # Add the rectangular box and update layout
     fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=0, x1=1, y1=1, line=dict(color="Black", width=2))
     title_text = chart_heading(dimension, currency, timescale, feature)
     fig.update_layout(height=250 * rows, width=900, title_text=title_text, showlegend=False)
