@@ -533,7 +533,7 @@ if plot_type == "Scatter" and Flag:
     # Update layout to accommodate the new grid structure and enhance readability
     fig.update_layout(
         height=250 * rows,  # Adjust the height based on the number of rows
-        width=1000,  # Set a fixed width or adjust as necessary
+        width=900,  # Set a fixed width or adjust as necessary
         title_text= title_text,
         showlegend=False
     )
