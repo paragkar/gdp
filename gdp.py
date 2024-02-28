@@ -451,19 +451,19 @@ if plot_type == "Heatmap":
 
 if plot_type == "Scatter":
 
-    # Generate scatter plots with trendlines for each dimension
+     # Generate scatter plots with trendlines for each dimension
     fig = make_subplots(rows=len(pivot_df.index), cols=1, shared_xaxes=True, vertical_spacing=0.02)
 
-    # Assuming pivot_df columns are the years for the 'Year' timescale, treated directly as x-axis values
-    x_data = [int(year) for year in pivot_df.columns]  # Convert year columns to integers
+    # Correctly handle Timestamp columns by extracting the year part
+    x_data = [year.year for year in pivot_df.columns]  # Extract year from Timestamp objects
 
     # Iterate over each dimension to create a scatter plot
     for i, description in enumerate(pivot_df.index, 1):
-        y_data = pivot_df.loc[description]
+        y_data = pivot_df.loc[description].values  # Ensure you get an array of values
 
         # Add scatter plot for the current dimension
         fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=description), row=i, col=1)
-        
+
         # Add trendline using a linear fit
         trend = np.polyfit(x_data, y_data, 1)  # Simple linear regression
         trendline = np.poly1d(trend)(x_data)
