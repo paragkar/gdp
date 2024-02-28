@@ -588,7 +588,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     # Update layout
     title_text = chart_heading(dimension, currency, timescale, feature)
     fig.update_layout(
-        height=300 * rows,
+        height=250 * rows,
         width=900,
         title_text=title_text,
         showlegend=False
