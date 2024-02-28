@@ -309,7 +309,7 @@ pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
 pivot_df = sorting_dataframe(pivot_df,feature, dimension)
 
 #Choose a plot type
-plot_type = st.sidebar.selectbox('Select a Plot Type', ["Heatmap", "Scatter Plot with Trendlines"])
+plot_type = st.sidebar.selectbox('Select a Plot Type', ["Heatmap", "Scatter"])
 
 if plot_type == "Heatmap":
 
