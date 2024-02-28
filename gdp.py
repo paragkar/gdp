@@ -451,22 +451,23 @@ if plot_type == "Heatmap":
 
 if plot_type == "Scatter":
 
-    #Processing Slider in case timescale chosen is Quarter
-    if timescale == "Quarter":
-        selected_min, selected_max = createslider(pivot_df)
-        selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
-        pivot_df = pivot_df[selected_cols]
-        st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
-    else:
-        selected_cols = pivot_df.columns
-
-    # Determine the number of rows and columns for the subplot grid
-    num_dimensions = len(pivot_df.index)
-    cols = 3  # Set to 3 columns as requested
-    rows = -(-num_dimensions // cols)  # Calculate rows needed, rounding up
-
-    # Generate scatter plots with trendlines for each dimension
     try:
+
+        #Processing Slider in case timescale chosen is Quarter
+        if timescale == "Quarter":
+            selected_min, selected_max = createslider(pivot_df)
+            selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
+            pivot_df = pivot_df[selected_cols]
+            st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
+        else:
+            selected_cols = pivot_df.columns
+
+        # Determine the number of rows and columns for the subplot grid
+        num_dimensions = len(pivot_df.index)
+        cols = 3  # Set to 3 columns as requested
+        rows = -(-num_dimensions // cols)  # Calculate rows needed, rounding up
+
+        # Generate scatter plots with trendlines for each dimension
         fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
 
         if timescale == "Quarter":
@@ -525,4 +526,6 @@ if plot_type == "Scatter":
         st.plotly_chart(fig, use_container_width=True)
 
     except:
+
         pass
+
