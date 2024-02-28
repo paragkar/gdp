@@ -449,5 +449,9 @@ if plot_type == "Heatmap":
 
 
 
+if plot_type == "Scatter":
+
+    st.write("Write Code Here")
+
 
 
