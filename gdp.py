@@ -494,6 +494,15 @@ if plot_type == "Scatter":
             trendline = np.poly1d(trend)(timestamps)
             fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=row, col=col)
 
+        # Draw a rectangular box around the whole subplot area
+        fig.add_shape(
+            type="rect",
+            xref="paper", yref="paper",
+            x0=0, y0=0,
+            x1=1, y1=1,
+            line=dict(color="Black", width=2),
+        )
+
         # Update layout to accommodate the new grid structure and enhance readability
         fig.update_layout(
             height=250 * rows,  # Adjust the height based on the number of rows
