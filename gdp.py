@@ -494,9 +494,9 @@ if plot_type == "Scatter":
             trendline = np.poly1d(trend)(timestamps)
             fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=''), row=row, col=col)
 
-            # Remove y-axis labels and use the dimension name as the subplot title
-            fig.update_yaxes(title_text='', showticklabels=False, row=row, col=col)
-            fig.update_xaxes(title_text=f'{dimension} Trend', showticklabels=True, row=row, col=col)
+            # # Remove y-axis labels and use the dimension name as the subplot title
+            # fig.update_yaxes(title_text='', showticklabels=False, row=row, col=col)
+            # fig.update_xaxes(title_text=f'{dimension} Trend', showticklabels=True, row=row, col=col)
 
         # Draw a rectangular box around the whole subplot area
         fig.add_shape(
