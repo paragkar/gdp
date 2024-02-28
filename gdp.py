@@ -284,7 +284,7 @@ def createslider(pivot_df):
 
 def checkdimcurrcomb(dimension, curreny):
 
-    if (dimension in ["GDP Constant", "GDP Current", "GVA Constant","GVA Current"]) & (curreny == "Rupees"):
+    if (dimension in ["GDP Constant", "GDP Current", "GVA Constant","GVA Current"]):
         Flag = True 
     elif (dimension in ["GDP Current", "GVA Current"]) & (curreny == "USDollars"):
         Flag = True 
