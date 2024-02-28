@@ -451,37 +451,59 @@ if plot_type == "Heatmap":
 
 if plot_type == "Scatter":
 
+    fig = make_subplots(rows=len(pivot_df.index), cols=1, shared_xaxes=True, vertical_spacing=0.01)
+
+    if timescale == "Quarter":
+        x_data = pivot_df.columns
+    elif timescale == "FYear":
+        pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
+        x_data = pivot_df.columns
+
     # Iterate over each dimension to create a scatter plot
     for i, dimension in enumerate(pivot_df.index, 1):
         y_data = pivot_df.loc[dimension]
-    
-    # Ensure x_data is numerical for regression
-    if timescale == "FYear":
-        # Convert datetime objects to numerical timestamps for 'FYear' timescale
-        timestamps = [x.timestamp() for x in x_data]
-        regression_x_data = timestamps
-    else:
-        # If your quarter data is already in a numerical format or needs conversion
-        # Here, ensure x_data is suitable for numerical operations.
-        # If x_data is not datetime, this implies it might already be numerical.
-        # Otherwise, convert datetime to timestamp or another numerical representation as needed.
-        # Assuming x_data is datetime and needs conversion:
-        regression_x_data = [x.toordinal() for x in x_data]
+        
+        # Generate timestamps for linear regression only if necessary
+        if timescale == "FYear":
+            timestamps = [x.timestamp() for x in x_data]
+            regression_x_data = timestamps
+        else:
+            # Assuming x_data are already in proper format (e.g., datetime or numerical for quarters)
+            # Convert to ordinal if they are datetime objects
+            regression_x_data = [x.toordinal() for x in x_data] if isinstance(x_data[0], pd.Timestamp) else x_data
 
-    # Add scatter plot for the current dimension
-    fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=i, col=1)
-    
-    # Add trendline using a linear fit with the appropriate numerical x_data
-    trend = np.polyfit(regression_x_data, y_data, 1)
-    trendline = np.poly1d(trend)(regression_x_data)
-    
-    # For plotting the trendline, ensure x_data for trendline is in the same format as scatter x_data
-    if timescale == "FYear":
-        trend_x_data = x_data
-    else:
-        # Convert back to the original datetime format if needed
-        trend_x_data = [datetime.fromordinal(int(date)) for date in regression_x_data]
+        # Add scatter plot for the current dimension
+        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=i, col=1)
+        
+        # Add trendline using a linear fit
+        trend = np.polyfit(regression_x_data, y_data, 1)
+        trendline = np.poly1d(trend)(regression_x_data)
+        
+        # For plotting the trendline, convert regression x data back to original format if necessary
+        trend_x_data = [datetime.fromordinal(int(date)) for date in regression_x_data] if timescale != "FYear" else x_data
+        fig.add_trace(go.Scatter(x=trend_x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=i, col=1)
 
-    fig.add_trace(go.Scatter(x=trend_x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=i, col=1)
+    # Add rectangles for each plot
+    for i in range(len(pivot_df.index)):
+        fig.add_shape(
+            type="rect",
+            xref="paper", yref="paper",
+            x0=0, y0=i/len(pivot_df.index),  # Starting x and y points for the rectangle
+            x1=1, y1=(i+1)/len(pivot_df.index),  # Ending x and y points for the rectangle
+            line=dict(
+                color="Black",
+                width=2,
+            ),
+            row=i+1, col=1
+        )
 
+    # Update layout
+    fig.update_layout(height=300*len(pivot_df.index), title_text="Scatter Plot with Trendlines for Each Dimension", showlegend=False)
+
+    # Adjust axis titles and format for each row
+    for i in range(len(pivot_df.index)):
+        fig.update_yaxes(title_text=pivot_df.index[i], row=i+1, col=1)
+
+    # Display the figure in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
     
