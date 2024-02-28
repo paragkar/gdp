@@ -650,7 +650,7 @@ if plot_type == "Scatter" and Flag:
 
     if mode_selection == "Forecast":
 
-        plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=5)
+        plotingscatterforecast(pivot_df, dimension, timescale, currency, feature)
 
 
 
