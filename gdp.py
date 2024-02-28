@@ -632,7 +632,7 @@ Flag = checkdimcurrcomb(dimension, currency)
 
 if plot_type == "Heatmap" and Flag:
 
-    plotingheatmap(pivot_df, dimension,timescale,,feature)
+    plotingheatmap(pivot_df, dimension,timescale,currency,feature)
 
 
 if plot_type == "Scatter" and Flag:
