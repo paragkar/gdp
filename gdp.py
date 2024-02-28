@@ -482,10 +482,10 @@ if plot_type == "Scatter":
         trendline = np.poly1d(trend)(timestamps)
         fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=i, col=1)
 
+    num_rows = len(pivot_df.index)
+
     # Define the height of each plot to calculate the y-coordinates for the rectangles
     plot_height = 1 / num_rows
-
-    num_rows = len(pivot_df.index)
 
     # Add rectangles for each plot, adjusting for the actual plot height
     for i in range(num_rows):
