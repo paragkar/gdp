@@ -465,7 +465,9 @@ if plot_type == "Scatter":
 
     if timescale == "FYear":
 
-        st.write(pivot_df)
+        fyenddate = [datetime.datetime(x,3,31) for x in pivot_df.columns]
+
+        st.write(fyenddate)
 
     # Iterate over each dimension to create a scatter plot
     for i, dimension in enumerate(pivot_df.index, 1):
