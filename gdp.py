@@ -451,61 +451,52 @@ if plot_type == "Heatmap":
 
 if plot_type == "Scatter":
 
+    # Determine the number of rows and columns for the subplot grid
+    num_dimensions = len(pivot_df.index)
+    cols = 3  # Set to 3 columns as requested
+    rows = -(-num_dimensions // cols)  # Calculate rows needed, rounding up
+
     # Generate scatter plots with trendlines for each dimension
-    fig = make_subplots(rows=len(pivot_df.index), cols=1, shared_xaxes=True, vertical_spacing=0.01)
+    fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
 
     if timescale == "Quarter":
-        pass
-    if timescale == "FYear":
-        pivot_df.columns = [datetime(x,3,31).date() for x in pivot_df.columns]
-
-    # Check and possibly convert x_data to datetime if they are not already
-    if not isinstance(pivot_df.columns[0], pd.Timestamp):
-        # Assuming pivot_df.columns are in a format that can be converted to datetime
-        x_data = pd.to_datetime(pivot_df.columns)
-    else:
+        x_data = pivot_df.columns
+    elif timescale == "FYear":
+        pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
         x_data = pivot_df.columns
 
-
     # Iterate over each dimension to create a scatter plot
-    for i, dimension in enumerate(pivot_df.index, 1):
+    for i, dimension in enumerate(pivot_df.index, start=1):
         y_data = pivot_df.loc[dimension]
+        
+        # Determine the position of the current plot
+        row = (i - 1) // cols + 1
+        col = (i - 1) % cols + 1
         
         # Generate timestamps for linear regression
         timestamps = [x.timestamp() for x in x_data]
 
         # Add scatter plot for the current dimension
-        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=i, col=1)
+        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=row, col=col)
         
         # Add trendline using a linear fit
-        trend = np.polyfit(timestamps, y_data, 1)  # Simple linear regression
+        trend = np.polyfit(timestamps, y_data, 1)
         trendline = np.poly1d(trend)(timestamps)
-        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=i, col=1)
+        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=row, col=col)
 
-    # num_rows = len(pivot_df.index)
+    # Update layout to accommodate the new grid structure and enhance readability
+    fig.update_layout(
+        height=300 * rows,  # Adjust the height based on the number of rows
+        width=1200,  # Set a fixed width or adjust as necessary
+        title_text="Scatter Plot with Trendlines for Each Dimension",
+        showlegend=False
+    )
 
-    # # Define the height of each plot to calculate the y-coordinates for the rectangles
-    # plot_height = 1 / num_rows
-
-    # # Add rectangles for each plot, adjusting for the actual plot height
-    # for i in range(num_rows):
-    #     fig.add_shape(
-    #         type="rect",
-    #         xref="paper", yref="paper",
-    #         x0=0, y0=(num_rows - i - 1) * plot_height,  # Adjust y0 based on the plot index
-    #         x1=1, y1=(num_rows - i) * plot_height,  # Adjust y1 based on the plot index and height
-    #         line=dict(color="Black", width=2),
-    #         row=i+1, col=1
-    #     )
-
-
-    # Update layout
-    fig.update_layout(height=300*len(pivot_df.index), title_text="Scatter Plot with Trendlines for Each Dimension", showlegend=False)
-    
-    # Adjust axis titles and format
-    for i in range(len(pivot_df.index)):
-        fig.update_yaxes(title_text=pivot_df.index[i], row=i+1, col=1)
+    # Adjust axis titles and format for each subplot
+    for i in range(1, num_dimensions + 1):
+        row = (i - 1) // cols + 1
+        col = (i - 1) % cols + 1
+        fig.update_yaxes(title_text=pivot_df.index[i - 1], row=row, col=col)
 
     # Display the figure in Streamlit
     st.plotly_chart(fig, use_container_width=True)
-
