@@ -515,6 +515,89 @@ def plotingscatter(pivot_df, dimension,timescale,curreny,feature):
     return st.plotly_chart(fig, use_container_width=True)
 
 
+def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=5):
+    """
+    Extend the plotting function to include forecasting.
+    
+    :param pivot_df: DataFrame with the data to plot.
+    :param dimension: Selected data dimension.
+    :param timescale: Selected timescale ('Quarter' or 'FYear').
+    :param currency: Selected currency ('Rupees' or 'USDollars').
+    :param feature: Selected feature ('Absolute', 'Percent', or 'Growth').
+    :param forecast_period: Number of future units to forecast.
+    """
+
+    # Convert negative values for "imports" dimension to positive, if necessary
+    if dimension in ["GDP Constant", "GDP Current"]:
+        pivot_df.iloc[0, :] *= -1
+
+    # Initialize subplot structure
+    num_dimensions = len(pivot_df.index)
+    cols = 3
+    rows = -(-num_dimensions // cols)
+
+    fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
+
+    # Determine x_data based on the selected timescale
+    if timescale == "Quarter":
+        x_data = pivot_df.columns
+    elif timescale == "FYear":
+        pivot_df.columns = [pd.Timestamp(year=int(x), month=3, day=31) for x in pivot_df.columns]
+        x_data = pivot_df.columns
+
+    for i, dimension in enumerate(pivot_df.index, start=1):
+        y_data = pivot_df.loc[dimension]
+        row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
+        
+        # Linear regression to determine trendline
+        timestamps = np.array([x.timestamp() for x in x_data])
+        trend = np.polyfit(timestamps, y_data, 1)
+        trend_poly = np.poly1d(trend)
+
+        # Plot historical data and trendline
+        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
+
+        # Forecast future data points
+        if timescale == "Quarter":
+            last_date = x_data[-1]
+            future_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
+        else:  # 'FYear'
+            last_year = x_data[-1].year
+            future_dates = [pd.Timestamp(year=last_year + k, month=3, day=31) for k in range(1, forecast_period + 1)]
+
+        future_timestamps = np.array([date.timestamp() for date in future_dates])
+        future_y_data = trend_poly(future_timestamps)
+
+        # Add forecasted trendline to the plot
+        all_x_data = list(x_data) + future_dates
+        all_y_data = list(trend_poly(timestamps)) + list(future_y_data)
+        fig.add_trace(go.Scatter(x=all_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
+
+        # Update y-axis settings
+        fig.update_yaxes(range=[-50, 50], title_standoff=7, row=row, col=col, tickformat='.1f')
+
+    # Add the rectangular box around the whole subplot area
+    fig.add_shape(
+        type="rect",
+        xref="paper", yref="paper",
+        x0=0, y0=0,
+        x1=1, y1=1,
+        line=dict(color="Black", width=2),
+    )
+
+    # Update layout
+    title_text = chart_heading(dimension, currency, timescale, feature)
+    fig.update_layout(
+        height=300 * rows,
+        width=900,
+        title_text=title_text,
+        showlegend=False
+    )
+
+    # Display the plot
+    return st.plotly_chart(fig, use_container_width=True)
+
+
 #-----------MAIN PROGRAM STARTS-------------------
 
 #load data
@@ -554,7 +637,17 @@ if plot_type == "Heatmap" and Flag:
 
 if plot_type == "Scatter" and Flag:
 
-    plotingscatter(pivot_df, dimension,timescale,curreny,feature)
+    # Add a radio button in the sidebar to select between 'Normal' and 'Forecast'
+    mode_selection = st.sidebar.radio("Select Mode:", ['Normal', 'Forecast'])
 
-    
+    if mode_selection == "Normal":
+
+        plotingscatter(pivot_df, dimension,timescale,curreny,feature)
+
+    if mode_selection == "Forecast":
+
+        plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=5)
+
+
+
 
