@@ -451,6 +451,15 @@ if plot_type == "Heatmap":
 
 if plot_type == "Scatter":
 
+    #Processing Slider in case timescale chosen is Quarter
+    if timescale == "Quarter":
+        selected_min, selected_max = createslider(pivot_df)
+        selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
+        pivot_df = pivot_df[selected_cols]
+        total_df = total_df[selected_cols]
+    else:
+        selected_cols = pivot_df.columns
+
     # Determine the number of rows and columns for the subplot grid
     num_dimensions = len(pivot_df.index)
     cols = 3  # Set to 3 columns as requested
