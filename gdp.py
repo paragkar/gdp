@@ -451,6 +451,9 @@ if plot_type == "Heatmap":
 
 if plot_type == "Scatter":
 
+
+    st.write(pivot_df)
+
     try:
 
         #Processing Slider in case timescale chosen is Quarter
@@ -498,7 +501,6 @@ if plot_type == "Scatter":
             trend = np.polyfit(timestamps, y_data, 1)
             trendline = np.poly1d(trend)(timestamps)
             fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=''), row=row, col=col)
-
 
 
         # Draw a rectangular box around the whole subplot area
