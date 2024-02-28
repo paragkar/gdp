@@ -451,34 +451,30 @@ if plot_type == "Heatmap":
 
 if plot_type == "Scatter":
 
-     # Generate scatter plots with trendlines for each dimension
-    fig = make_subplots(rows=len(data.index), cols=1, shared_xaxes=True, vertical_spacing=0.02)
+    # Generate scatter plots with trendlines for each dimension
+    fig = make_subplots(rows=len(pivot_df.index), cols=1, shared_xaxes=True, vertical_spacing=0.02)
 
-    # Use years directly from the columns (assuming these are your x-axis values)
-    x_data = data.columns[1:].astype(int)  # Skip the 'Description' column and ensure the years are integers
+    # Assuming pivot_df columns are the years for the 'Year' timescale, treated directly as x-axis values
+    x_data = [int(year) for year in pivot_df.columns]  # Convert year columns to integers
 
-    # Iterate over each dimension (row) to create a scatter plot
-    for i, row in data.iterrows():
-        y_data = row[1:]  # Skip the 'Description' column, which contains the sector names
-        dimension = row['Description']
+    # Iterate over each dimension to create a scatter plot
+    for i, description in enumerate(pivot_df.index, 1):
+        y_data = pivot_df.loc[description]
 
         # Add scatter plot for the current dimension
-        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=i + 1, col=1)
-
+        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=description), row=i, col=1)
+        
         # Add trendline using a linear fit
-        # Convert x_data to a numerical format that can be used in polyfit
         trend = np.polyfit(x_data, y_data, 1)  # Simple linear regression
         trendline = np.poly1d(trend)(x_data)
-        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=i + 1, col=1)
+        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{description} Trend'), row=i, col=1)
 
     # Update layout
-    fig.update_layout(height=300*len(data.index), title_text="Scatter Plot with Trendlines for Each Dimension", showlegend=False)
-
-    # Adjust axis titles and format
-    for i in range(len(data.index)):
-        fig.update_yaxes(title_text=data.iloc[i]['Description'], row=i + 1, col=1)
+    fig.update_layout(height=300*len(pivot_df.index), title_text="Scatter Plot with Trendlines for Each Dimension", showlegend=False)
+    
+    # Adjust axis titles and format for each subplot row
+    for i, description in enumerate(pivot_df.index, 1):
+        fig.update_yaxes(title_text=description, row=i, col=1)
 
     # Display the figure in Streamlit
     st.plotly_chart(fig, use_container_width=True)
-
-
