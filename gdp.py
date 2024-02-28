@@ -456,10 +456,9 @@ if plot_type == "Scatter":
         selected_min, selected_max = createslider(pivot_df)
         selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
         pivot_df = pivot_df[selected_cols]
+        st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
     else:
         selected_cols = pivot_df.columns
-
-    st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
 
     # Determine the number of rows and columns for the subplot grid
     num_dimensions = len(pivot_df.index)
