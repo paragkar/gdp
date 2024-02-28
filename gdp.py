@@ -455,8 +455,6 @@ if plot_type == "Scatter":
     #Change of the dimension "imports" from negative to positive
     pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
 
-    # try:
-
     #Processing Slider in case timescale chosen is Quarter
     if timescale == "Quarter":
         selected_min, selected_max = createslider(pivot_df)
@@ -498,9 +496,8 @@ if plot_type == "Scatter":
         # fig.update_yaxes(range=[-50, 100], row=row, col=col, title_standoff=7)
         fig.update_yaxes(row=row, 
                         col=col, 
-                        title_standoff=7,
-                        title_font=dict(family='Arial', weight='bold'))  # Making the label bold
-
+                        title_standoff=7)
+                        
         # Add trendline using a linear fit
         trend = np.polyfit(timestamps, y_data, 1)
         trendline = np.poly1d(trend)(timestamps)
@@ -533,7 +530,4 @@ if plot_type == "Scatter":
     # Display the figure in Streamlit
     st.plotly_chart(fig, use_container_width=True)
 
-    # except:
-
-    #     pass
 
