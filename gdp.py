@@ -452,7 +452,7 @@ if plot_type == "Heatmap":
 if plot_type == "Scatter":
 
 
-    st.write(pivot_df.iloc[0,:].apply(lambda x: x*-1))
+    pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
 
     try:
 
