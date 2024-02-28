@@ -466,7 +466,10 @@ if plot_type == "Scatter":
     rows = -(-num_dimensions // cols)  # Calculate rows needed, rounding up
 
     # Generate scatter plots with trendlines for each dimension
-    fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
+    try:
+        fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
+    except:
+        pass
 
     if timescale == "Quarter":
         x_data = pivot_df.columns
