@@ -455,17 +455,16 @@ if plot_type == "Scatter":
     fig = make_subplots(rows=len(pivot_df.index), cols=1, shared_xaxes=True, vertical_spacing=0.02)
 
     if timescale == "Quarter":
-
-        # Check and possibly convert x_data to datetime if they are not already
-        if not isinstance(pivot_df.columns[0], pd.Timestamp):
-            # Assuming pivot_df.columns are in a format that can be converted to datetime
-            x_data = pd.to_datetime(pivot_df.columns)
-        else:
-            x_data = pivot_df.columns
-
+        pass
     if timescale == "FYear":
-
         pivot_df.columns = [datetime(x,3,31).date() for x in pivot_df.columns]
+
+    # Check and possibly convert x_data to datetime if they are not already
+    if not isinstance(pivot_df.columns[0], pd.Timestamp):
+        # Assuming pivot_df.columns are in a format that can be converted to datetime
+        x_data = pd.to_datetime(pivot_df.columns)
+    else:
+        x_data = pivot_df.columns
 
 
     # Iterate over each dimension to create a scatter plot
