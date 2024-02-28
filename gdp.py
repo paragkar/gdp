@@ -491,7 +491,8 @@ if plot_type == "Scatter":
             fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=f'{dimension} Trend'), row=row, col=col)
 
             # Update y-axis range to be between -50 and 50 for each subplot
-            fig.update_yaxes(range=[-50, 100], row=row, col=col, title_standoff=7)
+            # fig.update_yaxes(range=[-50, 100], row=row, col=col, title_standoff=7)
+             fig.update_yaxes(row=row, col=col, title_standoff=7)
 
             # Add trendline using a linear fit
             trend = np.polyfit(timestamps, y_data, 1)
