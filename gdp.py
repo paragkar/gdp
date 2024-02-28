@@ -505,7 +505,7 @@ if plot_type == "Scatter":
         fig.add_shape(
             type="rect",
             xref="paper", yref="paper",
-            x0=-0.042, y0=-0.042,
+            x0=-0.04, y0=-0.042,
             x1=1, y1=1.02,
             line=dict(color="Black", width=2),
         )
