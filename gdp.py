@@ -489,15 +489,16 @@ if plot_type == "Scatter":
 
             # Add scatter plot for the current dimension
             fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=f'{dimension} Trend'), row=row, col=col)
-            
+
+            # Update y-axis range to be between -50 and 50 for each subplot
+            fig.update_yaxes(range=[-50, 50], row=row, col=col)
+
             # Add trendline using a linear fit
             trend = np.polyfit(timestamps, y_data, 1)
             trendline = np.poly1d(trend)(timestamps)
             fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=''), row=row, col=col)
 
-            # # Remove y-axis labels and use the dimension name as the subplot title
-            # fig.update_yaxes(title_text='', showticklabels=False, row=row, col=col)
-            # fig.update_xaxes(title_text=f'{dimension} Trend', showticklabels=True, row=row, col=col)
+
 
         # Draw a rectangular box around the whole subplot area
         fig.add_shape(
