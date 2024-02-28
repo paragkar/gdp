@@ -499,7 +499,7 @@ if plot_type == "Scatter":
             fig.update_yaxes(row=row, 
                             col=col, 
                             title_standoff=7,
-                            title_font=dict(family='Arial', size=12, weight='bold'))  # Making the label bold
+                            title_font=dict(family='Arial', weight='bold'))  # Making the label bold
 
             # Add trendline using a linear fit
             trend = np.polyfit(timestamps, y_data, 1)
