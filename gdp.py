@@ -516,16 +516,6 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
 
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=5):
-    """
-    Extend the plotting function to include forecasting.
-    
-    :param pivot_df: DataFrame with the data to plot.
-    :param dimension: Selected data dimension.
-    :param timescale: Selected timescale ('Quarter' or 'FYear').
-    :param currency: Selected currency ('Rupees' or 'USDollars').
-    :param feature: Selected feature ('Absolute', 'Percent', or 'Growth').
-    :param forecast_period: Number of future units to forecast.
-    """
 
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
@@ -574,7 +564,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         fig.add_trace(go.Scatter(x=all_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
 
         # Update y-axis settings
-        fig.update_yaxes( title_standoff=7, row=row, col=col, tickformat='.1f')
+        fig.update_yaxes(title_text=dimension,title_standoff=7, row=row, col=col, tickformat='.1f')
 
     # Add the rectangular box around the whole subplot area
     fig.add_shape(
