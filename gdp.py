@@ -208,7 +208,7 @@ def create_bar_chart_data(coltotaldf, timescale, dimension):
     return bar
 
 
-def processing_currency(dimension, curreny, timescale, feature, df):
+def processing_currency(dimension, currency, timescale, feature, df):
 
     #filtering aggregrated GDP & GVA values from the heatmap
     filter_desc = dimension.split(" ")[0]
@@ -219,7 +219,7 @@ def processing_currency(dimension, curreny, timescale, feature, df):
 
 
     #Processing values for Indian Rupees 
-    if curreny == "Rupees":
+    if currency == "Rupees":
         #dropping unnecessary columns
         df = df.drop(columns = ["Type","USD"])
         #processing dataframe based on choosen timescale and feature
@@ -227,7 +227,7 @@ def processing_currency(dimension, curreny, timescale, feature, df):
 
 
     #Processing for values for US dollars 
-    if (curreny == "USDollars"):
+    if (currency == "USDollars"):
         if dimension in ["GDP Current","GVA Current"]:
             df["Value"] = round((df["Value"]/df["USD"])*1000,2)
             df = df.drop(columns = ["Type", "USD"])
@@ -240,12 +240,12 @@ def processing_currency(dimension, curreny, timescale, feature, df):
     return df
 
 #Processing chart heading based on user choice of menues
-def chart_heading(dimension,curreny,timescale,feature):
+def chart_heading(dimension,currency,timescale,feature):
 
     if feature == "Absolute":
-        if curreny == "Rupees":
+        if currency == "Rupees":
             title_text =  dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)"
-        if curreny == "USDollars":
+        if currency == "USDollars":
             title_text =  dimension+" - " +timescale+" Trends"+" ($ Billion)"
     if feature == "Percent":
             title_text =  dimension+" - " +timescale+" Trends"+" (Percent of Total)"
@@ -282,18 +282,18 @@ def createslider(pivot_df):
     return selected_min, selected_max
 
 #Check for proper combination of dimesion and current before proceeding 
-def checkdimcurrcomb(dimension, curreny):
+def checkdimcurrcomb(dimension, currency):
 
-    if (dimension in ["GDP Constant", "GDP Current", "GVA Constant","GVA Current"]) and (curreny == "Rupees"):
+    if (dimension in ["GDP Constant", "GDP Current", "GVA Constant","GVA Current"]) and (currency == "Rupees"):
         Flag = True 
-    elif (dimension in ["GDP Current", "GVA Current"]) and (curreny == "USDollars"):
+    elif (dimension in ["GDP Current", "GVA Current"]) and (currency == "USDollars"):
         Flag = True 
     else:
         Flag = False
 
     return Flag
 
-def plotingheatmap(pivot_df, dimension,timescale,curreny,feature):
+def plotingheatmap(pivot_df, dimension,timescale,currency,feature):
 
     filter_desc = dimension.split(" ")[0]
     #Extract the bar chart datframe first from the combined dataframe
@@ -355,7 +355,7 @@ def plotingheatmap(pivot_df, dimension,timescale,curreny,feature):
                 combined_fig.add_trace(trace, row=2, col=1)
 
         #processing title text
-        title_text = chart_heading(dimension,curreny,timescale,feature)
+        title_text = chart_heading(dimension,currency,timescale,feature)
             
         # Update layout for the subplot
         combined_fig.update_layout(
@@ -429,7 +429,7 @@ def plotingheatmap(pivot_df, dimension,timescale,curreny,feature):
     return    st.plotly_chart(combined_fig, use_container_width=True)
 
 
-def plotingscatter(pivot_df, dimension,timescale,curreny,feature):
+def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
     #Change of the dimension "imports" from negative to positive
     if dimension in ["GDP Constant", "GDP Current"]:
@@ -494,7 +494,7 @@ def plotingscatter(pivot_df, dimension,timescale,curreny,feature):
     )
 
 
-    title_text = chart_heading(dimension,curreny,timescale,feature)
+    title_text = chart_heading(dimension,currency,timescale,feature)
 
     # Update layout to accommodate the new grid structure and enhance readability
     fig.update_layout(
@@ -612,7 +612,7 @@ lst_for_sorting_pivot_df2 = list(dftemp1[dftemp1["Type"]=="GVA Constant"].sort_v
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
 #choose a currency
-curreny = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
+currency = st.sidebar.selectbox('Select a Currency', ["Rupees","USDollars"])
 #choose a time scale
 timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
 #choose a feature
@@ -620,19 +620,19 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 
 
 #processing dataframe with seleted menues 
-pivot_df = processing_currency(dimension, curreny, timescale, feature, df)
+pivot_df = processing_currency(dimension, currency, timescale, feature, df)
 #sorting dataframe for visulization in heatmap
 pivot_df = sorting_dataframe(pivot_df,feature, dimension)
 
 #Choose a plot type
 plot_type = st.sidebar.selectbox('Select a Plot Type', ["Heatmap", "Scatter"])
 
-Flag = checkdimcurrcomb(dimension, curreny)
+Flag = checkdimcurrcomb(dimension, currency)
 
 
 if plot_type == "Heatmap" and Flag:
 
-    plotingheatmap(pivot_df, dimension,timescale,curreny,feature)
+    plotingheatmap(pivot_df, dimension,timescale,,feature)
 
 
 if plot_type == "Scatter" and Flag:
@@ -642,7 +642,7 @@ if plot_type == "Scatter" and Flag:
 
     if mode_selection == "Normal":
 
-        plotingscatter(pivot_df, dimension,timescale,curreny,feature)
+        plotingscatter(pivot_df, dimension,timescale,currency,feature)
 
     if mode_selection == "Forecast":
 
