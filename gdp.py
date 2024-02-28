@@ -552,6 +552,9 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         original_x_data = pivot_df.columns
         last_date = original_x_data[-1]
         forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
+
+        st.write(forecast_dates) #debug
+
         extended_x_data = list(original_x_data) + forecast_dates
 
         selected_min, selected_max = createslider(extended_x_data)
