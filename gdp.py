@@ -486,7 +486,7 @@ if plot_type == "Scatter":
 
     # Update layout to accommodate the new grid structure and enhance readability
     fig.update_layout(
-        height=200 * rows,  # Adjust the height based on the number of rows
+        height=250 * rows,  # Adjust the height based on the number of rows
         width=1200,  # Set a fixed width or adjust as necessary
         title_text="Scatter Plot with Trendlines for Each Dimension",
         showlegend=False
