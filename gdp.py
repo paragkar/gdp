@@ -526,65 +526,61 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     cols = 3
     rows = -(-num_dimensions // cols)
 
+    # Determine x_data and extend it for forecasting
+    if timescale == "Quarter":
+        original_x_data = pivot_df.columns
+        last_date = original_x_data[-1]
+        forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
+        extended_x_data = list(original_x_data) + forecast_dates
+
+        # Implement the slider
+        selected_min, selected_max = createslider(extended_x_data)
+        selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
+        display_x_data = selected_cols
+
+        # Log the selected range
+        st.write("Selected Range: ", len(selected_cols), " periods from ", selected_cols[0].date(), " to ", selected_cols[-1].date())
+    else:
+        display_x_data = pivot_df.columns  # FYear doesn't use slider in this setup
+
     fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
 
-    # Determine x_data based on the selected timescale
-    if timescale == "Quarter":
-        x_data = pivot_df.columns
-    elif timescale == "FYear":
-        pivot_df.columns = [pd.Timestamp(year=int(x), month=3, day=31) for x in pivot_df.columns]
-        x_data = pivot_df.columns
-
+    # Iterate to create subplots for each dimension
     for i, dimension in enumerate(pivot_df.index, start=1):
-        y_data = pivot_df.loc[dimension]
         row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
-        
-        # Linear regression to determine trendline
-        timestamps = np.array([x.timestamp() for x in x_data])
-        trend = np.polyfit(timestamps, y_data, 1)
+
+        # Prepare your y_data based on the selected range
+        if timescale == "Quarter" and dimension in pivot_df.index:
+            y_data = pivot_df.loc[dimension, original_x_data].reindex(display_x_data, fill_value=np.nan)
+        else:
+            y_data = pivot_df.loc[dimension]
+
+        # Linear regression for trendlines, plotting the historical data
+        timestamps = np.array([pd.Timestamp(x).timestamp() for x in original_x_data])
+        trend = np.polyfit(timestamps, y_data.dropna(), 1)
         trend_poly = np.poly1d(trend)
 
-        # Plot historical data and trendline
-        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
+        # Scatter historical data
+        fig.add_trace(go.Scatter(x=original_x_data, y=y_data[:len(original_x_data)], mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
 
-        # Forecast future data points
+        # Forecasting and plotting future data
         if timescale == "Quarter":
-            last_date = x_data[-1]
-            future_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
-        else:  # 'FYear'
-            last_year = x_data[-1].year
-            future_dates = [pd.Timestamp(year=last_year + k, month=3, day=31) for k in range(1, forecast_period + 1)]
+            future_timestamps = np.array([x.timestamp() for x in forecast_dates])
+            future_y_data = trend_poly(future_timestamps)
 
-        future_timestamps = np.array([date.timestamp() for date in future_dates])
-        future_y_data = trend_poly(future_timestamps)
+            # Include forecasting in the plot
+            all_x_data = list(original_x_data) + forecast_dates
+            all_y_data = list(trend_poly(timestamps)) + list(future_y_data)
+            fig.add_trace(go.Scatter(x=all_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
 
-        # Add forecasted trendline to the plot
-        all_x_data = list(x_data) + future_dates
-        all_y_data = list(trend_poly(timestamps)) + list(future_y_data)
-        fig.add_trace(go.Scatter(x=all_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
+        # Update axis and layout settings
+        fig.update_yaxes(title_standoff=7, row=row, col=col, tickformat='.1f')
 
-        # Update y-axis settings
-        fig.update_yaxes(title_text=dimension,title_standoff=7, row=row, col=col, tickformat='.1f')
-
-    # Add the rectangular box around the whole subplot area
-    fig.add_shape(
-        type="rect",
-        xref="paper", yref="paper",
-        x0=0, y0=0,
-        x1=1, y1=1,
-        line=dict(color="Black", width=2),
-    )
-
-    # Update layout
+    # Rectangular box and layout updates
+    fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=0, x1=1, y1=1, line=dict(color="Black", width=2))
     title_text = chart_heading(dimension, currency, timescale, feature)
-    fig.update_layout(
-        height=250 * rows,
-        width=900,
-        title_text=title_text,
-        showlegend=False
-    )
+    fig.update_layout(height=250 * rows, width=900, title_text=title_text, showlegend=False)
 
-    # Display the plot
     return st.plotly_chart(fig, use_container_width=True)
 
 
