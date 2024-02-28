@@ -537,6 +537,7 @@ def createslider(extended_x_data):
 
 
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period):
+    
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
         pivot_df.iloc[0, :] *= -1
@@ -545,34 +546,60 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     num_dimensions = len(pivot_df.index)
     cols = 3
     rows = -(-num_dimensions // cols)
-
     fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
 
-    # Handle timescale-specific data preparation and forecasting
+    # Logic for quarters
     if timescale == "Quarter":
-        original_x_data = pivot_df.columns.to_pydatetime()  # Ensuring datetime format
-        last_date = original_x_data[-1]
-        forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
-    elif timescale == "FYear":
-        # Assuming original_x_data contains integer years
         original_x_data = pivot_df.columns
-        last_year = int(original_x_data[-1])  # Directly use as integer, no '.year' attribute needed
-        forecast_years = [pd.Timestamp(year=last_year + k, month=12, day=31) for k in range(1, forecast_period + 1)]
+        last_date = original_x_data[-1]
+        # Forecast future dates for quarters
+        forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
+        extended_x_data = list(original_x_data) + forecast_dates
+        selected_min, selected_max = createslider(extended_x_data)
+        selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
+    # Logic for fiscal years
+    elif timescale == "FYear":
+        pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
+        original_x_data = pivot_df.columns
+        last_year = original_x_data[-1].year
+        # Forecast future dates for fiscal years
+        forecast_dates = [pd.Timestamp(year=last_year + k, month=12, day=31) for k in range(1, forecast_period + 1)]
+        extended_x_data = list(original_x_data) + forecast_dates
+        selected_min, selected_max = createslider(extended_x_data)
+        selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
 
-    # Forecast logic for both timescales
-    extended_x_data = list(original_x_data) + (forecast_dates if timescale == "Quarter" else forecast_years)
-    selected_min, selected_max = createslider(extended_x_data)
-    selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
-
-    # Plotting logic (common for both Quarter and FYear)
+    # Plotting logic
     for i, dimension in enumerate(pivot_df.index, start=1):
-        # Common plotting steps...
-        # Ensure timestamps handling aligns with the data type, converting to timestamps if necessary
+        row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
+        # Common plotting logic for both quarters and fiscal years
+        historical_x_data = [x for x in selected_cols if x in original_x_data]
+        timestamps = np.array([pd.Timestamp(x).timestamp() for x in historical_x_data])
+        y_data = pivot_df.loc[dimension, historical_x_data].dropna()
 
-    # Finalizing plot with layout and rectangle box, and then displaying it
-    # fig.update_layout and st.plotly_chart calls...
+        if len(timestamps) != len(y_data):
+            raise ValueError("The lengths of timestamps and y_data do not match.")
+
+        trend = np.polyfit(timestamps, y_data, 1)
+        trend_poly = np.poly1d(trend)
+
+        # Plot historical data
+        fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
+
+        # Apply the trend to display data for visualization
+        all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in selected_cols])
+        all_y_data = trend_poly(all_timestamps)
+
+        fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
+
+        fig.update_yaxes(title_text=dimension, title_standoff=7, row=row, col=col, tickformat='.1f')
+
+    # Finalizing plot with layout and rectangle box
+    fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=0, x1=1, y1=1, line=dict(color="Black", width=2))
+    title_text = chart_heading(dimension, currency, timescale, feature)
+    fig.update_layout(height=250 * rows, width=900, title_text=title_text, showlegend=False)
+
     return st.plotly_chart(fig, use_container_width=True)
-    
+
 
 #-----------MAIN PROGRAM STARTS-------------------
 
