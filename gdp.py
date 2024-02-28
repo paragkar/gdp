@@ -452,7 +452,7 @@ if plot_type == "Heatmap":
 if plot_type == "Scatter":
 
 
-    st.write(pivot_df.loc[imports,:])
+    st.write(pivot_df.iloc[0,:])
 
     try:
 
