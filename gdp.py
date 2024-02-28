@@ -432,7 +432,8 @@ def plotingheatmap(pivot_df, dimension,timescale,curreny,feature):
 def plotingscatter(pivot_df, dimension,timescale,curreny,feature):
 
     #Change of the dimension "imports" from negative to positive
-    pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
+    if dimension in ["GDP Constant", "GDP Current"]:
+        pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
 
     #Processing Slider in case timescale chosen is Quarter
     if timescale == "Quarter":
