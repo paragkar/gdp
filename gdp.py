@@ -452,7 +452,7 @@ if plot_type == "Heatmap":
 if plot_type == "Scatter":
 
     # Generate scatter plots with trendlines for each dimension
-    fig = make_subplots(rows=len(pivot_df.index), cols=1, shared_xaxes=True, vertical_spacing=0.02)
+    fig = make_subplots(rows=len(pivot_df.index), cols=1, shared_xaxes=True, vertical_spacing=0.01)
 
     if timescale == "Quarter":
         pass
