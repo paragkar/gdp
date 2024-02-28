@@ -429,6 +429,90 @@ def plotingheatmap(pivot_df, dimension,timescale,curreny,feature):
     return    st.plotly_chart(combined_fig, use_container_width=True)
 
 
+def plotingscatter(pivot_df, dimension,timescale,curreny,feature):
+
+    #Change of the dimension "imports" from negative to positive
+    pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
+
+    #Processing Slider in case timescale chosen is Quarter
+    if timescale == "Quarter":
+        selected_min, selected_max = createslider(pivot_df)
+        selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
+        pivot_df = pivot_df[selected_cols]
+        st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
+    else:
+        selected_cols = pivot_df.columns
+
+    # Determine the number of rows and columns for the subplot grid
+    num_dimensions = len(pivot_df.index)
+    cols = 3  # Set to 3 columns as requested
+    rows = -(-num_dimensions // cols)  # Calculate rows needed, rounding up
+
+    # Generate scatter plots with trendlines for each dimension
+    fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
+
+    if timescale == "Quarter":
+        x_data = pivot_df.columns
+    elif timescale == "FYear":
+        pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
+        x_data = pivot_df.columns
+
+    # Iterate over each dimension to create a scatter plot
+    for i, dimension in enumerate(pivot_df.index, start=1):
+        y_data = pivot_df.loc[dimension]
+        
+        # Determine the position of the current plot
+        row = (i - 1) // cols + 1
+        col = (i - 1) % cols + 1
+        
+        # Generate timestamps for linear regression
+        timestamps = [x.timestamp() for x in x_data]
+
+        # Add scatter plot for the current dimension
+        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', line=dict(dash='dot'), name=f'{dimension} Trend'), row=row, col=col)
+
+        # Update y-axis range to be between -50 and 50 for each subplot
+        # fig.update_yaxes(range=[-50, 100], row=row, col=col, title_standoff=7)
+        fig.update_yaxes(row=row, 
+                        col=col, 
+                        title_standoff=7)
+                        
+        # Add trendline using a linear fit
+        trend = np.polyfit(timestamps, y_data, 1)
+        trendline = np.poly1d(trend)(timestamps)
+        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=''), row=row, col=col)
+
+
+    # Draw a rectangular box around the whole subplot area
+    fig.add_shape(
+        type="rect",
+        xref="paper", yref="paper",
+        x0=-0, y0=-0.042,
+        x1=1, y1=1.02,
+        line=dict(color="Black", width=2),
+    )
+
+
+    title_text = chart_heading(dimension,curreny,timescale,feature)
+
+    # Update layout to accommodate the new grid structure and enhance readability
+    fig.update_layout(
+        height=250 * rows,  # Adjust the height based on the number of rows
+        width=900,  # Set a fixed width or adjust as necessary
+        title_text= title_text,
+        showlegend=False
+    )
+
+    # Adjust axis titles and format for each subplot
+    for i in range(1, num_dimensions + 1):
+        row = (i - 1) // cols + 1
+        col = (i - 1) % cols + 1
+        fig.update_yaxes(title_text=pivot_df.index[i - 1], row=row, col=col, tickformat = '.1f')
+
+    # Display the figure in Streamlit
+
+    return st.plotly_chart(fig, use_container_width=True)
+
 
 #-----------MAIN PROGRAM STARTS-------------------
 
@@ -604,85 +688,87 @@ if plot_type == "Heatmap" and Flag:
 
 if plot_type == "Scatter" and Flag:
 
-    #Change of the dimension "imports" from negative to positive
-    pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
+    plotingscatter(pivot_df, dimension,timescale,curreny,feature)
 
-    #Processing Slider in case timescale chosen is Quarter
-    if timescale == "Quarter":
-        selected_min, selected_max = createslider(pivot_df)
-        selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
-        pivot_df = pivot_df[selected_cols]
-        st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
-    else:
-        selected_cols = pivot_df.columns
+    # #Change of the dimension "imports" from negative to positive
+    # pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
 
-    # Determine the number of rows and columns for the subplot grid
-    num_dimensions = len(pivot_df.index)
-    cols = 3  # Set to 3 columns as requested
-    rows = -(-num_dimensions // cols)  # Calculate rows needed, rounding up
+    # #Processing Slider in case timescale chosen is Quarter
+    # if timescale == "Quarter":
+    #     selected_min, selected_max = createslider(pivot_df)
+    #     selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
+    #     pivot_df = pivot_df[selected_cols]
+    #     st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
+    # else:
+    #     selected_cols = pivot_df.columns
 
-    # Generate scatter plots with trendlines for each dimension
-    fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
+    # # Determine the number of rows and columns for the subplot grid
+    # num_dimensions = len(pivot_df.index)
+    # cols = 3  # Set to 3 columns as requested
+    # rows = -(-num_dimensions // cols)  # Calculate rows needed, rounding up
 
-    if timescale == "Quarter":
-        x_data = pivot_df.columns
-    elif timescale == "FYear":
-        pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
-        x_data = pivot_df.columns
+    # # Generate scatter plots with trendlines for each dimension
+    # fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
 
-    # Iterate over each dimension to create a scatter plot
-    for i, dimension in enumerate(pivot_df.index, start=1):
-        y_data = pivot_df.loc[dimension]
+    # if timescale == "Quarter":
+    #     x_data = pivot_df.columns
+    # elif timescale == "FYear":
+    #     pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
+    #     x_data = pivot_df.columns
+
+    # # Iterate over each dimension to create a scatter plot
+    # for i, dimension in enumerate(pivot_df.index, start=1):
+    #     y_data = pivot_df.loc[dimension]
         
-        # Determine the position of the current plot
-        row = (i - 1) // cols + 1
-        col = (i - 1) % cols + 1
+    #     # Determine the position of the current plot
+    #     row = (i - 1) // cols + 1
+    #     col = (i - 1) % cols + 1
         
-        # Generate timestamps for linear regression
-        timestamps = [x.timestamp() for x in x_data]
+    #     # Generate timestamps for linear regression
+    #     timestamps = [x.timestamp() for x in x_data]
 
-        # Add scatter plot for the current dimension
-        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', line=dict(dash='dot'), name=f'{dimension} Trend'), row=row, col=col)
+    #     # Add scatter plot for the current dimension
+    #     fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', line=dict(dash='dot'), name=f'{dimension} Trend'), row=row, col=col)
 
-        # Update y-axis range to be between -50 and 50 for each subplot
-        # fig.update_yaxes(range=[-50, 100], row=row, col=col, title_standoff=7)
-        fig.update_yaxes(row=row, 
-                        col=col, 
-                        title_standoff=7)
+    #     # Update y-axis range to be between -50 and 50 for each subplot
+    #     # fig.update_yaxes(range=[-50, 100], row=row, col=col, title_standoff=7)
+    #     fig.update_yaxes(row=row, 
+    #                     col=col, 
+    #                     title_standoff=7)
                         
-        # Add trendline using a linear fit
-        trend = np.polyfit(timestamps, y_data, 1)
-        trendline = np.poly1d(trend)(timestamps)
-        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=''), row=row, col=col)
+    #     # Add trendline using a linear fit
+    #     trend = np.polyfit(timestamps, y_data, 1)
+    #     trendline = np.poly1d(trend)(timestamps)
+    #     fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=''), row=row, col=col)
 
 
-    # Draw a rectangular box around the whole subplot area
-    fig.add_shape(
-        type="rect",
-        xref="paper", yref="paper",
-        x0=-0, y0=-0.042,
-        x1=1, y1=1.02,
-        line=dict(color="Black", width=2),
-    )
+    # # Draw a rectangular box around the whole subplot area
+    # fig.add_shape(
+    #     type="rect",
+    #     xref="paper", yref="paper",
+    #     x0=-0, y0=-0.042,
+    #     x1=1, y1=1.02,
+    #     line=dict(color="Black", width=2),
+    # )
 
 
-    title_text = chart_heading(dimension,curreny,timescale,feature)
+    # title_text = chart_heading(dimension,curreny,timescale,feature)
 
-    # Update layout to accommodate the new grid structure and enhance readability
-    fig.update_layout(
-        height=250 * rows,  # Adjust the height based on the number of rows
-        width=900,  # Set a fixed width or adjust as necessary
-        title_text= title_text,
-        showlegend=False
-    )
+    # # Update layout to accommodate the new grid structure and enhance readability
+    # fig.update_layout(
+    #     height=250 * rows,  # Adjust the height based on the number of rows
+    #     width=900,  # Set a fixed width or adjust as necessary
+    #     title_text= title_text,
+    #     showlegend=False
+    # )
 
-    # Adjust axis titles and format for each subplot
-    for i in range(1, num_dimensions + 1):
-        row = (i - 1) // cols + 1
-        col = (i - 1) % cols + 1
-        fig.update_yaxes(title_text=pivot_df.index[i - 1], row=row, col=col, tickformat = '.1f')
+    # # Adjust axis titles and format for each subplot
+    # for i in range(1, num_dimensions + 1):
+    #     row = (i - 1) // cols + 1
+    #     col = (i - 1) % cols + 1
+    #     fig.update_yaxes(title_text=pivot_df.index[i - 1], row=row, col=col, tickformat = '.1f')
 
-    # Display the figure in Streamlit
-    st.plotly_chart(fig, use_container_width=True)
+    # # Display the figure in Streamlit
+    # st.plotly_chart(fig, use_container_width=True)
 
 
