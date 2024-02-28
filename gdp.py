@@ -281,12 +281,12 @@ def createslider(pivot_df):
 
     return selected_min, selected_max
 
-
+#Check for proper combination of dimesion and current before proceeding 
 def checkdimcurrcomb(dimension, curreny):
 
-    if (dimension in ["GDP Constant", "GDP Current", "GVA Constant","GVA Current"]):
+    if (dimension in ["GDP Constant", "GDP Current", "GVA Constant","GVA Current"]) and (curreny == "Rupees"):
         Flag = True 
-    elif (dimension in ["GDP Current", "GVA Current"]) & (curreny == "USDollars"):
+    elif (dimension in ["GDP Current", "GVA Current"]) and (curreny == "USDollars"):
         Flag = True 
     else:
         Flag = False
@@ -327,7 +327,7 @@ Flag = checkdimcurrcomb(dimension, curreny)
 
 st.write(Flag)
 
-if plot_type == "Heatmap" & Flag:
+if plot_type == "Heatmap" and Flag:
 
 
     filter_desc = dimension.split(" ")[0]
@@ -465,7 +465,7 @@ if plot_type == "Heatmap" & Flag:
 
 
 
-if plot_type == "Scatter" & Flag:
+if plot_type == "Scatter" and Flag:
 
     #Change of the dimension "imports" from negative to positive
     pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
