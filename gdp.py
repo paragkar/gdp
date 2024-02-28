@@ -517,19 +517,20 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
 #create slider for the scatter forecast function 
 def createslider(extended_x_data):
-    # Convert extended_x_data to pandas datetime if not already
-    extended_x_data = pd.to_datetime(extended_x_data)
+    # Ensure all datetime data is in Python datetime format, not pandas Timestamp
+    extended_x_data = [pd.to_datetime(date).to_pydatetime() for date in extended_x_data]
 
-    # Assuming extended_x_data is now a DatetimeIndex or similar pandas series
-    slider_min_date = extended_x_data.min()
-    slider_max_date = extended_x_data.max()
+    # Determine the minimum and maximum dates for the slider
+    slider_min_date = min(extended_x_data)
+    slider_max_date = max(extended_x_data)
 
-    # Create the slider in Streamlit
+    # Create and display the slider in Streamlit, ensuring it returns datetime objects
     selected_range = st.slider(
         "Select Date Range:",
         min_value=slider_min_date,
         max_value=slider_max_date,
-        value=(slider_min_date, slider_max_date)
+        value=(slider_min_date, slider_max_date),
+        format="MM/DD/YY"  # Adjust date format as needed
     )
 
     return selected_range
