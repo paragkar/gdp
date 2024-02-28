@@ -465,7 +465,7 @@ if plot_type == "Scatter":
 
     if timescale == "FYear":
 
-        fyenddate = [datetime.datetime(x,3,31) for x in pivot_df.columns]
+        fyenddate = [datetime(x,3,31) for x in pivot_df.columns]
 
         st.write(fyenddate)
 
