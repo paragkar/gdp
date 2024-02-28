@@ -515,6 +515,26 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
     return st.plotly_chart(fig, use_container_width=True)
 
 
+#create slider for the scatter forecast function 
+def createslider(extended_x_data):
+    # Convert extended_x_data to pandas datetime if not already
+    extended_x_data = pd.to_datetime(extended_x_data)
+
+    # Assuming extended_x_data is now a DatetimeIndex or similar pandas series
+    slider_min_date = extended_x_data.min()
+    slider_max_date = extended_x_data.max()
+
+    # Create the slider in Streamlit
+    selected_range = st.slider(
+        "Select Date Range:",
+        min_value=slider_min_date,
+        max_value=slider_max_date,
+        value=(slider_min_date, slider_max_date)
+    )
+
+    return selected_range
+
+
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period=5):
 
     # Convert negative values for "imports" dimension to positive, if necessary
