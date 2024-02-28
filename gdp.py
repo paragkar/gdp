@@ -459,7 +459,7 @@ if plot_type == "Scatter":
     else:
         selected_cols = pivot_df.columns
 
-    st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0], ", End Date : ", selected_cols[-1])
+    st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
 
     # Determine the number of rows and columns for the subplot grid
     num_dimensions = len(pivot_df.index)
