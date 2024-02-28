@@ -482,6 +482,21 @@ if plot_type == "Scatter":
         trendline = np.poly1d(trend)(timestamps)
         fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=i, col=1)
 
+    # Add rectangles for each plot
+    for i in range(len(pivot_df.index)):
+        fig.add_shape(
+            type="rect",
+            xref="paper", yref="paper",
+            x0=0, y0=i/len(pivot_df.index),  # Starting x and y points for the rectangle
+            x1=1, y1=(i+1)/len(pivot_df.index),  # Ending x and y points for the rectangle
+            line=dict(
+                color="Black",
+                width=2,
+            ),
+            row=i+1, col=1
+        )
+
+
     # Update layout
     fig.update_layout(height=300*len(pivot_df.index), title_text="Scatter Plot with Trendlines for Each Dimension", showlegend=False)
     
@@ -492,4 +507,3 @@ if plot_type == "Scatter":
     # Display the figure in Streamlit
     st.plotly_chart(fig, use_container_width=True)
 
-    
