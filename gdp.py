@@ -452,6 +452,7 @@ if plot_type == "Heatmap":
 if plot_type == "Scatter":
 
 
+    #Change of the dimension "imports" from negative to positive
     pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
 
     try:
@@ -491,7 +492,7 @@ if plot_type == "Scatter":
             timestamps = [x.timestamp() for x in x_data]
 
             # Add scatter plot for the current dimension
-            fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=f'{dimension} Trend'), row=row, col=col)
+            fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', line=dict(dash='dot'), name=f'{dimension} Trend'), row=row, col=col)
 
             # Update y-axis range to be between -50 and 50 for each subplot
             # fig.update_yaxes(range=[-50, 100], row=row, col=col, title_standoff=7)
