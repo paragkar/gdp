@@ -451,39 +451,32 @@ if plot_type == "Heatmap":
 
 if plot_type == "Scatter":
 
-    fig = make_subplots(rows=len(pivot_df.index), cols=1, shared_xaxes=True, vertical_spacing=0.02)
+     # Generate scatter plots with trendlines for each dimension
+    fig = make_subplots(rows=len(data.index), cols=1, shared_xaxes=True, vertical_spacing=0.02)
 
+    # Use years directly from the columns (assuming these are your x-axis values)
+    x_data = data.columns[1:].astype(int)  # Skip the 'Description' column and ensure the years are integers
 
-    st.write(pivot_df)
-
-    # Check and possibly convert x_data to datetime if they are not already
-    if not isinstance(pivot_df.columns[0], pd.Timestamp):
-        # Assuming pivot_df.columns are in a format that can be converted to datetime
-        x_data = pd.to_datetime(pivot_df.columns)
-    else:
-        x_data = pivot_df.columns
-
-    # Iterate over each dimension to create a scatter plot
-    for i, dimension in enumerate(pivot_df.index, 1):
-        y_data = pivot_df.loc[dimension]
-        
-        # Generate timestamps for linear regression
-        timestamps = [x.timestamp() for x in x_data]
+    # Iterate over each dimension (row) to create a scatter plot
+    for i, row in data.iterrows():
+        y_data = row[1:]  # Skip the 'Description' column, which contains the sector names
+        dimension = row['Description']
 
         # Add scatter plot for the current dimension
-        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=i, col=1)
-        
+        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=i + 1, col=1)
+
         # Add trendline using a linear fit
-        trend = np.polyfit(timestamps, y_data, 1)  # Simple linear regression
-        trendline = np.poly1d(trend)(timestamps)
-        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=i, col=1)
+        # Convert x_data to a numerical format that can be used in polyfit
+        trend = np.polyfit(x_data, y_data, 1)  # Simple linear regression
+        trendline = np.poly1d(trend)(x_data)
+        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=i + 1, col=1)
 
     # Update layout
-    fig.update_layout(height=300*len(pivot_df.index), title_text="Scatter Plot with Trendlines for Each Dimension", showlegend=False)
-    
+    fig.update_layout(height=300*len(data.index), title_text="Scatter Plot with Trendlines for Each Dimension", showlegend=False)
+
     # Adjust axis titles and format
-    for i in range(len(pivot_df.index)):
-        fig.update_yaxes(title_text=pivot_df.index[i], row=i+1, col=1)
+    for i in range(len(data.index)):
+        fig.update_yaxes(title_text=data.iloc[i]['Description'], row=i + 1, col=1)
 
     # Display the figure in Streamlit
     st.plotly_chart(fig, use_container_width=True)
