@@ -542,7 +542,7 @@ if plot_type == "Scatter" and Flag:
     for i in range(1, num_dimensions + 1):
         row = (i - 1) // cols + 1
         col = (i - 1) % cols + 1
-        fig.update_yaxes(title_text=pivot_df.index[i - 1], row=row, col=col, tickformat = '.1f')
+        fig.update_yaxes(title_text=pivot_df.index[i - 1], row=row, col=col, tickformat = '.2f')
 
     # Display the figure in Streamlit
     st.plotly_chart(fig, use_container_width=True)
