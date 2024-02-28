@@ -461,6 +461,8 @@ if plot_type == "Scatter":
     else:
         x_data = pivot_df.columns
 
+    st.write(x_data)
+
     # Iterate over each dimension to create a scatter plot
     for i, dimension in enumerate(pivot_df.index, 1):
         y_data = pivot_df.loc[dimension]
