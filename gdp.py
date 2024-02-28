@@ -492,7 +492,7 @@ if plot_type == "Scatter":
             # Add trendline using a linear fit
             trend = np.polyfit(timestamps, y_data, 1)
             trendline = np.poly1d(trend)(timestamps)
-            fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=row, col=col)
+            fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=''), row=row, col=col)
 
             # Remove y-axis labels and use the dimension name as the subplot title
             fig.update_yaxes(title_text='', showticklabels=False, row=row, col=col)
