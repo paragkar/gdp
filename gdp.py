@@ -547,64 +547,46 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     cols = 3
     rows = -(-num_dimensions // cols)
 
-    # Determine x_data and extend it for forecasting
+    fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
+
     if timescale == "Quarter":
         original_x_data = pivot_df.columns
         last_date = original_x_data[-1]
+        # Adjusted to include forecast period in the slider data
         forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
         extended_x_data = list(original_x_data) + forecast_dates
 
-        # Implement the slider
-        selected_min, selected_max = createslider(extended_x_data)
+        selected_min, selected_max = createslider(extended_x_data)  # Ensure this returns the appropriate datetime range
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
         display_x_data = selected_cols
 
-        # Log the selected range
-        st.write("Selected Range: ", len(selected_cols), " periods from ", selected_cols[0].date(), " to ", selected_cols[-1].date())
+        # Displaying the selected range
+        st.write("Selected Range: ", len(selected_cols), "periods from", selected_cols[0].date(), "to", selected_cols[-1].date())
     else:
-        display_x_data = pivot_df.columns  # FYear doesn't use slider in this setup
+        display_x_data = pivot_df.columns
 
-    fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
-
-    # Inside your plotingscatterforecast, within the for loop:
     for i, dimension in enumerate(pivot_df.index, start=1):
         row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
 
-        # If timescale is 'Quarter', ensure x_data aligns with the selected range
         if timescale == "Quarter":
-            timestamps = np.array([pd.Timestamp(x).timestamp() for x in display_x_data])
-            # Align y_data with the filtered x_data
-            y_data = pivot_df.reindex(columns=display_x_data).loc[dimension].dropna()
-            # Ensure we only consider timestamps that align with y_data
-            timestamps = timestamps[:len(y_data)]
-        else:
-            timestamps = np.array([x.timestamp() for x in x_data])
-            y_data = pivot_df.loc[dimension]
+            # Aligning x_data for both historical and forecasted periods
+            timestamps = np.array([pd.Timestamp(x).timestamp() for x in display_x_data if x in original_x_data])
+            y_data = pivot_df.loc[dimension, original_x_data].reindex(display_x_data, fill_value=np.nan)[:len(timestamps)]
 
-        # Ensure x and y are of the same length before fitting
-        if len(timestamps) != len(y_data):
-            raise ValueError("The lengths of timestamps and y_data do not match.")
+            trend = np.polyfit(timestamps, y_data.dropna(), 1)
+            trend_poly = np.poly1d(trend)
 
-        trend = np.polyfit(timestamps, y_data, 1)
-        trend_poly = np.poly1d(trend)
+            # Plotting includes forecast range now
+            future_timestamps = np.array([x.timestamp() for x in display_x_data if x not in original_x_data])
+            all_x_data = np.concatenate((timestamps, future_timestamps))
+            all_y_data = np.concatenate((y_data.dropna(), trend_poly(future_timestamps)))
 
-        # Scatter historical data
-        fig.add_trace(go.Scatter(x=original_x_data, y=y_data[:len(original_x_data)], mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
+            fig.add_trace(go.Scatter(x=[datetime.fromtimestamp(ts) for ts in all_x_data], 
+                                     y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
 
-        # Forecasting and plotting future data
-        if timescale == "Quarter":
-            future_timestamps = np.array([x.timestamp() for x in forecast_dates])
-            future_y_data = trend_poly(future_timestamps)
-
-            # Include forecasting in the plot
-            all_x_data = list(original_x_data) + forecast_dates
-            all_y_data = list(trend_poly(timestamps)) + list(future_y_data)
-            fig.add_trace(go.Scatter(x=all_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
-
-        # Update axis and layout settings
         fig.update_yaxes(title_standoff=7, row=row, col=col, tickformat='.1f')
 
-    # Rectangular box and layout updates
+    # Remaining plot updates and rendering
     fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=0, x1=1, y1=1, line=dict(color="Black", width=2))
     title_text = chart_heading(dimension, currency, timescale, feature)
     fig.update_layout(height=250 * rows, width=900, title_text=title_text, showlegend=False)
