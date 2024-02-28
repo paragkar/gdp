@@ -553,7 +553,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         last_date = original_x_data[-1]
         forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
 
-        st.write(forecast_dates) #debug
+        st.write(forecast_dates, forecast_period) #debug
 
         extended_x_data = list(original_x_data) + forecast_dates
 
