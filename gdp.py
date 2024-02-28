@@ -566,19 +566,26 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
     fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
 
-    # Iterate to create subplots for each dimension
+    # Inside your plotingscatterforecast, within the for loop:
     for i, dimension in enumerate(pivot_df.index, start=1):
         row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
 
-        # Prepare your y_data based on the selected range
-        if timescale == "Quarter" and dimension in pivot_df.index:
-            y_data = pivot_df.loc[dimension, original_x_data].reindex(display_x_data, fill_value=np.nan)
+        # If timescale is 'Quarter', ensure x_data aligns with the selected range
+        if timescale == "Quarter":
+            timestamps = np.array([pd.Timestamp(x).timestamp() for x in display_x_data])
+            # Align y_data with the filtered x_data
+            y_data = pivot_df.reindex(columns=display_x_data).loc[dimension].dropna()
+            # Ensure we only consider timestamps that align with y_data
+            timestamps = timestamps[:len(y_data)]
         else:
+            timestamps = np.array([x.timestamp() for x in x_data])
             y_data = pivot_df.loc[dimension]
 
-        # Linear regression for trendlines, plotting the historical data
-        timestamps = np.array([pd.Timestamp(x).timestamp() for x in original_x_data])
-        trend = np.polyfit(timestamps, y_data.dropna(), 1)
+        # Ensure x and y are of the same length before fitting
+        if len(timestamps) != len(y_data):
+            raise ValueError("The lengths of timestamps and y_data do not match.")
+
+        trend = np.polyfit(timestamps, y_data, 1)
         trend_poly = np.poly1d(trend)
 
         # Scatter historical data
