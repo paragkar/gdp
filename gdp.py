@@ -527,11 +527,14 @@ if plot_type == "Scatter" and Flag:
         line=dict(color="Black", width=2),
     )
 
+
+    title_text = chart_heading(dimension,curreny,timescale,feature)
+
     # Update layout to accommodate the new grid structure and enhance readability
     fig.update_layout(
         height=250 * rows,  # Adjust the height based on the number of rows
         width=1000,  # Set a fixed width or adjust as necessary
-        title_text="Scatter Plot with Trendlines for Each Dimension",
+        title_text= title_text,
         showlegend=False
     )
 
