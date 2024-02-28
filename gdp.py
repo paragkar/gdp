@@ -468,47 +468,48 @@ if plot_type == "Scatter":
     # Generate scatter plots with trendlines for each dimension
     try:
         fig = make_subplots(rows=rows, cols=cols, shared_xaxes=True, vertical_spacing=0.05, horizontal_spacing=0.05)
+
+        if timescale == "Quarter":
+            x_data = pivot_df.columns
+        elif timescale == "FYear":
+            pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
+            x_data = pivot_df.columns
+
+        # Iterate over each dimension to create a scatter plot
+        for i, dimension in enumerate(pivot_df.index, start=1):
+            y_data = pivot_df.loc[dimension]
+            
+            # Determine the position of the current plot
+            row = (i - 1) // cols + 1
+            col = (i - 1) % cols + 1
+            
+            # Generate timestamps for linear regression
+            timestamps = [x.timestamp() for x in x_data]
+
+            # Add scatter plot for the current dimension
+            fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=row, col=col)
+            
+            # Add trendline using a linear fit
+            trend = np.polyfit(timestamps, y_data, 1)
+            trendline = np.poly1d(trend)(timestamps)
+            fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=row, col=col)
+
+        # Update layout to accommodate the new grid structure and enhance readability
+        fig.update_layout(
+            height=250 * rows,  # Adjust the height based on the number of rows
+            width=1200,  # Set a fixed width or adjust as necessary
+            title_text="Scatter Plot with Trendlines for Each Dimension",
+            showlegend=False
+        )
+
+        # Adjust axis titles and format for each subplot
+        for i in range(1, num_dimensions + 1):
+            row = (i - 1) // cols + 1
+            col = (i - 1) % cols + 1
+            fig.update_yaxes(title_text=pivot_df.index[i - 1], row=row, col=col)
+
+        # Display the figure in Streamlit
+        st.plotly_chart(fig, use_container_width=True)
+
     except:
         pass
-
-    if timescale == "Quarter":
-        x_data = pivot_df.columns
-    elif timescale == "FYear":
-        pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
-        x_data = pivot_df.columns
-
-    # Iterate over each dimension to create a scatter plot
-    for i, dimension in enumerate(pivot_df.index, start=1):
-        y_data = pivot_df.loc[dimension]
-        
-        # Determine the position of the current plot
-        row = (i - 1) // cols + 1
-        col = (i - 1) % cols + 1
-        
-        # Generate timestamps for linear regression
-        timestamps = [x.timestamp() for x in x_data]
-
-        # Add scatter plot for the current dimension
-        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', name=dimension), row=row, col=col)
-        
-        # Add trendline using a linear fit
-        trend = np.polyfit(timestamps, y_data, 1)
-        trendline = np.poly1d(trend)(timestamps)
-        fig.add_trace(go.Scatter(x=x_data, y=trendline, mode='lines', name=f'{dimension} Trend'), row=row, col=col)
-
-    # Update layout to accommodate the new grid structure and enhance readability
-    fig.update_layout(
-        height=250 * rows,  # Adjust the height based on the number of rows
-        width=1200,  # Set a fixed width or adjust as necessary
-        title_text="Scatter Plot with Trendlines for Each Dimension",
-        showlegend=False
-    )
-
-    # Adjust axis titles and format for each subplot
-    for i in range(1, num_dimensions + 1):
-        row = (i - 1) // cols + 1
-        col = (i - 1) % cols + 1
-        fig.update_yaxes(title_text=pivot_df.index[i - 1], row=row, col=col)
-
-    # Display the figure in Streamlit
-    st.plotly_chart(fig, use_container_width=True)
