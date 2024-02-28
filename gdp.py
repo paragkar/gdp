@@ -574,7 +574,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         fig.add_trace(go.Scatter(x=all_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
 
         # Update y-axis settings
-        fig.update_yaxes(range=[-50, 50], title_standoff=7, row=row, col=col, tickformat='.1f')
+        fig.update_yaxes( title_standoff=7, row=row, col=col, tickformat='.1f')
 
     # Add the rectangular box around the whole subplot area
     fig.add_shape(
