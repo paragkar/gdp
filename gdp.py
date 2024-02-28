@@ -536,9 +536,9 @@ def createslider(extended_x_data):
     return selected_range
 
 
-def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature):
+def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period):
 
-    forecast_period = 20
+    
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
         pivot_df.iloc[0, :] *= -1
@@ -592,7 +592,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature):
             fig.add_trace(go.Scatter(x=display_x_data, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
         
         # Update axis and layout for each subplot
-        fig.update_yaxes(title_standoff=7, row=row, col=col, tickformat='.1f')
+        fig.update_yaxes(titletext = dimension, title_standoff=7, row=row, col=col, tickformat='.1f')
 
     # Add the rectangular box and update layout
     fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=0, x1=1, y1=1, line=dict(color="Black", width=2))
@@ -650,7 +650,9 @@ if plot_type == "Scatter" and Flag:
 
     if mode_selection == "Forecast":
 
-        plotingscatterforecast(pivot_df, dimension, timescale, currency, feature)
+        forecast_period = 20
+
+        plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period)
 
 
 
