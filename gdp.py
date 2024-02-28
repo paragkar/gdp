@@ -242,6 +242,12 @@ def processing_currency(dimension, currency, timescale, feature, df):
 #Processing chart heading based on user choice of menues
 def chart_heading(dimension,currency,timescale,feature):
 
+    # Ensure all inputs are converted to strings before concatenation
+    dimension_str = str(dimension)
+    currency_str = str(currency)
+    timescale_str = str(timescale)
+    feature_str = str(feature)
+
     if feature == "Absolute":
         if currency == "Rupees":
             title_text =  dimension+" - " +timescale+" Trends"+" (Rs Lakh Cr)"
