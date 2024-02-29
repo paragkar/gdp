@@ -260,33 +260,6 @@ def chart_heading(dimension,currency,timescale,feature):
 
     return title_text
 
-#Create a slider for choosen timescale quarter
-def createslider(pivot_df):
-    slider_min_date = pivot_df.columns.min().to_pydatetime()
-    slider_max_date = pivot_df.columns.max().to_pydatetime()
-
-    # Create a list of quarter-end dates within the range
-    date_range = pd.date_range(start=slider_min_date, end=slider_max_date, freq='QE').to_pydatetime().tolist()
-
-    # Create a mapping of indices to dates
-    index_to_date = {i: date for i, date in enumerate(date_range)}
-
-    # Find index for the default point 8 quarters back
-    default_index = max(0, len(date_range) - 20)
-
-    # Use an integer slider
-    selected_indices = st.slider(
-        "Select Quarters to View",
-        min_value=0,
-        max_value=len(date_range) - 1,
-        value=(default_index, len(date_range) - 1),
-        format="%d"
-    )
-    # Map indices back to dates
-    selected_min, selected_max = index_to_date[selected_indices[0]], index_to_date[selected_indices[1]]
-
-    return selected_min, selected_max
-
 #Check for proper combination of dimesion and current before proceeding 
 def checkdimcurrcomb(dimension, currency):
 
@@ -434,6 +407,32 @@ def plotingheatmap(pivot_df, dimension,timescale,currency,feature):
 
     return    st.plotly_chart(combined_fig, use_container_width=True)
 
+#Create a slider for scatter normal
+def createslider1(pivot_df):
+    slider_min_date = pivot_df.columns.min().to_pydatetime()
+    slider_max_date = pivot_df.columns.max().to_pydatetime()
+
+    # Create a list of quarter-end dates within the range
+    date_range = pd.date_range(start=slider_min_date, end=slider_max_date, freq='QE').to_pydatetime().tolist()
+
+    # Create a mapping of indices to dates
+    index_to_date = {i: date for i, date in enumerate(date_range)}
+
+    # Find index for the default point 8 quarters back
+    default_index = max(0, len(date_range) - 20)
+
+    # Use an integer slider
+    selected_indices = st.slider(
+        "Select Quarters to View",
+        min_value=0,
+        max_value=len(date_range) - 1,
+        value=(default_index, len(date_range) - 1),
+        format="%d"
+    )
+    # Map indices back to dates
+    selected_min, selected_max = index_to_date[selected_indices[0]], index_to_date[selected_indices[1]]
+
+    return selected_min, selected_max
 
 def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
@@ -443,7 +442,7 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
     #Processing Slider in case timescale chosen is Quarter
     if timescale == "Quarter":
-        selected_min, selected_max = createslider(pivot_df)
+        selected_min, selected_max = createslider1(pivot_df)
         selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
         pivot_df = pivot_df[selected_cols]
         st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
@@ -521,8 +520,8 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
     return st.plotly_chart(fig, use_container_width=True)
 
 
-#create slider for the scatter forecast function 
-def createslider(extended_x_data):
+#create slider for the scatter function for Scatter Forecast
+def createslider2(extended_x_data):
     # Ensure all datetime data is in Python datetime format, not pandas Timestamp
     extended_x_data = [pd.to_datetime(date).to_pydatetime() for date in extended_x_data]
 
@@ -540,7 +539,6 @@ def createslider(extended_x_data):
     )
 
     return selected_range
-
 
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period):
     
@@ -561,7 +559,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         # Forecast future dates for quarters
         forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
         extended_x_data = list(original_x_data) + forecast_dates
-        selected_min, selected_max = createslider(extended_x_data)
+        selected_min, selected_max = createslider2(extended_x_data)
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
         st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
     # Logic for fiscal years
@@ -572,7 +570,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         # Forecast future dates for fiscal years
         forecast_dates = [pd.Timestamp(year=last_year + k, month=3, day=31) for k in range(1, forecast_period + 1)]
         extended_x_data = list(original_x_data) + forecast_dates
-        selected_min, selected_max = createslider(extended_x_data)
+        selected_min, selected_max = createslider2(extended_x_data)
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
         st.write("Selected No of FYears: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
 
