@@ -591,7 +591,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         else:
             pass
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
-        st.write("Selected FYears For Forecast: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
+        st.write("Selected Years For Forecast: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
 
     # Plotting logic
     for i, dim in enumerate(pivot_df.index, start=1):
@@ -686,10 +686,10 @@ if plot_type == "Scatter" and Flag:
     if mode_selection == "Forecast":
         if timescale == "Quarter":
             # Place an integer input box in the sidebar to get the number of quarters.
-            forecast_period = st.sidebar.number_input('Number of Quarters', min_value=0, max_value=400, value=4, step=1, format='%d')
+            forecast_period = st.sidebar.number_input('Enter Quarter Nos to Forecast', min_value=0, max_value=400, value=4, step=1, format='%d')
         if timescale == "FYear":
             # Place an integer input box in the sidebar to get the number of years.
-            forecast_period = st.sidebar.number_input('Number of FYears', min_value=0, max_value=100, value=4, step=1, format='%d')
+            forecast_period = st.sidebar.number_input('Enter FYear Nos to Forecast', min_value=0, max_value=100, value=4, step=1, format='%d')
 
         plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period)
 
