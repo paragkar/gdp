@@ -540,8 +540,8 @@ def createslider2(extended_x_data):
 
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period):
 
-     # Sidebar input for user-defined bias with default 0
-    bias = st.sidebar.number_input('Enter Trendline Bias:', value=0.0, step=0.1, format='%f')
+     # Sidebar input for user-defined bias percentage with default 0%
+    bias_percentage = st.sidebar.number_input('Enter Trendline Bias Percentage:', value=0.0, step=0.1, format='%f')
     
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
@@ -601,8 +601,8 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
         # Adjusting y_data with the user-defined bias only for the purpose of trend visualization
         trend = np.polyfit(timestamps, y_data, 1)
-        # Create a new polynomial that includes the bias in the intercept
-        adjusted_intercept = trend[1] + bias
+        # Adjust the intercept based on the bias percentage
+        adjusted_intercept = trend[1] * (1 + bias_percentage / 100.0)
         trend_poly = np.poly1d([trend[0], adjusted_intercept])
 
         # Plot historical data
