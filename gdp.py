@@ -546,6 +546,9 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
     pivot_df = pivot_df.dropna(axis=1)
 
+    # Sidebar inputs for bias application
+    bias_dimension = st.sidebar.selectbox('Select a Dimension for Bias:', pivot_df.index.tolist())
+
     # Sidebar input for user-defined bias percentage with default 0%
     bias_percentage = st.sidebar.number_input('Enter Trendline Bias Percentage:', value=0.0, step=1.0, format='%f')
     
