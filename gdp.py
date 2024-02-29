@@ -437,8 +437,6 @@ def createslider1(pivot_df):
 
 def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
-    st.write(pivot_df) #debug
-
     #Change of the dimension "imports" from negative to positive
     if dimension in ["GDP Constant", "GDP Current"]:
         pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
@@ -543,7 +541,9 @@ def createslider2(extended_x_data):
 
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period):
 
-     # Sidebar input for user-defined bias percentage with default 0%
+    st.write(pivot_df) #debug
+
+    # Sidebar input for user-defined bias percentage with default 0%
     bias_percentage = st.sidebar.number_input('Enter Trendline Bias Percentage:', value=0.0, step=1.0, format='%f')
     
     # Convert negative values for "imports" dimension to positive, if necessary
