@@ -94,26 +94,28 @@ def process_df_choosen_timescale(df,timescale, feature):
         if feature == "Growth":
             pivot_df = df.pivot_table(index='Description', columns='FYear', values='Value')
             pivot_df = ((pivot_df - pivot_df.shift(1, axis =1))/pivot_df.shift(1, axis =1))*100
+
+    pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
             
     return pivot_df
 
-def sorting_dataframe(pivot_df,feature,dimension):
-    #sorting the dataframe for heatmap display
-    try:
-        if (feature != "Growth"):
-            pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
-        if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
-            pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
-            pivot_df = pivot_df.sort_index(ascending=False)
-            pivot_df.index = pivot_df.index.astype('object')
-        if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
-            pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df2, ordered=True)
-            pivot_df = pivot_df.sort_index(ascending=False)
-            pivot_df.index = pivot_df.index.astype('object')
-    except:
-        pass
+# def sorting_dataframe(pivot_df,feature,dimension):
+#     #sorting the dataframe for heatmap display
+#     try:
+#         if (feature != "Growth"):
+#             pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
+#         if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
+#             pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
+#             pivot_df = pivot_df.sort_index(ascending=False)
+#             pivot_df.index = pivot_df.index.astype('object')
+#         if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
+#             pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df2, ordered=True)
+#             pivot_df = pivot_df.sort_index(ascending=False)
+#             pivot_df.index = pivot_df.index.astype('object')
+#     except:
+#         pass
 
-    return pivot_df
+#     return pivot_df
 
 
 #configuring the data for heatmap
@@ -629,13 +631,13 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 #load data
 df = loadgdpgva()
 
-#When feature is growth use these list for sorting the dataframe for diosplay
-dftemp1 = df[df["Date"]==max(df["Date"])].reset_index(drop=True)
-lst_for_sorting_pivot_df1 = list(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value", ascending = False)["Description"])
-lst_for_sorting_pivot_df2 = list(dftemp1[dftemp1["Type"]=="GVA Constant"].sort_values("Value", ascending = False)["Description"])
+# #When feature is growth use these list for sorting the dataframe for diosplay
+# dftemp1 = df[df["Date"]==max(df["Date"])].reset_index(drop=True)
+# lst_for_sorting_pivot_df1 = list(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value", ascending = False)["Description"])
+# lst_for_sorting_pivot_df2 = list(dftemp1[dftemp1["Type"]=="GVA Constant"].sort_values("Value", ascending = False)["Description"])
 
-st.write(lst_for_sorting_pivot_df1) #debug
-st.write(lst_for_sorting_pivot_df2) #debug
+# st.write(lst_for_sorting_pivot_df1) #debug
+# st.write(lst_for_sorting_pivot_df2) #debug
 
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
