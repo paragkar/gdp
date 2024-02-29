@@ -75,12 +75,14 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100*2
             pivot_df = dftemp.pivot_table(index='Description', columns='Date', values='Value')
         if feature == "Growth":
+
+            st.write(pivot_df) # debug
+            
             pivot_df = df.pivot_table(index='Description', columns='Date', values='Value')
             pivot_df = ((pivot_df - pivot_df.shift(5, axis =1))/pivot_df.shift(5, axis =1))*100
            
     if timescale == "FYear":
         if feature == "Absolute":
-
             df = df.groupby(["FYear", "Description"]).agg({"Value": "sum"}).reset_index()
             pivot_df = df.pivot(index='Description', columns='FYear', values='Value')
 
