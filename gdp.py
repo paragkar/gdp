@@ -444,7 +444,7 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
     #Change of the dimension "imports" from negative to positive
     if dimension in ["GDP Constant", "GDP Current"]:
-        pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
+        pivot_df.loc["Imports",:] = pivot_df.loc["Imports",:].apply(lambda x: x*-1)
 
     #Processing Slider in case timescale chosen is Quarter
     if timescale == "Quarter":
