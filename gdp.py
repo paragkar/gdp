@@ -631,11 +631,11 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
 
          #-----------------
-        last_actual_value = pivot_df.loc[dim, original_x_data].dropna().iloc[-1]
+        last_actual_value = pivot_df.loc[dim, original_x_data].iloc[-1]
         forecasted_end_value = all_y_data[-1]
 
         # Calculate the sequential growth rate
-        growth_rate = (forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1
+        growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)*100
 
         st.write(growth_rate)
         #-----------------
