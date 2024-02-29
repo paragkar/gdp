@@ -120,6 +120,9 @@ def process_df_choosen_timescale(df,timescale, feature):
 #configuring the data for heatmap
 def create_heatmap_data(df, hovertext, texttemplate):
 
+    #sort values based on the latest number
+    df = df.sort_values(df.columns[-1], ascending = True)
+
     # Flatten the DataFrame values to a 1D array for calculation
     z_values = df.values.flatten()
     Q1 = np.percentile(z_values, 25)
