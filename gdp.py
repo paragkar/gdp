@@ -75,11 +75,8 @@ def process_df_choosen_timescale(df,timescale, feature):
             dftemp["Value"] = (dftemp["Value_x"]/dftemp["Value_y"])*100*2
             pivot_df = dftemp.pivot_table(index='Description', columns='Date', values='Value')
         if feature == "Growth":
-
             pivot_df = df.pivot_table(index='Description', columns='Date', values='Value')
             pivot_df = ((pivot_df - pivot_df.shift(5, axis =1))/pivot_df.shift(5, axis =1))*100
-
-            st.write(pivot_df) #debug
            
     if timescale == "FYear":
         if feature == "Absolute":
@@ -439,6 +436,8 @@ def createslider1(pivot_df):
     return selected_min, selected_max
 
 def plotingscatter(pivot_df, dimension,timescale,currency,feature):
+
+    st.write(pivot_df) #debug
 
     #Change of the dimension "imports" from negative to positive
     if dimension in ["GDP Constant", "GDP Current"]:
