@@ -477,8 +477,6 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
         # Add scatter plot for the current dimension
         fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', line=dict(dash='dot'), name=f'{dimension} Trend'), row=row, col=col)
 
-        # Update y-axis range to be between -50 and 50 for each subplot
-        # fig.update_yaxes(range=[-50, 100], row=row, col=col, title_standoff=7)
         fig.update_yaxes(row=row, 
                         col=col, 
                         title_standoff=7)
@@ -500,6 +498,8 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
 
     title_text = chart_heading(dimension,currency,timescale,feature)
+
+    st.write(title_text) #debug
 
     # Update layout to accommodate the new grid structure and enhance readability
     fig.update_layout(
