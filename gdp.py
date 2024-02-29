@@ -288,7 +288,7 @@ def plotingheatmap(pivot_df, dimension,timescale,currency,feature):
 
         #Processing Slider in case timescale chosen is Quarter
         if timescale == "Quarter":
-            selected_min, selected_max = createslider(pivot_df)
+            selected_min, selected_max = createslider1(pivot_df)
             selected_cols = [x for x in pivot_df.columns if (x <= selected_max) & (x >= selected_min)]
             pivot_df = pivot_df[selected_cols]
             total_df = total_df[selected_cols]
@@ -407,7 +407,7 @@ def plotingheatmap(pivot_df, dimension,timescale,currency,feature):
 
     return    st.plotly_chart(combined_fig, use_container_width=True)
 
-#Create a slider for scatter normal
+#Create a slider for scatter normal and heatmap
 def createslider1(pivot_df):
     slider_min_date = pivot_df.columns.min().to_pydatetime()
     slider_max_date = pivot_df.columns.max().to_pydatetime()
