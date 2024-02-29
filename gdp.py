@@ -504,7 +504,7 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
     # Update layout to accommodate the new grid structure and enhance readability
     fig.update_layout(
-        height=250 * rows,  # Adjust the height based on the number of rows
+        height=220 * rows,  # Adjust the height based on the number of rows
         width=900,  # Set a fixed width or adjust as necessary
         title_text= title_text,
         showlegend=False,
