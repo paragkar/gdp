@@ -668,7 +668,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 #load data
 df = loadgdpgva()
 
-st.write(df)
+df = df["Sheet1"]
 
 # Set the title at the top of the sidebar
 st.sidebar.title("Indian GDP Trends and Forecasting Model")
