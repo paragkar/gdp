@@ -94,7 +94,7 @@ def process_df_choosen_timescale(df,timescale, feature):
             pivot_df = df.pivot_table(index='Description', columns='FYear', values='Value')
             pivot_df = ((pivot_df - pivot_df.shift(1, axis =1))/pivot_df.shift(1, axis =1))*100
 
-    pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
+    # pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
             
     return pivot_df
 
