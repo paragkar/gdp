@@ -630,17 +630,15 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         all_y_data = trend_poly(all_timestamps)
 
         #Calculate Growth Rate Only When feature is Absolute Value
-        try:
-            if feature =="Absolute":
-                last_actual_value = pivot_df.loc[dim, original_x_data].iloc[-1]
-                forecasted_end_value = all_y_data[-1]
+        if feature =="Absolute":
+            last_actual_value = pivot_df.loc[dim, original_x_data].iloc[-1]
+            forecasted_end_value = all_y_data[-1]
 
-                # Calculate the sequential growth rate
-                growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)
-            else:
-                growth_rate = np.nan
-        except:
-            pass
+            # Calculate the sequential growth rate
+            growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)
+        else:
+            growth_rate = np.nan
+    
 
         # Generate custom hover text including the growth rate
         hover_text = [f"{dim}<br>Date: {str(date.date())}<br>Value: {value:.2f}<br>Required Growth: {growth_rate:.2%}"
@@ -707,10 +705,10 @@ if plot_type == "Scatter" and Flag:
     if mode_selection == "Forecast":
         if timescale == "Quarter":
             # Place an integer input box in the sidebar to get the number of quarters.
-            forecast_period = st.sidebar.number_input('Enter Quarter Nos to Forecast', min_value=0, max_value=400, value=4, step=1, format='%d')
+            forecast_period = st.sidebar.number_input('Enter Quarter Nos to Forecast', min_value=1, max_value=400, value=4, step=1, format='%d')
         if timescale == "FYear":
             # Place an integer input box in the sidebar to get the number of years.
-            forecast_period = st.sidebar.number_input('Enter FYear Nos to Forecast', min_value=0, max_value=100, value=4, step=1, format='%d')
+            forecast_period = st.sidebar.number_input('Enter FYear Nos to Forecast', min_value=1, max_value=100, value=4, step=1, format='%d')
 
         plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period)
 
