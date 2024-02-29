@@ -546,10 +546,6 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
     pivot_df = pivot_df.dropna(axis=1)
 
-    bias_dimension = st.sidebar.selectbox('Select a Dimension for Bias:', pivot_df.index.tolist())
-
-    non_bias_dimensions = [dim for dim in pivot_df.index if dim != bias_dimension]
-
     # Sidebar input for user-defined bias percentage with default 0%
     bias_percentage = st.sidebar.number_input('Enter Trendline Bias Percentage:', value=0.0, step=1.0, format='%f')
     
@@ -610,24 +606,20 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         # trend = np.polyfit(timestamps, y_data, 1)
         # trend_poly = np.poly1d(trend)
 
-        if bias_dimension not in non_bias_dimensions:
-           # Calculate the trend without bias
-            trend = np.polyfit(timestamps, y_data, 1)
-            trend_poly = np.poly1d(trend)
-            slope, intercept = trend
-
-        else:
+       # Calculate the trend without bias
+        trend = np.polyfit(timestamps, y_data, 1)
+        slope, intercept = trend
         
-            # Check the sign of the gradient (slope) to decide how to apply the bias
-            if slope >= 0:
-                # For positive slope, increase the intercept
-                adjusted_intercept = intercept * (1 + bias_percentage / 100.0)
-            else:
-                # For negative slope, decrease the intercept to shift the line up
-                adjusted_intercept = intercept * (1 - bias_percentage / 100.0)
-            
-            # Create the adjusted trend polynomial
-            trend_poly = np.poly1d([slope, adjusted_intercept])
+        # Check the sign of the gradient (slope) to decide how to apply the bias
+        if slope >= 0:
+            # For positive slope, increase the intercept
+            adjusted_intercept = intercept * (1 + bias_percentage / 100.0)
+        else:
+            # For negative slope, decrease the intercept to shift the line up
+            adjusted_intercept = intercept * (1 - bias_percentage / 100.0)
+        
+        # Create the adjusted trend polynomial
+        trend_poly = np.poly1d([slope, adjusted_intercept])
 
 
         # Plot historical data
