@@ -570,7 +570,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         original_x_data = pivot_df.columns
         last_year = original_x_data[-1].year
         # Forecast future dates for fiscal years
-        forecast_dates = [pd.Timestamp(year=last_year + k, month=12, day=31) for k in range(1, forecast_period + 1)]
+        forecast_dates = [pd.Timestamp(year=last_year + k, month=3, day=31) for k in range(1, forecast_period + 1)]
         extended_x_data = list(original_x_data) + forecast_dates
         selected_min, selected_max = createslider(extended_x_data)
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
