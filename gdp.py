@@ -600,7 +600,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dim} Data'), row=row, col=col,
             hoverlabel=dict(
             bgcolor='white',  # Background color of the tooltip
-            font_size=16,     # Font size inside the tooltip
+            font_size=20,     # Font size inside the tooltip
             font_color='blue' # Font color inside the tooltip
             ))
 
