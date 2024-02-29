@@ -563,6 +563,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         extended_x_data = list(original_x_data) + forecast_dates
         selected_min, selected_max = createslider(extended_x_data)
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
+        st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
     # Logic for fiscal years
     elif timescale == "FYear":
         pivot_df.columns = [pd.Timestamp(year=x, month=3, day=31) for x in pivot_df.columns]
@@ -573,6 +574,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         extended_x_data = list(original_x_data) + forecast_dates
         selected_min, selected_max = createslider(extended_x_data)
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
+        st.write("Selected No of FYears: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
 
     # Plotting logic
     for i, dimension in enumerate(pivot_df.index, start=1):
