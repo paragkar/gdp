@@ -638,7 +638,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)
 
         # Generate custom hover text including the growth rate
-        hover_text = [f"{dim}<br>Date: {str(date.date())}<br>Value: {value}<br>Required Growth: {growth_rate:.2%}"
+        hover_text = [f"{dim}<br>Date: {str(date.date())}<br>Value: {value:.2f}<br>Required Growth: {growth_rate:.2%}"
                       for date, value in zip(selected_cols, all_y_data)]
         #-----------------
 
