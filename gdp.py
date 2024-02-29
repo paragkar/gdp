@@ -639,7 +639,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
         # Generate custom hover text including the growth rate
         hover_text = [f"{dim}<br>Date: {str(date.date())}<br>Value: {value}<br>Required Growth: {growth_rate:.2%}"
-                      for date, value in zip(display_x_data, all_y_data)]
+                      for date, value in zip(selected_cols, all_y_data)]
         #-----------------
 
         fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dim} Trend', line=dict(dash='dot')), row=row, col=col,
