@@ -464,8 +464,8 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
         x_data = pivot_df.columns
 
     # Iterate over each dimension to create a scatter plot
-    for i, dimension in enumerate(pivot_df.index, start=1):
-        y_data = pivot_df.loc[dimension]
+    for i, dim in enumerate(pivot_df.index, start=1):
+        y_data = pivot_df.loc[dim]
         
         # Determine the position of the current plot
         row = (i - 1) // cols + 1
@@ -475,7 +475,7 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
         timestamps = [x.timestamp() for x in x_data]
 
         # Add scatter plot for the current dimension
-        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', line=dict(dash='dot'), name=f'{dimension} Trend'), row=row, col=col)
+        fig.add_trace(go.Scatter(x=x_data, y=y_data, mode='markers+lines', line=dict(dash='dot'), name=f'{dim} Trend'), row=row, col=col)
 
         fig.update_yaxes(row=row, 
                         col=col, 
@@ -498,8 +498,6 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
 
     title_text = chart_heading(dimension,currency,timescale,feature)
-
-    st.write(title_text) #debug
 
     # Update layout to accommodate the new grid structure and enhance readability
     fig.update_layout(
