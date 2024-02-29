@@ -655,7 +655,16 @@ if plot_type == "Scatter" and Flag:
 
     if mode_selection == "Forecast":
 
-        forecast_period = 20
+        
+        if timescale == "Quarter":
+            # Place an integer input box in the sidebar to get the number of quarters.
+            forecast_period = st.sidebar.number_input('Number of quarters', min_value=0, max_value=400, value=4, step=1, format='%d')
+
+        if timescale == "FYear"
+
+            # Place an integer input box in the sidebar to get the number of years.
+            forecast_period = st.sidebar.number_input('Number of years', min_value=0, max_value=100, value=4, step=1, format='%d')
+
 
         plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period)
 
