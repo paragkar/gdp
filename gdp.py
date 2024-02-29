@@ -634,10 +634,13 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         last_actual_value = pivot_df.loc[dim, original_x_data].iloc[-1]
         forecasted_end_value = all_y_data[-1]
 
+        st.write(last_actual_value)
+        st.write(forecasted_end_value)
+
         # Calculate the sequential growth rate
         growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)*100
 
-        st.write(growth_rate)
+        # st.write(growth_rate)
         #-----------------
 
         fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dim} Trend', line=dict(dash='dot')), row=row, col=col)
