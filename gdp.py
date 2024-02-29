@@ -541,7 +541,7 @@ def createslider2(extended_x_data):
 
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period):
 
-    st.write(pivot_df) #debug
+    pivot_df = pivot_df.dropna(axis=1)
 
     # Sidebar input for user-defined bias percentage with default 0%
     bias_percentage = st.sidebar.number_input('Enter Trendline Bias Percentage:', value=0.0, step=1.0, format='%f')
