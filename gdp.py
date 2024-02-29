@@ -5,6 +5,7 @@ import streamlit as st
 import numpy as np
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import msoffcrypto
 
 #Set page layout here
 st.set_page_config(layout="wide")
@@ -19,15 +20,34 @@ hide_st_style = '''
                 '''
 st.markdown(hide_st_style, unsafe_allow_html =True)
 
-
 #function to loaddata
-@st.cache_resource
 def loadgdpgva():
-    #reset loading dataframe for correct upload
-    df = pd.DataFrame()
-    df = pd.read_csv("2022_12_22_Indian_GDP_GVA_Comb.csv")
+
+    password = st.secrets["db_password"]
+
+    excel_content = io.BytesIO()
+
+    with open("2022_12_22_Indian_GDP_GVA_Comb.xlsx", 'rb') as f:
+        excel = msoffcrypto.OfficeFile(f)
+        excel.load_key(password)
+        excel.decrypt(excel_content)
+
+    #loading data from excel file
+    xl = pd.ExcelFile(excel_content)
+    sheet = xl.sheet_names
+    df = pd.read_excel(excel_content, sheet_name=sheet)
 
     return df
+
+
+
+# @st.cache_resource
+# def loadgdpgva():
+#     #reset loading dataframe for correct upload
+#     df = pd.DataFrame()
+#     df = pd.read_csv("2022_12_22_Indian_GDP_GVA_Comb.csv")
+
+#     return df
 
 
 # Function to process the hover text for the heatmap
