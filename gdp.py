@@ -650,8 +650,8 @@ feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth
 
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, currency, timescale, feature, df)
-#sorting dataframe for visulization in heatmap
-pivot_df = sorting_dataframe(pivot_df,feature, dimension)
+# #sorting dataframe for visulization in heatmap
+# pivot_df = sorting_dataframe(pivot_df,feature, dimension)
 
 #Choose a plot type
 plot_type = st.sidebar.selectbox('Select a Plot Type', ["Heatmap", "Scatter"])
