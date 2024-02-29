@@ -39,7 +39,7 @@ def loadgdpgva():
     sheet = xl.sheet_names
     df = pd.read_excel(excel_content, sheet_name=sheet)
 
-    st.write(df)
+    df = df["Sheet1"]
 
     return df
 
