@@ -630,14 +630,17 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         all_y_data = trend_poly(all_timestamps)
 
         #Calculate Growth Rate Only When feature is Absolute Value
-        if feature =="Absolute":
-            last_actual_value = pivot_df.loc[dim, original_x_data].iloc[-1]
-            forecasted_end_value = all_y_data[-1]
+        try:
+            if feature =="Absolute":
+                last_actual_value = pivot_df.loc[dim, original_x_data].iloc[-1]
+                forecasted_end_value = all_y_data[-1]
 
-            # Calculate the sequential growth rate
-            growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)
-        else:
-            growth_rate = np.nan
+                # Calculate the sequential growth rate
+                growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)
+            else:
+                growth_rate = np.nan
+        except:
+            pass
 
         # Generate custom hover text including the growth rate
         hover_text = [f"{dim}<br>Date: {str(date.date())}<br>Value: {value:.2f}<br>Required Growth: {growth_rate:.2%}"
