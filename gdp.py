@@ -634,17 +634,16 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         last_actual_value = pivot_df.loc[dim, original_x_data].iloc[-1]
         forecasted_end_value = all_y_data[-1]
 
-        # st.write(last_actual_value)
-        # st.write(forecasted_end_value)
-        # st.write(forecast_period)
-
         # Calculate the sequential growth rate
         growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)*100
 
-        st.write(growth_rate)
+        # Generate custom hover text including the growth rate
+        hover_text = [f"{dim}<br>Date: {str(date.date())}<br>Value: {value}<br>Required Growth: {growth_rate:.2%}"
+                      for date, value in zip(display_x_data, all_y_data)]
         #-----------------
 
-        fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dim} Trend', line=dict(dash='dot')), row=row, col=col)
+        fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dim} Trend', line=dict(dash='dot')), row=row, col=col,
+            hoverinfo ='text', text = hover_text)
 
         fig.update_yaxes(title_text=dim, title_standoff=7, row=row, col=col, tickformat='.1f')
 
