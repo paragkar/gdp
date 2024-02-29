@@ -546,9 +546,6 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
     pivot_df = pivot_df.dropna(axis=1)
 
-    # Sidebar input for selecting the dimension to apply the bias
-    bias_dimension = st.sidebar.selectbox('Select a Dimension for Bias:', pivot_df.index.tolist())
-
     # Sidebar input for user-defined bias percentage with default 0%
     bias_percentage = st.sidebar.number_input('Enter Trendline Bias Percentage:', value=0.0, step=1.0, format='%f')
     
@@ -606,14 +603,12 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         if len(timestamps) != len(y_data):
             raise ValueError("The lengths of timestamps and y_data do not match.")
 
-        # Calculate the trend without bias for all dimensions
-        trend = np.polyfit(timestamps, y_data, 1)
-        trend_poly = np.poly1d(trend)
-        slope, intercept = trend
+        # trend = np.polyfit(timestamps, y_data, 1)
+        # trend_poly = np.poly1d(trend)
 
        # Calculate the trend without bias
-        # trend = np.polyfit(timestamps, y_data, 1)
-        # slope, intercept = trend
+        trend = np.polyfit(timestamps, y_data, 1)
+        slope, intercept = trend
         
         # Check the sign of the gradient (slope) to decide how to apply the bias
         if slope >= 0:
@@ -627,26 +622,12 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         trend_poly = np.poly1d([slope, adjusted_intercept])
 
 
-        # Check if the current dimension is the one selected for bias
-        if dim == bias_dimension:
-            # Apply the bias only to the selected dimension
-            last_value = y_data.iloc[-1]
-            forecasted_value = trend_poly(timestamps[-1]) * (1 + bias_percentage / 100.0)
-            bias = forecasted_value - last_value
-            adjusted_trend_poly = np.poly1d([trend[0], trend[1] + bias])
-            # Use the adjusted trendline for plotting
-            plot_trend_poly = adjusted_trend_poly
-        else:
-            # Use the original trendline for other dimensions
-            plot_trend_poly = trend_poly
-
-
         # Plot historical data
         fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dim} Data'), row=row, col=col)
 
         # Apply the trend to display data for visualization
         all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in selected_cols])
-        all_y_data = plot_trend_poly(all_timestamps)
+        all_y_data = trend_poly(all_timestamps)
 
         #Calculate Growth Rate Only When feature is Absolute Value
         if feature =="Absolute":
