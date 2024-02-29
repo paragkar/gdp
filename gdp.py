@@ -637,7 +637,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
             # Calculate the sequential growth rate
             growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)
         else:
-            growth_rate = "NA"
+            growth_rate = np.nan
 
         # Generate custom hover text including the growth rate
         hover_text = [f"{dim}<br>Date: {str(date.date())}<br>Value: {value:.2f}<br>Required Growth: {growth_rate:.2%}"
