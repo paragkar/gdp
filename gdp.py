@@ -560,6 +560,11 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         forecast_dates = [last_date + relativedelta(months=3 * k) for k in range(1, forecast_period + 1)]
         extended_x_data = list(original_x_data) + forecast_dates
         selected_min, selected_max = createslider2(extended_x_data)
+        #This block ensures that users are restricted to selecting min value NOT greater than last value
+        if selected_min > last_date:
+            selected_min = last_date
+        else:
+            pass
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
         st.write("Selected No of Quarters: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
     # Logic for fiscal years
