@@ -440,6 +440,8 @@ def createslider1(pivot_df):
 
 def plotingscatter(pivot_df, dimension,timescale,currency,feature):
 
+    pivot_df = pivot_df.dropna(axis=1)
+
     #Change of the dimension "imports" from negative to positive
     if dimension in ["GDP Constant", "GDP Current"]:
         pivot_df.iloc[0,:] = pivot_df.iloc[0,:].apply(lambda x: x*-1)
