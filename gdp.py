@@ -583,12 +583,12 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         st.write("Selected No of FYears: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
 
     # Plotting logic
-    for i, dimension in enumerate(pivot_df.index, start=1):
+    for i, dim in enumerate(pivot_df.index, start=1):
         row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
         # Common plotting logic for both quarters and fiscal years
         historical_x_data = [x for x in selected_cols if x in original_x_data]
         timestamps = np.array([pd.Timestamp(x).timestamp() for x in historical_x_data])
-        y_data = pivot_df.loc[dimension, historical_x_data].dropna()
+        y_data = pivot_df.loc[dim, historical_x_data].dropna()
 
         if len(timestamps) != len(y_data):
             raise ValueError("The lengths of timestamps and y_data do not match.")
@@ -597,15 +597,15 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         trend_poly = np.poly1d(trend)
 
         # Plot historical data
-        fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dimension} Data'), row=row, col=col)
+        fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dim} Data'), row=row, col=col)
 
         # Apply the trend to display data for visualization
         all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in selected_cols])
         all_y_data = trend_poly(all_timestamps)
 
-        fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dimension} Trend', line=dict(dash='dot')), row=row, col=col)
+        fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dim} Trend', line=dict(dash='dot')), row=row, col=col)
 
-        fig.update_yaxes(title_text=dimension, title_standoff=7, row=row, col=col, tickformat='.1f')
+        fig.update_yaxes(title_text=dim, title_standoff=7, row=row, col=col, tickformat='.1f')
 
     # Finalizing plot with layout and rectangle box
     fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=-0.042, x1=1, y1=1.02, line=dict(color="Black", width=2))
