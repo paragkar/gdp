@@ -3,3 +3,4 @@ plotly
 streamlit
 msoffcrypto-tool
 streamlit_authenticator
+xlrd
