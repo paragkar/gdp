@@ -539,6 +539,9 @@ def createslider2(extended_x_data):
     return selected_range
 
 def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period):
+
+     # Sidebar input for user-defined bias with default 0
+    bias = st.sidebar.number_input('Enter Trendline Bias:', value=0.0, step=0.1, format='%f')
     
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
@@ -593,8 +596,14 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         if len(timestamps) != len(y_data):
             raise ValueError("The lengths of timestamps and y_data do not match.")
 
+        # trend = np.polyfit(timestamps, y_data, 1)
+        # trend_poly = np.poly1d(trend)
+
+        # Adjusting y_data with the user-defined bias only for the purpose of trend visualization
         trend = np.polyfit(timestamps, y_data, 1)
-        trend_poly = np.poly1d(trend)
+        # Create a new polynomial that includes the bias in the intercept
+        adjusted_intercept = trend[1] + bias
+        trend_poly = np.poly1d([trend[0], adjusted_intercept])
 
         # Plot historical data
         fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dim} Data'), row=row, col=col)
