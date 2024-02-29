@@ -591,15 +591,6 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
         st.write("Selected Years in Range: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
 
-        #-----------------
-        last_actual_value = pivot_df.loc[dimension, original_x_data].dropna().iloc[-1]
-        forecasted_end_value = all_y_data[-1]
-
-        # Calculate the sequential growth rate
-        growth_rate = (forecasted_end_value / last_actual_value) ** (1 / periods) - 1
-
-        st.write(growth_rate)
-        #-----------------
 
     # Plotting logic
     for i, dim in enumerate(pivot_df.index, start=1):
@@ -629,6 +620,17 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         
         # Create the adjusted trend polynomial
         trend_poly = np.poly1d([slope, adjusted_intercept])
+
+
+        #-----------------
+        last_actual_value = pivot_df.loc[dim, original_x_data].dropna().iloc[-1]
+        forecasted_end_value = all_y_data[-1]
+
+        # Calculate the sequential growth rate
+        growth_rate = (forecasted_end_value / last_actual_value) ** (1 / periods) - 1
+
+        st.write(growth_rate)
+        #-----------------
 
         # Plot historical data
         fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dim} Data'), row=row, col=col)
