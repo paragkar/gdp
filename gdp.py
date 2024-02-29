@@ -553,7 +553,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     
     # Convert negative values for "imports" dimension to positive, if necessary
     if dimension in ["GDP Constant", "GDP Current"]:
-        pivot_df.iloc[0, :] *= 1
+        pivot_df.loc["imports", :] *= -1
 
     # Initialize subplot structure
     num_dimensions = len(pivot_df.index)
