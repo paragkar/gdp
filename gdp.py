@@ -639,6 +639,8 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
         # Apply the trend to display data for visualization
         all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in selected_cols])
+
+        st.write(all_timestamps)
         all_y_data = trend_poly(all_timestamps)
 
         #Calculate Growth Rate Only When feature is Absolute Value
