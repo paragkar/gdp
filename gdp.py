@@ -647,7 +647,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 df = loadgdpgva()
 
 # Set the title at the top of the sidebar
-st.sidebar.title("Indian GDP and Forecasting Model")
+st.sidebar.title("Indian GDP Trends and Forecasting Model")
 
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
