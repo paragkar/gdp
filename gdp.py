@@ -591,6 +591,16 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
         st.write("Selected Years in Range: ", len(selected_cols),", Start Date: ",selected_cols[0].date(), ", End Date : ", selected_cols[-1].date())
 
+        #-----------------
+        last_actual_value = pivot_df.loc[dimension, original_x_data].dropna().iloc[-1]
+        forecasted_end_value = all_y_data[-1]
+
+        # Calculate the sequential growth rate
+        growth_rate = (forecasted_end_value / last_actual_value) ** (1 / periods) - 1
+
+        st.write(growth_rate)
+        #-----------------
+
     # Plotting logic
     for i, dim in enumerate(pivot_df.index, start=1):
         row, col = (i - 1) // cols + 1, (i - 1) % cols + 1
@@ -637,16 +647,6 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     fig.update_layout(height=220 * rows, width=900, title_text=title_text, showlegend=False,
           margin=dict(t=45, l=50, r=50, b=50)) # Reduce the top margin (t) value as needed
 
-
-    # #-----------------
-    # last_actual_value = pivot_df.loc[dimension, original_x_data].dropna().iloc[-1]
-    # forecasted_end_value = all_y_data[-1]
-
-    # # Calculate the sequential growth rate
-    # growth_rate = (forecasted_end_value / last_actual_value) ** (1 / periods) - 1
-
-    # st.write(growth_rate)
-    # #------------------
 
     return st.plotly_chart(fig, use_container_width=True)
 
