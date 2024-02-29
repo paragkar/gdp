@@ -638,15 +638,15 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
           margin=dict(t=45, l=50, r=50, b=50)) # Reduce the top margin (t) value as needed
 
 
-    #-----------------
-    last_actual_value = pivot_df.loc[dimension, original_x_data].dropna().iloc[-1]
-    forecasted_end_value = all_y_data[-1]
+    # #-----------------
+    # last_actual_value = pivot_df.loc[dimension, original_x_data].dropna().iloc[-1]
+    # forecasted_end_value = all_y_data[-1]
 
-    # Calculate the sequential growth rate
-    growth_rate = (forecasted_end_value / last_actual_value) ** (1 / periods) - 1
+    # # Calculate the sequential growth rate
+    # growth_rate = (forecasted_end_value / last_actual_value) ** (1 / periods) - 1
 
-    st.write(growth_rate)
-    #------------------
+    # st.write(growth_rate)
+    # #------------------
 
     return st.plotly_chart(fig, use_container_width=True)
 
