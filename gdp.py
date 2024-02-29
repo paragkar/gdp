@@ -39,17 +39,10 @@ def loadgdpgva():
     sheet = xl.sheet_names
     df = pd.read_excel(excel_content, sheet_name=sheet)
 
+    df = df["Sheet1"]
+
     return df
 
-
-
-# @st.cache_resource
-# def loadgdpgva():
-#     #reset loading dataframe for correct upload
-#     df = pd.DataFrame()
-#     df = pd.read_csv("2022_12_22_Indian_GDP_GVA_Comb.csv")
-
-#     return df
 
 
 # Function to process the hover text for the heatmap
@@ -119,24 +112,6 @@ def process_df_choosen_timescale(df,timescale, feature):
     # pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
             
     return pivot_df
-
-# def sorting_dataframe(pivot_df,feature,dimension):
-#     #sorting the dataframe for heatmap display
-#     try:
-#         if (feature != "Growth"):
-#             pivot_df = pivot_df.sort_values(pivot_df.columns[-1], ascending = True)
-#         if (feature == "Growth") & ((dimension == "GDP Constant") | (dimension == "GDP Current")):
-#             pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df1, ordered=True)
-#             pivot_df = pivot_df.sort_index(ascending=False)
-#             pivot_df.index = pivot_df.index.astype('object')
-#         if (feature == "Growth") & ((dimension == "GVA Constant") | (dimension == "GVA Current")):
-#             pivot_df.index = pd.Categorical(pivot_df.index, categories=lst_for_sorting_pivot_df2, ordered=True)
-#             pivot_df = pivot_df.sort_index(ascending=False)
-#             pivot_df.index = pivot_df.index.astype('object')
-#     except:
-#         pass
-
-#     return pivot_df
 
 
 #configuring the data for heatmap
