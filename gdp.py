@@ -642,8 +642,8 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
                       for date, value in zip(selected_cols, all_y_data)]
         #-----------------
 
-        fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dim} Trend', line=dict(dash='dot')), row=row, col=col,
-            hoverinfo ='text', text = hover_text)
+        fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dim} Trend', line=dict(dash='dot'),
+            hoverinfo ='text', text = hover_text), row=row, col=col)
 
         fig.update_yaxes(title_text=dim, title_standoff=7, row=row, col=col, tickformat='.1f')
 
