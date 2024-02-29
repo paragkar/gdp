@@ -607,11 +607,20 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         # trend = np.polyfit(timestamps, y_data, 1)
         # trend_poly = np.poly1d(trend)
 
-        # Adjusting y_data with the user-defined bias only for the purpose of trend visualization
+       # Calculate the trend without bias
         trend = np.polyfit(timestamps, y_data, 1)
-        # Adjust the intercept based on the bias percentage
-        adjusted_intercept = trend[1] * (1 + bias_percentage / 100.0)
-        trend_poly = np.poly1d([trend[0], adjusted_intercept])
+        slope, intercept = trend
+        
+        # Check the sign of the gradient (slope) to decide how to apply the bias
+        if slope >= 0:
+            # For positive slope, increase the intercept
+            adjusted_intercept = intercept * (1 + bias_percentage / 100.0)
+        else:
+            # For negative slope, decrease the intercept to shift the line up
+            adjusted_intercept = intercept * (1 - bias_percentage / 100.0)
+        
+        # Create the adjusted trend polynomial
+        trend_poly = np.poly1d([slope, adjusted_intercept])
 
         # Plot historical data
         fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dim} Data'), row=row, col=col)
