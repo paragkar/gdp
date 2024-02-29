@@ -625,7 +625,6 @@ dftemp1 = df[df["Date"]==max(df["Date"])].reset_index(drop=True)
 lst_for_sorting_pivot_df1 = list(dftemp1[dftemp1["Type"]=="GDP Constant"].sort_values("Value", ascending = False)["Description"])
 lst_for_sorting_pivot_df2 = list(dftemp1[dftemp1["Type"]=="GVA Constant"].sort_values("Value", ascending = False)["Description"])
 
-
 #choose a dimension
 dimension = st.sidebar.selectbox('Select a Dimension', ["GDP Current", "GDP Constant", "GVA Current","GVA Constant"])
 #choose a currency
@@ -635,7 +634,6 @@ timescale = st.sidebar.selectbox('Select a Timescale', ["Quarter", "FYear"])
 #choose a feature
 feature = st.sidebar.selectbox('Select a Feature', ["Absolute","Percent","Growth"])
 
-
 #processing dataframe with seleted menues 
 pivot_df = processing_currency(dimension, currency, timescale, feature, df)
 #sorting dataframe for visulization in heatmap
@@ -644,35 +642,30 @@ pivot_df = sorting_dataframe(pivot_df,feature, dimension)
 #Choose a plot type
 plot_type = st.sidebar.selectbox('Select a Plot Type', ["Heatmap", "Scatter"])
 
+
+#This flag is to check that processing takes place for a correct dimension and currency combination
+#For example GDP Constant is not paired with USDollars
 Flag = checkdimcurrcomb(dimension, currency)
 
 
+#Picking up a plot type, note that Heatmap charts do not have forcast facility
 if plot_type == "Heatmap" and Flag:
-
     plotingheatmap(pivot_df, dimension,timescale,currency,feature)
 
-
 if plot_type == "Scatter" and Flag:
-
     # Add a radio button in the sidebar to select between 'Normal' and 'Forecast'
     mode_selection = st.sidebar.radio("Select Mode:", ['Normal', 'Forecast'])
 
     if mode_selection == "Normal":
-
         plotingscatter(pivot_df, dimension,timescale,currency,feature)
 
     if mode_selection == "Forecast":
-
-        
         if timescale == "Quarter":
             # Place an integer input box in the sidebar to get the number of quarters.
             forecast_period = st.sidebar.number_input('Number of Quarters', min_value=0, max_value=400, value=4, step=1, format='%d')
-
         if timescale == "FYear":
-
             # Place an integer input box in the sidebar to get the number of years.
             forecast_period = st.sidebar.number_input('Number of FYears', min_value=0, max_value=100, value=4, step=1, format='%d')
-
 
         plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, forecast_period)
 
