@@ -508,7 +508,7 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
         width=900,  # Set a fixed width or adjust as necessary
         title_text= title_text,
         showlegend=False,
-        margin=dict(t=30, l=50, r=50, b=50)) # Reduce the top margin (t) value as needed
+        margin=dict(t=40, l=50, r=50, b=50)) # Reduce the top margin (t) value as needed
     
 
     # Adjust axis titles and format for each subplot
@@ -635,7 +635,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
     fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=-0.042, x1=1, y1=1.02, line=dict(color="Black", width=2))
     title_text = chart_heading(dimension, currency, timescale, feature)+" - Forecast"
     fig.update_layout(height=250 * rows, width=900, title_text=title_text, showlegend=False,
-          margin=dict(t=30, l=50, r=50, b=50)) # Reduce the top margin (t) value as needed
+          margin=dict(t=40, l=50, r=50, b=50)) # Reduce the top margin (t) value as needed
 
     return st.plotly_chart(fig, use_container_width=True)
 
