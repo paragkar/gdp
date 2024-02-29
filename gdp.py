@@ -622,7 +622,15 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         trend_poly = np.poly1d([slope, adjusted_intercept])
 
 
-        #-----------------
+        # Plot historical data
+        fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dim} Data'), row=row, col=col)
+
+        # Apply the trend to display data for visualization
+        all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in selected_cols])
+        all_y_data = trend_poly(all_timestamps)
+
+
+         #-----------------
         last_actual_value = pivot_df.loc[dim, original_x_data].dropna().iloc[-1]
         forecasted_end_value = all_y_data[-1]
 
@@ -631,13 +639,6 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
         st.write(growth_rate)
         #-----------------
-
-        # Plot historical data
-        fig.add_trace(go.Scatter(x=historical_x_data, y=y_data, mode='markers+lines', name=f'{dim} Data'), row=row, col=col)
-
-        # Apply the trend to display data for visualization
-        all_timestamps = np.array([pd.Timestamp(x).timestamp() for x in selected_cols])
-        all_y_data = trend_poly(all_timestamps)
 
         fig.add_trace(go.Scatter(x=selected_cols, y=all_y_data, mode='lines', name=f'{dim} Trend', line=dict(dash='dot')), row=row, col=col)
 
