@@ -494,7 +494,7 @@ def plotingscatter(pivot_df, dimension,timescale,currency,feature):
     fig.add_shape(
         type="rect",
         xref="paper", yref="paper",
-        x0=-0, y0=-0.042,
+        x0=0, y0=-0.042,
         x1=1, y1=1.02,
         line=dict(color="Black", width=2),
     )
@@ -602,7 +602,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         fig.update_yaxes(title_text=dimension, title_standoff=7, row=row, col=col, tickformat='.1f')
 
     # Finalizing plot with layout and rectangle box
-    fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=0, x1=1, y1=1, line=dict(color="Black", width=2))
+    fig.add_shape(type="rect", xref="paper", yref="paper", x0=0, y0=-0.042, x1=1, y1=1, line=dict(color="Black", width=2))
     title_text = chart_heading(dimension, currency, timescale, feature)
     fig.update_layout(height=250 * rows, width=900, title_text=title_text, showlegend=False)
 
