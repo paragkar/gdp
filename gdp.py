@@ -577,8 +577,8 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         extended_x_data = list(original_x_data) + forecast_dates
         selected_min, selected_max = createslider2(extended_x_data)
         #This block ensures that users are restricted to selecting min value NOT greater than last value
-        if selected_min > last_year:
-            selected_min = last_year
+        if selected_min.year > last_year:
+            selected_min = original_x_data[-1]
         else:
             pass
         selected_cols = [x for x in extended_x_data if (x <= selected_max) & (x >= selected_min)]
