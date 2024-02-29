@@ -536,7 +536,7 @@ def createslider(extended_x_data):
         min_value=slider_min_date,
         max_value=slider_max_date,
         value=(slider_min_date, slider_max_date),
-        format="MM/DD/YY"  # Adjust date format as needed
+        format="MM/YY"  # Adjust date format as needed
     )
 
     return selected_range
