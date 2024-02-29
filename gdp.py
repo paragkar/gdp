@@ -612,6 +612,9 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         if dim != bias_dimension:
            # Calculate the trend without bias
             trend_poly = np.polyfit(timestamps, y_data, 1)
+
+            st.write(trend_poly)
+            
             # slope, intercept = trend
         if dim == bias_dimension:
             trend = np.polyfit(timestamps, y_data, 1)
@@ -626,6 +629,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
             
             # Create the adjusted trend polynomial
             trend_poly = np.poly1d([slope, adjusted_intercept])
+
 
 
         # Plot historical data
