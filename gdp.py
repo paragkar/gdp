@@ -636,6 +636,7 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
 
         st.write(last_actual_value)
         st.write(forecasted_end_value)
+        st.write(forecast_period)
 
         # Calculate the sequential growth rate
         growth_rate = ((forecasted_end_value / last_actual_value) ** (1 / forecast_period) - 1)*100
