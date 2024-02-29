@@ -613,8 +613,9 @@ def plotingscatterforecast(pivot_df, dimension, timescale, currency, feature, fo
         if bias_dimension not in non_bias_dimensions:
            # Calculate the trend without bias
             trend = np.polyfit(timestamps, y_data, 1)
+            trend_poly = np.poly1d(trend)
             slope, intercept = trend
-            
+
         else:
         
             # Check the sign of the gradient (slope) to decide how to apply the bias
